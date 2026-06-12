@@ -10,15 +10,15 @@ const QA_DIR = path.join(__dirname, '..', 'docs', 'qa');
 const paths = [
   'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
   'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
-  'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
+  'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
 ];
-const executablePath = paths.find(p => fs.existsSync(p));
+const executablePath = paths.find((p) => fs.existsSync(p));
 
 async function run() {
   if (!executablePath) throw new Error('No browser found');
   const browser = await puppeteer.launch({ executablePath, headless: 'new' });
   const page = await browser.newPage();
-  
+
   // iPhone 13 Pro viewport
   await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 3 });
 
@@ -32,14 +32,14 @@ async function run() {
   // 2. DropOffs
   console.log('Clicking DropOffs tab...');
   await page.click('[data-testid="tab-dropoffs"]');
-  await new Promise(resolve => setTimeout(resolve, 500)); // wait for transition
+  await new Promise((resolve) => setTimeout(resolve, 500)); // wait for transition
   console.log('Taking DropOffs screenshot...');
   await page.screenshot({ path: path.join(QA_DIR, 'dropoffs.png') });
 
   // 3. Stats
   console.log('Clicking Stats tab...');
   await page.click('[data-testid="tab-stats"]');
-  await new Promise(resolve => setTimeout(resolve, 500));
+  await new Promise((resolve) => setTimeout(resolve, 500));
   console.log('Taking Stats screenshot...');
   await page.screenshot({ path: path.join(QA_DIR, 'stats.png') });
 
