@@ -7,12 +7,14 @@
 
 - **Date:** 2026-06-13
 - **Phase:** 2 — Product
-- **Last completed:** P2.1 · App shell
-- **Next package:** P2.2 · lane **CC** (Claude Code, useCamera hook)
-- **Repo state:** pushed to main; CI should be green.
+- **Last completed:** P2.2 · useCamera hook
+- **Next package:** P2.3 · lane **AG** (Antigravity, Catalog screen)
+- **Repo state:** pushed to main; 108 tests passing.
 
 ## Decisions
 
+- 2026-06-13 · P2.2: iOS Safari requires playsInline+muted on <video> for autoplay; getRearCameraStream falls back from exact:'environment' to loose facingMode on constraint error.
+- 2026-06-13 · P2.2: downscaleImageFile uses createImageBitmap (no FileReader needed for images); captureFrame uses canvas.drawImage from live video element.
 - 2026-06-13 · P2.1: App shell routing is state-based (`activeTab`) to avoid routing dependencies. Icons are inline SVGs. Custom CSS used over Tailwind per SPEC.
 - 2026-06-13 · P1.2: closeCheckIn takes a Set<garmentId> of received items; unmarked out-items auto-flip to missing. Drives both the count-first and per-item check-in paths.
 - 2026-06-13 · P1.1: Blobs stored as ArrayBuffer+mimeType in IDB (via FileReader) for jsdom/Node compatibility; public API still returns Blob. SPEC spirit preserved.
@@ -31,6 +33,6 @@
 
 ## Handoff notes
 
-- P2.1 App shell complete. Created the foundational `Layout`, `BottomNav`, and `ToastProvider`. Added placeholder screens for Wardrobe, DropOffs, Stats.
-- Acceptance criteria: ✓ Matches POC look on 390px viewport. ✓ Uses plain CSS per SPEC tech stack constraints.
-- Next: P2.2 [CC] — `useCamera` hook. Please switch to **Claude Code** for this package.
+- P2.2 useCamera complete. Files: src/lib/camera.ts, src/lib/useCamera.ts. 108 total tests pass.
+- Acceptance criteria: ✓ getUserMedia stream with iOS Safari quirks. ✓ capture→downscale→JPEG blob. ✓ file-input fallback path. ✓ cleanup on unmount.
+- Next: P2.3 [AG] — Catalog screen (assembly-line camera UI). Switch to Antigravity.
