@@ -2,4 +2,7 @@ export * from './types';
 export * from './storage';
 export * from './ids';
 export * from './domain';
+export * from './camera';
+export { useCamera } from './useCamera';
+export type { UseCameraReturn, CameraMode } from './useCamera';
 export { getDb, clearDb } from './db';
