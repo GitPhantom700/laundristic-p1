@@ -6,13 +6,14 @@
 ## Snapshot
 
 - **Date:** 2026-06-13
-- **Phase:** 1 — Data spine
-- **Last completed:** P1.2 · Domain core (state machines, spend aggregations)
-- **Next package:** P1.3 · lane **AG** (Antigravity, test expansion)
+- **Phase:** 2 — Product
+- **Last completed:** P1.3 · Test expansion
+- **Next package:** P2.1 · lane **AG** (Antigravity, App shell)
 - **Repo state:** pushed to main; CI should be green.
 
 ## Decisions
 
+- 2026-06-13 · P1.3: Expanded test suite with fast-check for domain invariants and covered storage edge cases.
 - 2026-06-13 · P1.2: closeCheckIn takes a Set<garmentId> of received items; unmarked out-items auto-flip to missing. Drives both the count-first and per-item check-in paths.
 - 2026-06-13 · P1.1: Blobs stored as ArrayBuffer+mimeType in IDB (via FileReader) for jsdom/Node compatibility; public API still returns Blob. SPEC spirit preserved.
 - 2026-06-13 · P1.1: clearDb() deletes the IDB database between tests (not just resets connection), fixing settings isolation.
@@ -30,6 +31,6 @@
 
 ## Handoff notes
 
-- P1.2 domain core complete. File: src/lib/domain.ts. 84 total tests pass (31 storage + 9 ids + 1 example + 53 domain + 1 example).
-- Acceptance criteria: ✓ All batch/item transitions tested incl. illegal. ✓ closeCheckIn. ✓ isBatchResolvable. ✓ computeSpendStats. ✓ getMonthlySpendWindow.
-- Next: P1.3 [AG] — Test expansion (edge/property tests against P1.1–P1.2 APIs). Switch to Antigravity.
+- P1.3 test expansion complete using `fast-check` for domain invariants.
+- Acceptance criteria: ✓ Edge and property tests added against P1.1–P1.2 public APIs. ✓ Coverage report setup in `/docs/coverage.md`.
+- Next: P2.1 [AG] — App shell. Stay in Antigravity for P2.1.
