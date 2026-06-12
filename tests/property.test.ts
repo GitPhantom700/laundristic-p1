@@ -5,19 +5,12 @@ import {
   transitionBatch,
   canTransitionItem,
   transitionItem,
-  transitionBatchItem,
   closeCheckIn,
   computeSpendStats,
   getMonthlySpendWindow,
 } from '../src/lib/domain';
 import * as storage from '../src/lib/storage';
-import type {
-  Batch,
-  BatchItem,
-  BatchStatus,
-  ItemState,
-  Garment,
-} from '../src/lib/types';
+import type { Batch, BatchStatus, ItemState } from '../src/lib/types';
 import 'fake-indexeddb/auto';
 import { clearDb } from '../src/lib/db';
 
@@ -52,24 +45,6 @@ const batchArbitrary = fc.record({
   status: batchStatusArbitrary,
   items: fc.array(batchItemArbitrary, { maxLength: 20 }),
 });
-
-const garmentCategoryArbitrary = fc.constantFrom(
-  'Tops',
-  'Bottoms',
-  'Outerwear',
-  'Undergarments',
-  'Accessories',
-  'Household',
-);
-
-const garmentArbitrary = fc.record({
-  id: fc.uuid(),
-  code: fc.string(),
-  type: garmentCategoryArbitrary,
-  photoBlob: fc.constant(new Blob([])),
-  status: fc.constantFrom('in', 'out'),
-  createdAt: fc.date().map((d) => d.getTime()),
-} as any);
 
 // ─── Tests ───────────────────────────────────────────────────────────────────
 
@@ -160,12 +135,15 @@ describe('domain.ts Properties', () => {
         fc.property(batchArbitrary, (batch) => {
           // Force all items to 'out' state for this test, because closeCheckIn only
           // operates on items currently marked 'out'.
-          const testBatch = { ...batch, items: batch.items.map(i => ({ ...i, state: 'out' as const })) };
-          
+          const testBatch = {
+            ...batch,
+            items: batch.items.map((i) => ({ ...i, state: 'out' as const })),
+          };
+
           // Collect all garment IDs
           const allGarmentIds = testBatch.items.map((i) => i.garmentId);
           const fullSet = new Set(allGarmentIds);
-          
+
           const result = closeCheckIn(testBatch, fullSet);
 
           expect(result.status).toBe('closed');
