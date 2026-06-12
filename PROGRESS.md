@@ -7,12 +7,13 @@
 
 - **Date:** 2026-06-13
 - **Phase:** 1 — Data spine
-- **Last completed:** P1.1 · Storage layer (idb schema v1, CRUD, blob store, migration scaffold)
-- **Next package:** P1.2 · lane **CC** (Claude Code, Domain core)
-- **Repo state:** P1.1 committed; needs push.
+- **Last completed:** P1.2 · Domain core (state machines, spend aggregations)
+- **Next package:** P1.3 · lane **AG** (Antigravity, test expansion)
+- **Repo state:** pushed to main; CI should be green.
 
 ## Decisions
 
+- 2026-06-13 · P1.2: closeCheckIn takes a Set<garmentId> of received items; unmarked out-items auto-flip to missing. Drives both the count-first and per-item check-in paths.
 - 2026-06-13 · P1.1: Blobs stored as ArrayBuffer+mimeType in IDB (via FileReader) for jsdom/Node compatibility; public API still returns Blob. SPEC spirit preserved.
 - 2026-06-13 · P1.1: clearDb() deletes the IDB database between tests (not just resets connection), fixing settings isolation.
 - 2026-06-13 · App renamed from Tally to Laundristic in code and docs.
@@ -29,6 +30,6 @@
 
 ## Handoff notes
 
-- P1.1 storage layer complete. Files: src/lib/types.ts, src/lib/db.ts, src/lib/storage.ts, src/lib/ids.ts, src/lib/index.ts.
-- Acceptance criteria: ✓ 31 tests pass (vitest run). ✓ CRUD + blob round-trip. ✓ Settings. ✓ Code generator. ✓ migration scaffold via DB_VERSION.
-- Next: P1.2 [CC] — Domain core (batch lifecycle state machine, code generator, spend aggregations). Stay on Sonnet.
+- P1.2 domain core complete. File: src/lib/domain.ts. 84 total tests pass (31 storage + 9 ids + 1 example + 53 domain + 1 example).
+- Acceptance criteria: ✓ All batch/item transitions tested incl. illegal. ✓ closeCheckIn. ✓ isBatchResolvable. ✓ computeSpendStats. ✓ getMonthlySpendWindow.
+- Next: P1.3 [AG] — Test expansion (edge/property tests against P1.1–P1.2 APIs). Switch to Antigravity.
