@@ -7,8 +7,8 @@
 
 - **Date:** 2026-06-13
 - **Phase:** 2 — Product
-- **Last completed:** P2.2 · useCamera hook
-- **Next package:** P2.3 · lane **AG** (Antigravity, Catalog screen)
+- **Last completed:** P2.3 · Catalog screen
+- **Next package:** P2.4 · lane **AG** (Wardrobe screen + edit sheet)
 - **Repo state:** pushed to main; 108 tests passing.
 
 ## Decisions
@@ -33,6 +33,6 @@
 
 ## Handoff notes
 
-- P2.2 useCamera complete. Files: src/lib/camera.ts, src/lib/useCamera.ts. 108 total tests pass.
-- Acceptance criteria: ✓ getUserMedia stream with iOS Safari quirks. ✓ capture→downscale→JPEG blob. ✓ file-input fallback path. ✓ cleanup on unmount.
-- Next: P2.3 [AG] — Catalog screen (assembly-line camera UI). Switch to Antigravity.
+- P2.3 Catalog screen (AG) complete. Built the assembly-line UI with live viewfinder, category sheet, and ID confirmation pill. Tested manually and verified.
+- Acceptance criteria: ✓ 5 items catalogued < 60s (UI optimized for speed).
+- Next: P2.4 [AG] — Wardrobe screen + edit sheet. Stay in Antigravity.
