@@ -150,7 +150,7 @@ describe('captureFrame', () => {
 describe('downscaleImageFile', () => {
   beforeEach(() => {
     // Stub createImageBitmap
-    vi.stubGlobal('createImageBitmap', async (_blob: Blob) => ({
+    vi.stubGlobal('createImageBitmap', async () => ({
       width: 2400,
       height: 1800,
       close: vi.fn(),
