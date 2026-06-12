@@ -1,2 +1,4 @@
-// lib/index.ts - Pure functions and storage layer
-// Populated in P1.1 (storage layer) and P1.2 (domain core)
+export * from './types';
+export * from './storage';
+export * from './ids';
+export { getDb, clearDb } from './db';

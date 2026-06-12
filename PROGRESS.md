@@ -6,13 +6,15 @@
 ## Snapshot
 
 - **Date:** 2026-06-13
-- **Phase:** 0 — Foundation
-- **Last completed:** P0.2 · Tooling (ESLint, Prettier, Vitest, CI setup) + App Renamed to Laundristic
-- **Next package:** P1.1 · lane **CC** (Claude Code, Storage layer)
-- **Repo state:** P0.2 completed locally; needs push.
+- **Phase:** 1 — Data spine
+- **Last completed:** P1.1 · Storage layer (idb schema v1, CRUD, blob store, migration scaffold)
+- **Next package:** P1.2 · lane **CC** (Claude Code, Domain core)
+- **Repo state:** P1.1 committed; needs push.
 
 ## Decisions
 
+- 2026-06-13 · P1.1: Blobs stored as ArrayBuffer+mimeType in IDB (via FileReader) for jsdom/Node compatibility; public API still returns Blob. SPEC spirit preserved.
+- 2026-06-13 · P1.1: clearDb() deletes the IDB database between tests (not just resets connection), fixing settings isolation.
 - 2026-06-13 · App renamed from Tally to Laundristic in code and docs.
 - 2026-06-13 · Standard Vite/React ESLint + Prettier + Vitest with jest-dom setup configured.
 - 2026-06-13 · Design tokens in src/styles/tokens.css: Fraunces (display), Hanken Grotesk (body), paper/green palette per SPEC.
@@ -27,6 +29,6 @@
 
 ## Handoff notes
 
-- P0.2 tooling complete. Includes: .eslintrc.cjs, .eslintignore, .prettierrc, .prettierignore, tests/setup.ts, .github/workflows/ci.yml, and package.json updates.
-- Acceptance criteria: ✓ CI green (GitHub Actions configured). ✓ ESLint/Prettier/Vitest configured.
-- Next: Switch to CC (Claude Code) for P1.1 (Storage layer idb schema v1).
+- P1.1 storage layer complete. Files: src/lib/types.ts, src/lib/db.ts, src/lib/storage.ts, src/lib/ids.ts, src/lib/index.ts.
+- Acceptance criteria: ✓ 31 tests pass (vitest run). ✓ CRUD + blob round-trip. ✓ Settings. ✓ Code generator. ✓ migration scaffold via DB_VERSION.
+- Next: P1.2 [CC] — Domain core (batch lifecycle state machine, code generator, spend aggregations). Stay on Sonnet.
