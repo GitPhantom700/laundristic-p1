@@ -86,12 +86,8 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
               onClick={() => onTabChange(tab.id)}
               className={`nav-button ${isActive ? 'active' : ''}`}
             >
-              <div className="nav-icon">
-                {tab.icon}
-              </div>
-              <span className="nav-label">
-                {tab.label}
-              </span>
+              <div className="nav-icon">{tab.icon}</div>
+              <span className="nav-label">{tab.label}</span>
             </button>
           );
         })}
