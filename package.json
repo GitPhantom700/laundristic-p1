@@ -15,26 +15,27 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "idb": "^8.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "idb": "^8.0.0"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.5",
+    "@testing-library/react": "^14.1.0",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
     "@vitejs/plugin-react": "^4.2.0",
-    "vite": "^5.0.0",
-    "vite-plugin-pwa": "^0.17.4",
+    "@vitest/coverage-v8": "^1.0.0",
     "eslint": "^8.52.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
-    "@typescript-eslint/eslint-plugin": "^7.1.0",
-    "@typescript-eslint/parser": "^7.1.0",
-    "prettier": "^3.1.0",
-    "vitest": "^1.0.0",
-    "@testing-library/react": "^14.1.0",
-    "@testing-library/jest-dom": "^6.1.5",
-    "jsdom": "^24.0.0",
     "fake-indexeddb": "^6.0.0",
     "fast-check": "^3.15.0",
-    "@vitest/coverage-v8": "^1.0.0"
+    "jsdom": "^24.0.0",
+    "prettier": "^3.1.0",
+    "puppeteer-core": "^25.1.0",
+    "vite": "^5.0.0",
+    "vite-plugin-pwa": "^0.17.4",
+    "vitest": "^1.0.0"
   }
 }
