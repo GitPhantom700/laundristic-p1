@@ -9,8 +9,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'robots.txt'],
       manifest: {
-        name: 'Tally',
-        short_name: 'Tally',
+        name: 'Laundristic',
+        short_name: 'Laundristic',
         description: 'Laundry, accounted for.',
         theme_color: '#ffffff',
         background_color: '#ffffff',
