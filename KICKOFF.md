@@ -2,15 +2,15 @@
 
 Seven files. Drop them at the repo root (docs noted below), then follow Day 1.
 
-| File | Purpose | Lives at |
-|---|---|---|
-| KICKOFF.md | This guide. Delete after Day 1. | — |
-| SPEC.md | What Tally is. Frozen scope. | `/docs/SPEC.md` |
-| PLAN.md | Lane-tagged work packages + ownership map. | `/docs/PLAN.md` |
-| CLAUDE.md | Claude Code standing rules. | repo root |
-| AGENTS.md | Antigravity/Gemini standing rules. | repo root |
-| PROGRESS.md | Handoff file. Updated every session by whichever tool worked. | repo root |
-| PLAYBOOK-TEMPLATE.md | Reusable two-tool routing template for future projects. | keep outside repo or in `/docs/` |
+| File                 | Purpose                                                       | Lives at                         |
+| -------------------- | ------------------------------------------------------------- | -------------------------------- |
+| KICKOFF.md           | This guide. Delete after Day 1.                               | —                                |
+| SPEC.md              | What Tally is. Frozen scope.                                  | `/docs/SPEC.md`                  |
+| PLAN.md              | Lane-tagged work packages + ownership map.                    | `/docs/PLAN.md`                  |
+| CLAUDE.md            | Claude Code standing rules.                                   | repo root                        |
+| AGENTS.md            | Antigravity/Gemini standing rules.                            | repo root                        |
+| PROGRESS.md          | Handoff file. Updated every session by whichever tool worked. | repo root                        |
+| PLAYBOOK-TEMPLATE.md | Reusable two-tool routing template for future projects.       | keep outside repo or in `/docs/` |
 
 ## Day 1 sequence
 
