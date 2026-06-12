@@ -5,7 +5,10 @@ export function generateId(): string {
 }
 
 /** Returns PREFIX-NN where NN = max existing count for that prefix + 1. */
-export function generateCode(prefix: GarmentCategory, existingCodes: string[]): string {
+export function generateCode(
+  prefix: GarmentCategory,
+  existingCodes: string[],
+): string {
   const prefixCodes = existingCodes.filter((c) => c.startsWith(`${prefix}-`));
   const max = prefixCodes.reduce((acc, code) => {
     const n = parseInt(code.split('-')[1], 10);
