@@ -1,5 +1,5 @@
 {
-  "name": "tally",
+  "name": "laundristic",
   "version": "0.1.0",
   "description": "Laundry, accounted for. A local-first PWA for manual laundry record keeping.",
   "type": "module",
@@ -10,7 +10,8 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -22,6 +23,10 @@
     "vite": "^5.0.0",
     "vite-plugin-pwa": "^0.17.4",
     "eslint": "^8.52.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
     "prettier": "^3.1.0",
     "vitest": "^1.0.0",
     "@testing-library/react": "^14.1.0",
