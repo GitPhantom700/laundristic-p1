@@ -1,8 +1,12 @@
-import React from 'react';
-import { useToast } from '../components';
+import React, { useState } from 'react';
+import { Catalog } from './Catalog';
 
 export function Wardrobe() {
-  const { showToast } = useToast();
+  const [isCataloging, setIsCataloging] = useState(false);
+
+  if (isCataloging) {
+    return <Catalog onClose={() => setIsCataloging(false)} />;
+  }
 
   return (
     <div className="screen-container">
@@ -31,10 +35,7 @@ export function Wardrobe() {
         <p className="empty-subtitle">
           Catalog your garments to keep track of what's at the laundry.
         </p>
-        <button
-          onClick={() => showToast('Cataloging starts in P2.3!', 'info')}
-          className="btn-primary"
-        >
+        <button onClick={() => setIsCataloging(true)} className="btn-primary">
           Catalog item
         </button>
       </div>
