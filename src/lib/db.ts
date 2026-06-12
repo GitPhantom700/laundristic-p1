@@ -53,7 +53,9 @@ export function getDb(): Promise<IDBPDatabase<LaundrisiticDB>> {
     dbPromise = openDB<LaundrisiticDB>(DB_NAME, DB_VERSION, {
       upgrade(db, oldVersion) {
         if (oldVersion < 1) {
-          const garmentStore = db.createObjectStore('garments', { keyPath: 'id' });
+          const garmentStore = db.createObjectStore('garments', {
+            keyPath: 'id',
+          });
           garmentStore.createIndex('byStatus', 'status');
           garmentStore.createIndex('byType', 'type');
           garmentStore.createIndex('byCreatedAt', 'createdAt');
@@ -86,7 +88,8 @@ export async function clearDb(): Promise<void> {
 export function blobToStored(blob: Blob): Promise<StoredBlob> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onloadend = () => resolve({ buffer: reader.result as ArrayBuffer, type: blob.type });
+    reader.onloadend = () =>
+      resolve({ buffer: reader.result as ArrayBuffer, type: blob.type });
     reader.onerror = () => reject(reader.error);
     reader.readAsArrayBuffer(blob);
   });

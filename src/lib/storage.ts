@@ -1,5 +1,11 @@
 import { getDb, blobToStored, storedToBlob } from './db';
-import type { Garment, Batch, Settings, GarmentStatus, BatchStatus } from './types';
+import type {
+  Garment,
+  Batch,
+  Settings,
+  GarmentStatus,
+  BatchStatus,
+} from './types';
 
 // ─── Garments ────────────────────────────────────────────────────────────────
 
@@ -19,19 +25,33 @@ export async function getGarment(id: string): Promise<Garment | undefined> {
   const db = await getDb();
   const stored = await db.get('garments', id);
   if (!stored) return undefined;
-  return { ...stored, type: stored.type as Garment['type'], photoBlob: storedToBlob(stored.photo) };
+  return {
+    ...stored,
+    type: stored.type as Garment['type'],
+    photoBlob: storedToBlob(stored.photo),
+  };
 }
 
 export async function getAllGarments(): Promise<Garment[]> {
   const db = await getDb();
   const all = await db.getAll('garments');
-  return all.map((s) => ({ ...s, type: s.type as Garment['type'], photoBlob: storedToBlob(s.photo) }));
+  return all.map((s) => ({
+    ...s,
+    type: s.type as Garment['type'],
+    photoBlob: storedToBlob(s.photo),
+  }));
 }
 
-export async function getGarmentsByStatus(status: GarmentStatus): Promise<Garment[]> {
+export async function getGarmentsByStatus(
+  status: GarmentStatus,
+): Promise<Garment[]> {
   const db = await getDb();
   const all = await db.getAllFromIndex('garments', 'byStatus', status);
-  return all.map((s) => ({ ...s, type: s.type as Garment['type'], photoBlob: storedToBlob(s.photo) }));
+  return all.map((s) => ({
+    ...s,
+    type: s.type as Garment['type'],
+    photoBlob: storedToBlob(s.photo),
+  }));
 }
 
 export async function deleteGarment(id: string): Promise<void> {
@@ -77,7 +97,9 @@ export async function getAllBatches(): Promise<Batch[]> {
   }));
 }
 
-export async function getBatchesByStatus(status: BatchStatus): Promise<Batch[]> {
+export async function getBatchesByStatus(
+  status: BatchStatus,
+): Promise<Batch[]> {
   const db = await getDb();
   const all = await db.getAllFromIndex('batches', 'byStatus', status);
   return all.map((s) => ({
@@ -95,12 +117,17 @@ export async function deleteBatch(id: string): Promise<void> {
 
 // ─── Settings ────────────────────────────────────────────────────────────────
 
-export async function getSetting<K extends keyof Settings>(key: K): Promise<Settings[K] | undefined> {
+export async function getSetting<K extends keyof Settings>(
+  key: K,
+): Promise<Settings[K] | undefined> {
   const db = await getDb();
   return db.get('settings', key) as Promise<Settings[K] | undefined>;
 }
 
-export async function setSetting<K extends keyof Settings>(key: K, value: Settings[K]): Promise<void> {
+export async function setSetting<K extends keyof Settings>(
+  key: K,
+  value: Settings[K],
+): Promise<void> {
   const db = await getDb();
   await db.put('settings', value as string | number, key);
 }
