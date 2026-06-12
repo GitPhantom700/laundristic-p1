@@ -7,8 +7,8 @@
 
 - **Date:** 2026-06-13
 - **Phase:** 2 — Product
-- **Last completed:** P2.3 · Catalog screen
-- **Next package:** P2.4 · lane **AG** (Wardrobe screen + edit sheet)
+- **Last completed:** P2.4 · Wardrobe screen & Edit sheet
+- **Next package:** P2.5 · lane **CC** (Checkout sheet)
 - **Repo state:** pushed to main; 108 tests passing.
 
 ## Decisions
@@ -33,6 +33,6 @@
 
 ## Handoff notes
 
-- P2.3 Catalog screen (AG) complete. Built the assembly-line UI with live viewfinder, category sheet, and ID confirmation pill. Tested manually and verified.
-- Acceptance criteria: ✓ 5 items catalogued < 60s (UI optimized for speed).
-- Next: P2.4 [AG] — Wardrobe screen + edit sheet. Stay in Antigravity.
+- P2.4 Wardrobe screen (AG) complete. Displayed the garments grid with AT LAUNDRY indicators and fully functioning edit sheet (Retake, Re-tag, Remove). Tested manually and verified.
+- Acceptance criteria: ✓ Wardrobe UI implements 2-col image grid. ✓ Re-tag works and assigns fresh codes. ✓ Retake photo updates blob successfully. ✓ Remove uses 2-tap confirm.
+- Next: P2.5 [CC] — Checkout sheet (building batch, total amount, creating records). Switch to Claude Code.
