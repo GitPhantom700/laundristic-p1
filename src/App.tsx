@@ -1,8 +1,30 @@
-export default function App() {
+import React, { useState } from 'react';
+import { ToastProvider, Layout, TabId } from './components';
+import { Wardrobe, DropOffs, Stats } from './screens';
+
+export function App() {
+  const [activeTab, setActiveTab] = useState<TabId>('wardrobe');
+
+  const renderScreen = () => {
+    switch (activeTab) {
+      case 'wardrobe':
+        return <Wardrobe />;
+      case 'dropoffs':
+        return <DropOffs />;
+      case 'stats':
+        return <Stats />;
+      default:
+        return <Wardrobe />;
+    }
+  };
+
   return (
-    <div style={{ padding: '2rem', textAlign: 'center' }}>
-      <h1>Laundristic</h1>
-      <p>Laundry, accounted for.</p>
-    </div>
+    <ToastProvider>
+      <Layout activeTab={activeTab} onTabChange={setActiveTab}>
+        {renderScreen()}
+      </Layout>
+    </ToastProvider>
   );
 }
+
+export default App;

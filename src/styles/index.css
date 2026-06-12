@@ -20,6 +20,223 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* App Shell Layout */
+.app-container {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f9fafb; /* gray-50 */
+}
+
+.app-frame {
+  width: 100%;
+  max-width: 390px; /* iPhone 12/13/14 base width */
+  background-color: var(--color-paper);
+  min-height: 100vh;
+  position: relative;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 72px; /* Space for bottom nav */
+}
+
+/* Bottom Nav */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 390px;
+  background-color: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 40;
+}
+
+.bottom-nav-inner {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 64px;
+}
+
+.nav-button {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  transition: color 0.2s;
+  gap: 4px;
+}
+
+.nav-button.active {
+  color: var(--color-green);
+}
+
+.nav-icon {
+  opacity: 0.7;
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
+}
+
+.nav-button.active .nav-icon {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.nav-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+}
+
+/* Toasts */
+.toast-container {
+  position: fixed;
+  bottom: 80px; /* Above nav */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+  width: 100%;
+  max-width: 390px;
+  padding: 0 16px;
+}
+
+.toast {
+  pointer-events: auto;
+  padding: 8px 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease-out;
+  color: #fff;
+}
+
+.toast.error {
+  background-color: #dc2626;
+}
+.toast.success {
+  background-color: var(--color-green);
+}
+.toast.info {
+  background-color: #1f2937;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Screen Placeholders */
+.screen-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px;
+  flex: 1;
+}
+
+.screen-header h1 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 24px;
+}
+
+.screen-empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.empty-icon {
+  width: 64px;
+  height: 64px;
+  background-color: #f3f4f6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  color: #9ca3af;
+}
+
+.empty-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.empty-subtitle {
+  color: #6b7280;
+  margin-bottom: 24px;
+  max-width: 250px;
+}
+
+.btn-primary {
+  padding: 12px 24px;
+  background-color: var(--color-green);
+  color: #fff;
+  border: none;
+  border-radius: 9999px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.btn-primary:hover {
+  background-color: #15803d; /* darker green */
+}
+
+.btn-secondary {
+  padding: 12px 24px;
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  color: var(--color-text);
+  border-radius: 9999px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: #f9fafb;
+}
+
 h1,
 h2,
 h3,
