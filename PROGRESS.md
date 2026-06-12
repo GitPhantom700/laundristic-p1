@@ -7,13 +7,13 @@
 
 - **Date:** 2026-06-13
 - **Phase:** 2 — Product
-- **Last completed:** P1.3 · Test expansion
-- **Next package:** P2.1 · lane **AG** (Antigravity, App shell)
+- **Last completed:** P2.1 · App shell
+- **Next package:** P2.2 · lane **CC** (Claude Code, useCamera hook)
 - **Repo state:** pushed to main; CI should be green.
 
 ## Decisions
 
-- 2026-06-13 · P1.3: Expanded test suite with fast-check for domain invariants and covered storage edge cases.
+- 2026-06-13 · P2.1: App shell routing is state-based (`activeTab`) to avoid routing dependencies. Icons are inline SVGs. Custom CSS used over Tailwind per SPEC.
 - 2026-06-13 · P1.2: closeCheckIn takes a Set<garmentId> of received items; unmarked out-items auto-flip to missing. Drives both the count-first and per-item check-in paths.
 - 2026-06-13 · P1.1: Blobs stored as ArrayBuffer+mimeType in IDB (via FileReader) for jsdom/Node compatibility; public API still returns Blob. SPEC spirit preserved.
 - 2026-06-13 · P1.1: clearDb() deletes the IDB database between tests (not just resets connection), fixing settings isolation.
@@ -31,6 +31,6 @@
 
 ## Handoff notes
 
-- P1.3 test expansion complete using `fast-check` for domain invariants.
-- Acceptance criteria: ✓ Edge and property tests added against P1.1–P1.2 public APIs. ✓ Coverage report setup in `/docs/coverage.md`.
-- Next: P2.1 [AG] — App shell. Stay in Antigravity for P2.1.
+- P2.1 App shell complete. Created the foundational `Layout`, `BottomNav`, and `ToastProvider`. Added placeholder screens for Wardrobe, DropOffs, Stats.
+- Acceptance criteria: ✓ Matches POC look on 390px viewport. ✓ Uses plain CSS per SPEC tech stack constraints.
+- Next: P2.2 [CC] — `useCamera` hook. Please switch to **Claude Code** for this package.
