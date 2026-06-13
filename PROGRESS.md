@@ -31,7 +31,7 @@
 
 ## Blockers
 
-- None. (Previous GitHub auth issue was resolved).
+- **AG: run `npx prettier --write .` before every commit** — CI `format:check` step has failed on every AG push (runs #33/#34/#35). CC fixed it in `539d319`. AG must adopt this habit or CI will keep failing.
 
 ## Handoff notes
 
