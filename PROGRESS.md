@@ -7,12 +7,14 @@
 
 - **Date:** 2026-06-13
 - **Phase:** 2 — Product
-- **Last completed:** P2.9 · Visual refresh
-- **Next package:** P3.1 · lane **AG** (PWA & Offline)
+- **Last completed:** P3.1 · PWA & Offline
+- **Next package:** P3.2 · lane **CC** (Export/import)
 - **Repo state:** pushed to main; 108 tests passing.
 
 ## Decisions
 
+- 2026-06-13 · Simulation test: layout overflow bug found — `.app-frame` min-height:100vh + overflow:visible causes page to scroll when content is tall, pushing screen header off-screen. Fix: height:100svh + overflow:hidden on app-frame; overflow-y:auto on screen-container. Log as P3.4 fix item.
+- 2026-06-13 · Simulation test: core loop 8/8 flows pass — Wardrobe, Drop-offs, Check-in (happy+short), Resolve (Found+Lost+auto-close), Proof screen, Stats, Wardrobe edit all verified functional.
 - 2026-06-13 · P2.2: iOS Safari requires playsInline+muted on <video> for autoplay; getRearCameraStream falls back from exact:'environment' to loose facingMode on constraint error.
 - 2026-06-13 · P2.2: downscaleImageFile uses createImageBitmap (no FileReader needed for images); captureFrame uses canvas.drawImage from live video element.
 - 2026-06-13 · P2.1: App shell routing is state-based (`activeTab`) to avoid routing dependencies. Icons are inline SVGs. Custom CSS used over Tailwind per SPEC.
@@ -45,4 +47,6 @@
 - Acceptance criteria: ✓ Matches POC dashboard layout. ✓ 100% test pass rate maintained.
 - P2.9 Visual refresh (AG) complete. Overrode the POC tokens with a vibrant Emerald/Slate palette. Softened card borders into diffused drop-shadows. Increased primary button sizing and locked form inputs to 16px to fix iOS Safari zooming. Added native `< Back` navigation headers to all sheets.
 - Acceptance criteria: ✓ Matches modern Dribbble aesthetic. ✓ Inputs no longer zoom on iOS. ✓ 108 tests passing.
-- Next: P3.1 [AG] — PWA manifest, service worker, offline verification. Stay in Antigravity.
+- P3.1 PWA (AG) complete. Configured VitePWA to generate Service Worker with CacheFirst strategy for Google Fonts. Added generated app icons and iOS meta tags. Implemented `InstallPrompt` to guide iOS users to "Add to Home Screen".
+- Acceptance criteria: ✓ App boots entirely offline in standalone mode. ✓ Service worker registered and caches files + fonts.
+- Next: P3.2 [CC] — Export/import: JSON+photos backup (zip), restore w/ integrity check. Switch to Claude Code.
