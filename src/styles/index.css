@@ -1,9 +1,16 @@
 @import './tokens.css';
 
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+input,
+select,
+textarea {
+  font-size: 16px !important;
 }
 
 html {
@@ -472,34 +479,69 @@ h4 {
 }
 
 .btn-primary {
-  padding: 12px 24px;
+  -webkit-appearance: none;
+  padding: 16px 24px;
   background-color: var(--color-green);
   color: #fff;
   border: none;
-  border-radius: 9999px;
-  font-weight: 500;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 1.125rem;
   cursor: pointer;
-  transition: background-color 0.2s;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition:
+    background-color 0.2s,
+    transform 0.1s;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
 }
 
 .btn-primary:hover {
-  background-color: #15803d; /* darker green */
+  background-color: var(--color-green-light);
 }
 
 .btn-secondary {
-  padding: 12px 24px;
+  -webkit-appearance: none;
+  padding: 16px 24px;
   background-color: #fff;
-  border: 1px solid #e5e7eb;
+  border: none;
   color: var(--color-text);
-  border-radius: 9999px;
-  font-weight: 500;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 1.125rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition:
+    background-color 0.2s,
+    transform 0.1s;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.btn-secondary:active {
+  transform: scale(0.98);
 }
 
 .btn-secondary:hover {
-  background-color: #f9fafb;
+  background-color: var(--color-paper-dark);
+}
+
+.nav-back-btn {
+  -webkit-appearance: none;
+  background: none;
+  border: none;
+  padding: 8px;
+  margin-left: -8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 1.125rem;
+  cursor: pointer;
+}
+.nav-back-btn:active {
+  opacity: 0.7;
 }
 
 h1,
@@ -603,10 +645,10 @@ textarea:focus {
 
 .garment-card {
   background: white;
-  border-radius: 16px;
-  border: 1px solid var(--color-border-light);
+  border-radius: 20px;
+  border: none;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   position: relative;
   cursor: pointer;
   transition: transform 0.2s;
@@ -733,16 +775,23 @@ textarea:focus {
 }
 
 .btn-danger {
+  -webkit-appearance: none;
   background-color: transparent;
   color: #ef4444; /* red-500 */
   border: 1px solid #fca5a5;
-  padding: 12px 24px;
-  border-radius: 8px;
+  padding: 16px 24px;
+  border-radius: 16px;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.125rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition:
+    background-color 0.2s,
+    transform 0.1s;
   width: 100%;
+}
+.btn-danger:active {
+  transform: scale(0.98);
+  background-color: #fee2e2;
 }
 /* ==========================================================================
    Drop-Off Sheet
@@ -833,16 +882,24 @@ textarea:focus {
 }
 
 .form-input {
+  -webkit-appearance: none;
   width: 100%;
   font-family: var(--font-body);
-  font-size: 1rem;
-  padding: 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
+  font-size: 16px;
+  color: var(--color-text);
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
   background: white;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
-.btn-danger:active {
-  background-color: #fee2e2;
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-green);
+  box-shadow: 0 0 0 3px var(--color-green-pale);
 }
 
 /* ==========================================================================
@@ -851,10 +908,11 @@ textarea:focus {
 
 .batch-card {
   background: white;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 12px;
-  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 16px;
+  border: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -1060,10 +1118,10 @@ textarea:focus {
 
 .stat-card {
   background: white;
-  border-radius: 12px;
-  padding: 16px;
-  border: 1px solid var(--color-border-light);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  border-radius: 20px;
+  padding: 20px;
+  border: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
 }
@@ -1090,10 +1148,10 @@ textarea:focus {
 
 .chart-container {
   background: white;
-  border-radius: 12px;
+  border-radius: 20px;
   padding: 20px 16px 16px;
-  border: 1px solid var(--color-border-light);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  border: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   margin-bottom: 24px;
 }
 
