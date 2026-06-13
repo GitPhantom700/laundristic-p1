@@ -478,8 +478,8 @@ h4 {
   background-color: var(--color-green);
   color: #fff;
   border: none;
-  border-radius: 16px;
-  font-weight: 600;
+  border-radius: 24px;
+  font-weight: 500;
   font-size: 1.125rem;
   cursor: pointer;
   transition:
@@ -502,8 +502,8 @@ h4 {
   background-color: transparent;
   border: 2px solid var(--color-green);
   color: var(--color-green);
-  border-radius: 16px;
-  font-weight: 600;
+  border-radius: 24px;
+  font-weight: 500;
   font-size: 1.125rem;
   cursor: pointer;
   transition:
@@ -902,11 +902,11 @@ textarea:focus {
 
 .batch-card {
   background: var(--color-paper);
-  border-radius: 20px;
+  border-radius: 24px;
   padding: 20px;
   margin-bottom: 16px;
   border: 1px solid var(--color-border);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -1131,10 +1131,10 @@ textarea:focus {
 
 .stat-card {
   background: var(--color-paper);
-  border-radius: 20px;
+  border-radius: 24px;
   padding: 20px;
   border: 1px solid var(--color-border);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
 }
@@ -1161,10 +1161,10 @@ textarea:focus {
 
 .chart-container {
   background: var(--color-paper);
-  border-radius: 20px;
+  border-radius: 24px;
   padding: 20px 16px 16px;
   border: 1px solid var(--color-border);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-sm);
   margin-bottom: 24px;
 }
 
