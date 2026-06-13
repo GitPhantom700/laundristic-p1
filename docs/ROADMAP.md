@@ -1,20 +1,20 @@
 # Roadmap — Laundristic
 
 > Local-first PWA for laundry tracking. Single user, on-device, free, open source (MIT).
-> Last updated: **2026-06-13** after fix(ui): card borders + frame bg contrast fix.
+> Last updated: **2026-06-13** after feat(backup): P3.2 export/import ZIP + Settings screen.
 
 ---
 
 ## Current Status
 
-**Phase 3 · Hardening** — 1 of 4 packages done.
-Next task: **P3.2 [CC]** Export/import (JSON + photos zip, restore with integrity check).
+**Phase 3 · Hardening** — 2 of 4 packages done.
+Next task: **P3.3 [AG]** Visual QA — browser screenshot run, issues filed in PROGRESS.md.
 
 ```
 Phase 0 Foundation   ████████████████████  100%  COMPLETE
 Phase 1 Data Spine   ████████████████████  100%  COMPLETE
 Phase 2 Product      ████████████████████  100%  COMPLETE
-Phase 3 Hardening    █████░░░░░░░░░░░░░░░   25%  IN PROGRESS
+Phase 3 Hardening    ██████████░░░░░░░░░░   50%  IN PROGRESS
 Phase 4 Ship         ░░░░░░░░░░░░░░░░░░░░    0%  NOT STARTED
 ```
 
@@ -85,8 +85,8 @@ Phase 4 Ship         ░░░░░░░░░░░░░░░░░░░�
 | Package            | Lane | Status  | Notes                                                                          |
 | ------------------ | ---- | ------- | ------------------------------------------------------------------------------ |
 | P3.1 PWA & Offline | AG   | ✅ Done | VitePWA + CacheFirst for Google Fonts, app icons, iOS meta tags, InstallPrompt |
-| P3.2 Export/import | CC   | ⏳ Next | JSON+photos backup (zip), restore with integrity check                         |
-| P3.3 Visual QA     | AG   | 🔲      | Browser-subagent screenshot run, issues filed in PROGRESS.md                   |
+| P3.2 Export/import | CC   | ✅ Done | ZIP backup (zip.ts STORE-mode encoder, no dep); Settings screen; 128 tests    |
+| P3.3 Visual QA     | AG   | ⏳ Next | Browser-subagent screenshot run, issues filed in PROGRESS.md                   |
 | P3.4 Fix pass      | CC   | 🔲      | Consolidated fixes from P3.3 findings; CC may touch whole repo                 |
 
 **P3.4 pre-filed fix items** (found in simulation test, 2026-06-13):
@@ -124,7 +124,7 @@ AG has been given Dribbble-style samples (teal-header laundry apps, June 2026 se
 
 ## Test Coverage
 
-- **108 tests** passing (Vitest, as of P3.1)
+- **128 tests** passing (Vitest, as of P3.2)
 - Unit tests in `tests/` cover all `src/lib/**` functions
 - No UI / E2E tests yet — P3.3 will add screenshot artifacts
 

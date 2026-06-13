@@ -6,13 +6,15 @@
 ## Snapshot
 
 - **Date:** 2026-06-13
-- **Phase:** 2 — Product
-- **Last completed:** P3.1 · PWA & Offline
-- **Next package:** P3.2 · lane **CC** (Export/import)
-- **Repo state:** pushed to main; 108 tests passing.
+- **Phase:** 3 — Hardening
+- **Last completed:** P3.2 · Export/import (CC)
+- **Next package:** P3.3 · lane **AG** (Visual QA)
+- **Repo state:** pushed to main; 128 tests passing.
 
 ## Decisions
 
+- 2026-06-13 · P3.2: ZIP encoder/decoder implemented without any new dependency (STORE mode, CRC-32 inline). Format: backup.json + photos/<id>.jpg + receipts/<id>.jpg. importBackup validates structure + integrity before writing.
+- 2026-06-13 · P3.2: Settings tab added (gear icon); exportBackup triggers download; importBackup accepts .zip via file input; both surface feedback via useToast.
 - 2026-06-13 · Simulation test: layout overflow bug found — `.app-frame` min-height:100vh + overflow:visible causes page to scroll when content is tall, pushing screen header off-screen. Fix: height:100svh + overflow:hidden on app-frame; overflow-y:auto on screen-container. Log as P3.4 fix item.
 - 2026-06-13 · Simulation test: core loop 8/8 flows pass — Wardrobe, Drop-offs, Check-in (happy+short), Resolve (Found+Lost+auto-close), Proof screen, Stats, Wardrobe edit all verified functional.
 - 2026-06-13 · P2.2: iOS Safari requires playsInline+muted on <video> for autoplay; getRearCameraStream falls back from exact:'environment' to loose facingMode on constraint error.
@@ -50,4 +52,6 @@
 - Acceptance criteria: ✓ Matches modern Dribbble aesthetic. ✓ Inputs no longer zoom on iOS. ✓ 108 tests passing.
 - P3.1 PWA (AG) complete. Configured VitePWA to generate Service Worker with CacheFirst strategy for Google Fonts. Added generated app icons and iOS meta tags. Implemented `InstallPrompt` to guide iOS users to "Add to Home Screen".
 - Acceptance criteria: ✓ App boots entirely offline in standalone mode. ✓ Service worker registered and caches files + fonts.
-- Next: P3.2 [CC] — Export/import: JSON+photos backup (zip), restore w/ integrity check. Switch to Claude Code.
+- P3.2 Export/import (CC) complete. zip.ts: pure STORE-mode ZIP encoder/decoder (no new dependency). backup.ts: exportBackup() and importBackup(File) with integrity check. Settings screen with Export/Import buttons added (4th nav tab). 20 new tests; 128 total passing.
+- Acceptance criteria: ✓ ZIP archive (valid PK magic, extractable by any unzip tool). ✓ Round-trip: photo bytes, receipt bytes, all metadata faithfully restored. ✓ Integrity check rejects partial/corrupt archives before writing. ✓ UI accessible from Settings tab.
+- Next: P3.3 [AG] — Visual QA: browser-subagent screenshot run, issues filed in PROGRESS.md. Switch to Antigravity.
