@@ -36,6 +36,7 @@ Conflict rule: if a package needs a file outside your lane, STOP, write the need
 - **P2.6 [AG]** Check-in: count-first one-tap close + per-item tick; unticked → missing on complete. ✓ Both paths produce correct item states.
 - **P2.7 [CC]** Missing-item loop: Awaiting state UI, Proof screen, resolve Found/Lost, lost garment retirement. ✓ Full loop e2e per SPEC §Core-loop.
 - **P2.8 [AG]** Stats screen from domain aggregations. ✓ Matches POC dashboard.
+- **P2.9 [AG]** Visual refresh: user-approved update to `tokens.css` + `index.css` based on Dribbble design samples shared by user. Updates color palette, typography scale, card/sheet shadows, button radius, and fixes iOS input zoom (`font-size: 16px`). No new dependencies. ✓ App looks polished on 390px viewport; CI green.
 
 ## Phase 3 — Hardening
 

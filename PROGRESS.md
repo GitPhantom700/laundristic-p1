@@ -8,7 +8,7 @@
 - **Date:** 2026-06-13
 - **Phase:** 2 — Product
 - **Last completed:** P2.8 · Stats screen
-- **Next package:** P3.1 · lane **AG** (PWA & Offline)
+- **Next package:** P2.9 · lane **AG** (Visual refresh)
 - **Repo state:** pushed to main; 108 tests passing.
 
 ## Decisions
