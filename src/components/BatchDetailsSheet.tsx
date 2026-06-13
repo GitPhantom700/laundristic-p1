@@ -1,0 +1,121 @@
+import React, { useState, useEffect } from 'react';
+import { getGarment } from '../lib/storage';
+import type { Batch, Garment } from '../lib/types';
+
+interface BatchDetailsSheetProps {
+  batch: Batch;
+  onClose: () => void;
+}
+
+function DetailItemCard({
+  garment,
+  state,
+}: {
+  garment: Garment;
+  state: string;
+}) {
+  const [url, setUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const objectUrl = URL.createObjectURL(garment.photoBlob);
+    setUrl(objectUrl);
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [garment.photoBlob]);
+
+  return (
+    <div className="proof-item-card">
+      {url && <img src={url} alt={garment.code} className="proof-item-photo" />}
+      <div className="proof-item-info">
+        <span className="proof-item-code">{garment.code}</span>
+        <span className="proof-item-type">{garment.type}</span>
+      </div>
+      <div
+        className={`batch-status-chip ${
+          state === 'missing' || state === 'lost' ? 'awaiting' : 'closed'
+        }`}
+      >
+        {state}
+      </div>
+    </div>
+  );
+}
+
+export function BatchDetailsSheet({ batch, onClose }: BatchDetailsSheetProps) {
+  const [garments, setGarments] = useState<
+    Array<{ garment: Garment; state: string }>
+  >([]);
+
+  useEffect(() => {
+    async function load() {
+      const loaded: Array<{ garment: Garment; state: string }> = [];
+      for (const item of batch.items) {
+        const g = await getGarment(item.garmentId);
+        if (g) {
+          loaded.push({ garment: g, state: item.state });
+        }
+      }
+      setGarments(loaded);
+    }
+    load();
+  }, [batch]);
+
+  return (
+    <div className="edit-sheet-overlay" onClick={onClose}>
+      <div
+        className="dropoff-sheet"
+        style={{ maxHeight: '80vh' }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div
+          className="edit-sheet-header"
+          style={{ justifyContent: 'flex-start', gap: '8px', padding: '16px' }}
+        >
+          <button onClick={onClose} className="nav-back-btn">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Back
+          </button>
+          <h3
+            className="edit-sheet-title"
+            style={{ flex: 1, textAlign: 'center', marginRight: '80px' }}
+          >
+            Batch Details
+          </h3>
+        </div>
+
+        <div style={{ overflowY: 'auto', flex: 1, padding: '0 16px 16px' }}>
+          <div style={{ marginBottom: '24px' }}>
+            <h4 style={{ margin: '0 0 8px 0' }}>{batch.shopName}</h4>
+            <div style={{ color: 'var(--color-text-muted)' }}>
+              {new Date(batch.date).toLocaleDateString('en-IN', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+              })}
+            </div>
+            <div style={{ fontWeight: 600, marginTop: '4px' }}>
+              ₹{batch.amountINR}
+            </div>
+          </div>
+
+          <h4 style={{ marginBottom: '12px' }}>Items ({garments.length})</h4>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {garments.map(({ garment, state }) => (
+              <DetailItemCard key={garment.id} garment={garment} state={state} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
