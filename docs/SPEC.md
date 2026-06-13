@@ -46,7 +46,7 @@ Shirt SHT · T-shirt TEE · Trousers TRO · Hoodie HOO · Kurta KUR · Bedsheet 
 
 ## Tech (frozen)
 
-Vite + React 18, plain CSS w/ custom properties (port POC tokens: Fraunces + Hanken Grotesk, paper/green palette), `idb` for IndexedDB, `vite-plugin-pwa` for offline/install, `navigator.storage.persist()`, JSON+photos export/import. No backend, no analytics, no CSS framework, no state library. Primary target: iOS Safari PWA; Android Chrome second.
+Vite + React 18, plain CSS w/ custom properties (Fraunces + Hanken Grotesk fonts; palette updated in P2.9 per user-approved visual refresh), `idb` for IndexedDB, `vite-plugin-pwa` for offline/install, `navigator.storage.persist()`, JSON+photos export/import. No backend, no analytics, no CSS framework, no state library. Primary target: iOS Safari PWA; Android Chrome second.
 
 ## Explicitly OUT of scope (v1 — do not build, do not discuss in sessions)
 
