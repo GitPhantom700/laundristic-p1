@@ -7,8 +7,8 @@
 
 - **Date:** 2026-06-13
 - **Phase:** 2 — Product
-- **Last completed:** P2.7 · Missing-item loop
-- **Next package:** P2.8 · lane **AG** (Stats screen)
+- **Last completed:** P2.8 · Stats screen
+- **Next package:** P3.1 · lane **AG** (PWA & Offline)
 - **Repo state:** pushed to main; 108 tests passing.
 
 ## Decisions
@@ -41,3 +41,6 @@
 - Acceptance criteria: ✓ Count-first one-tap close works perfectly. ✓ Un-ticking an item flags it as missing and keeps the batch open.
 - **Note for Claude Code:** The user experienced contrast issues on mobile with pure white cards blending into the light paper background. I shifted the body background to `var(--color-paper-dark)` to fix this. If the user requests further color/theme changes during P2.7, please assist them. Be aware that `SPEC.md` nominally locks the tokens, so if you introduce new colors, you may need to explicitly amend the SPEC or `tokens.css` with the user's permission.
 - Next: P2.7 [CC] — Missing-item loop: Awaiting state UI, Proof screen, resolve Found/Lost. Switch to Claude Code.
+- P2.8 Stats screen (AG) complete. Built the dashboard layout with top-line metrics (30-day spend, avg/drop, avg/garment, all-time spend) and a custom CSS flexbox 6-month bar chart using CC's domain aggregations.
+- Acceptance criteria: ✓ Matches POC dashboard layout. ✓ 100% test pass rate maintained.
+- Next: P3.1 [AG] — PWA manifest, service worker, offline verification. Stay in Antigravity.
