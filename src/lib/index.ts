@@ -6,3 +6,5 @@ export * from './camera';
 export { useCamera } from './useCamera';
 export type { UseCameraReturn, CameraMode } from './useCamera';
 export { getDb, clearDb } from './db';
+export { exportBackup, importBackup } from './backup';
+export type { ImportResult } from './backup';

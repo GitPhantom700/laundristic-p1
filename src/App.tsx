@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ToastProvider, Layout, TabId, InstallPrompt } from './components';
-import { Wardrobe, DropOffs, Stats } from './screens';
+import { Wardrobe, DropOffs, Stats, Settings } from './screens';
 
 export function App() {
   const [activeTab, setActiveTab] = useState<TabId>('wardrobe');
@@ -13,6 +13,8 @@ export function App() {
         return <DropOffs />;
       case 'stats':
         return <Stats />;
+      case 'settings':
+        return <Settings />;
       default:
         return <Wardrobe />;
     }
