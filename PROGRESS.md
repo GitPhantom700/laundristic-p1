@@ -7,8 +7,8 @@
 
 - **Date:** 2026-06-13
 - **Phase:** 2 — Product
-- **Last completed:** P2.6 · Check-in flow
-- **Next package:** P2.7 · lane **CC** (Missing-item loop)
+- **Last completed:** P2.7 · Missing-item loop
+- **Next package:** P2.8 · lane **AG** (Stats screen)
 - **Repo state:** pushed to main; 108 tests passing.
 
 ## Decisions
@@ -32,6 +32,10 @@
 - None. (Previous GitHub auth issue was resolved).
 
 ## Handoff notes
+
+- P2.7 Missing-item loop (CC) complete. MissingItemSheet resolves items one by one (Found/Lost); Lost retires garment to status:'lost'; isBatchResolvable auto-closes batch when all items terminal. ProofScreen is a full-screen dark overlay (z-index 80) showing receipt + shop/date + each missing garment photo — opened from both awaiting batch card ("Proof") and from within MissingItemSheet ("View Proof"). 108 tests passing.
+- Acceptance criteria: ✓ Found/Lost resolution per item. ✓ Lost garment retired (status:'lost'). ✓ Batch auto-closes when all resolved. ✓ Proof screen accessible at counter with zero navigation.
+- Next: P2.8 [AG] — Stats screen from domain aggregations. Switch to Antigravity.
 
 - P2.6 Check-in flow (AG) complete. Built the DropOffs list rendering (Active, Awaiting, Closed) and the 1-tap Check-in Sheet. Verified that missing items correctly transition the batch to 'awaiting' and full check-ins transition it to 'closed'.
 - Acceptance criteria: ✓ Count-first one-tap close works perfectly. ✓ Un-ticking an item flags it as missing and keeps the batch open.
