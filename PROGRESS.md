@@ -35,4 +35,5 @@
 
 - P2.6 Check-in flow (AG) complete. Built the DropOffs list rendering (Active, Awaiting, Closed) and the 1-tap Check-in Sheet. Verified that missing items correctly transition the batch to 'awaiting' and full check-ins transition it to 'closed'.
 - Acceptance criteria: ✓ Count-first one-tap close works perfectly. ✓ Un-ticking an item flags it as missing and keeps the batch open.
+- **Note for Claude Code:** The user experienced contrast issues on mobile with pure white cards blending into the light paper background. I shifted the body background to `var(--color-paper-dark)` to fix this. If the user requests further color/theme changes during P2.7, please assist them. Be aware that `SPEC.md` nominally locks the tokens, so if you introduce new colors, you may need to explicitly amend the SPEC or `tokens.css` with the user's permission.
 - Next: P2.7 [CC] — Missing-item loop: Awaiting state UI, Proof screen, resolve Found/Lost. Switch to Claude Code.
