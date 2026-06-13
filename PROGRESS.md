@@ -7,8 +7,8 @@
 
 - **Date:** 2026-06-13
 - **Phase:** 2 — Product
-- **Last completed:** P2.8 · Stats screen
-- **Next package:** P2.9 · lane **AG** (Visual refresh)
+- **Last completed:** P2.9 · Visual refresh
+- **Next package:** P3.1 · lane **AG** (PWA & Offline)
 - **Repo state:** pushed to main; 108 tests passing.
 
 ## Decisions
@@ -43,4 +43,6 @@
 - Next: P2.7 [CC] — Missing-item loop: Awaiting state UI, Proof screen, resolve Found/Lost. Switch to Claude Code.
 - P2.8 Stats screen (AG) complete. Built the dashboard layout with top-line metrics (30-day spend, avg/drop, avg/garment, all-time spend) and a custom CSS flexbox 6-month bar chart using CC's domain aggregations.
 - Acceptance criteria: ✓ Matches POC dashboard layout. ✓ 100% test pass rate maintained.
+- P2.9 Visual refresh (AG) complete. Overrode the POC tokens with a vibrant Emerald/Slate palette. Softened card borders into diffused drop-shadows. Increased primary button sizing and locked form inputs to 16px to fix iOS Safari zooming. Added native `< Back` navigation headers to all sheets.
+- Acceptance criteria: ✓ Matches modern Dribbble aesthetic. ✓ Inputs no longer zoom on iOS. ✓ 108 tests passing.
 - Next: P3.1 [AG] — PWA manifest, service worker, offline verification. Stay in Antigravity.

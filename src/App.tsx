@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ToastProvider, Layout, TabId } from './components';
+import { ToastProvider, Layout, TabId, InstallPrompt } from './components';
 import { Wardrobe, DropOffs, Stats } from './screens';
 
 export function App() {
@@ -23,6 +23,7 @@ export function App() {
       <Layout activeTab={activeTab} onTabChange={setActiveTab}>
         {renderScreen()}
       </Layout>
+      <InstallPrompt />
     </ToastProvider>
   );
 }
