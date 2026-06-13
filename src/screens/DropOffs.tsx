@@ -5,6 +5,7 @@ import { DropOffSheet } from '../components/DropOffSheet';
 import { CheckInSheet } from '../components/CheckInSheet';
 import { MissingItemSheet } from '../components/MissingItemSheet';
 import { ProofScreen } from '../components/ProofScreen';
+import { BatchDetailsSheet } from '../components/BatchDetailsSheet';
 
 function BatchCard({
   batch,
@@ -13,12 +14,13 @@ function BatchCard({
   onProof,
 }: {
   batch: Batch;
+  onClick?: () => void;
   onCheckIn?: () => void;
   onResolve?: () => void;
   onProof?: () => void;
 }) {
   return (
-    <div className={`batch-card ${batch.status}`}>
+    <div className={`batch-card ${batch.status}`} onClick={onClick} style={{ cursor: onClick ? 'pointer' : 'default' }}>
       <div className="batch-header">
         <div>
           <div className="batch-shop">{batch.shopName}</div>
@@ -74,6 +76,7 @@ export function DropOffs() {
   const [checkingInBatch, setCheckingInBatch] = useState<Batch | null>(null);
   const [resolvingBatch, setResolvingBatch] = useState<Batch | null>(null);
   const [proofBatch, setProofBatch] = useState<Batch | null>(null);
+  const [viewingBatch, setViewingBatch] = useState<Batch | null>(null);
 
   const [activeBatches, setActiveBatches] = useState<Batch[]>([]);
   const [awaitingBatches, setAwaitingBatches] = useState<Batch[]>([]);
@@ -194,7 +197,7 @@ export function DropOffs() {
                 History
               </h2>
               {closedBatches.map((b) => (
-                <BatchCard key={b.id} batch={b} />
+                <BatchCard key={b.id} batch={b} onClick={() => setViewingBatch(b)} />
               ))}
             </section>
           )}
@@ -233,6 +236,10 @@ export function DropOffs() {
 
       {proofBatch && (
         <ProofScreen batch={proofBatch} onClose={() => setProofBatch(null)} />
+      )}
+
+      {viewingBatch && (
+        <BatchDetailsSheet batch={viewingBatch} onClose={() => setViewingBatch(null)} />
       )}
     </div>
   );

@@ -221,7 +221,7 @@ h4 {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 16px;
+  padding: calc(env(safe-area-inset-top, 0px) + 16px) 16px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1107,7 +1107,7 @@ textarea:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
+  padding: calc(env(safe-area-inset-top, 0px) + 16px) 16px 16px;
   flex-shrink: 0;
 }
 
