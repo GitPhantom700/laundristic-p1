@@ -3,13 +3,19 @@ import { getAllBatches } from '../lib/storage';
 import type { Batch } from '../lib/types';
 import { DropOffSheet } from '../components/DropOffSheet';
 import { CheckInSheet } from '../components/CheckInSheet';
+import { MissingItemSheet } from '../components/MissingItemSheet';
+import { ProofScreen } from '../components/ProofScreen';
 
 function BatchCard({
   batch,
   onCheckIn,
+  onResolve,
+  onProof,
 }: {
   batch: Batch;
   onCheckIn?: () => void;
+  onResolve?: () => void;
+  onProof?: () => void;
 }) {
   return (
     <div className="batch-card">
@@ -37,6 +43,28 @@ function BatchCard({
           Check In
         </button>
       )}
+      {(onResolve || onProof) && (
+        <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+          {onProof && (
+            <button
+              onClick={onProof}
+              className="btn-secondary"
+              style={{ flex: 1 }}
+            >
+              Proof
+            </button>
+          )}
+          {onResolve && (
+            <button
+              onClick={onResolve}
+              className="btn-primary"
+              style={{ flex: 2 }}
+            >
+              Resolve
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -44,6 +72,8 @@ function BatchCard({
 export function DropOffs() {
   const [isDroppingOff, setIsDroppingOff] = useState(false);
   const [checkingInBatch, setCheckingInBatch] = useState<Batch | null>(null);
+  const [resolvingBatch, setResolvingBatch] = useState<Batch | null>(null);
+  const [proofBatch, setProofBatch] = useState<Batch | null>(null);
 
   const [activeBatches, setActiveBatches] = useState<Batch[]>([]);
   const [awaitingBatches, setAwaitingBatches] = useState<Batch[]>([]);
@@ -70,6 +100,11 @@ export function DropOffs() {
 
   const handleCheckInComplete = () => {
     setCheckingInBatch(null);
+    loadBatches();
+  };
+
+  const handleResolveClose = () => {
+    setResolvingBatch(null);
     loadBatches();
   };
 
@@ -143,7 +178,12 @@ export function DropOffs() {
                 Awaiting Items
               </h2>
               {awaitingBatches.map((b) => (
-                <BatchCard key={b.id} batch={b} />
+                <BatchCard
+                  key={b.id}
+                  batch={b}
+                  onResolve={() => setResolvingBatch(b)}
+                  onProof={() => setProofBatch(b)}
+                />
               ))}
             </section>
           )}
@@ -181,6 +221,18 @@ export function DropOffs() {
           onClose={() => setCheckingInBatch(null)}
           onComplete={handleCheckInComplete}
         />
+      )}
+
+      {resolvingBatch && (
+        <MissingItemSheet
+          batch={resolvingBatch}
+          onClose={handleResolveClose}
+          onComplete={handleResolveClose}
+        />
+      )}
+
+      {proofBatch && (
+        <ProofScreen batch={proofBatch} onClose={() => setProofBatch(null)} />
       )}
     </div>
   );
