@@ -38,7 +38,7 @@ body {
 .app-frame {
   width: 100%;
   max-width: 390px; /* iPhone 12/13/14 base width */
-  background-color: var(--color-paper);
+  background-color: var(--color-paper-darker);
   min-height: 100vh;
   position: relative;
   box-shadow:
@@ -505,8 +505,8 @@ h4 {
 .btn-secondary {
   -webkit-appearance: none;
   padding: 16px 24px;
-  background-color: #fff;
-  border: none;
+  background-color: var(--color-paper);
+  border: 1.5px solid var(--color-border);
   color: var(--color-text);
   border-radius: 16px;
   font-weight: 600;
@@ -515,7 +515,7 @@ h4 {
   transition:
     background-color 0.2s,
     transform 0.1s;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  box-shadow: none;
 }
 
 .btn-secondary:active {
@@ -644,11 +644,11 @@ textarea:focus {
 }
 
 .garment-card {
-  background: white;
+  background: var(--color-paper);
   border-radius: 20px;
-  border: none;
+  border: 1px solid var(--color-border);
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   position: relative;
   cursor: pointer;
   transition: transform 0.2s;
@@ -907,12 +907,12 @@ textarea:focus {
    ========================================================================== */
 
 .batch-card {
-  background: white;
+  background: var(--color-paper);
   border-radius: 20px;
   padding: 20px;
   margin-bottom: 16px;
-  border: none;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -1117,11 +1117,11 @@ textarea:focus {
 }
 
 .stat-card {
-  background: white;
+  background: var(--color-paper);
   border-radius: 20px;
   padding: 20px;
-  border: none;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
 }
@@ -1147,11 +1147,11 @@ textarea:focus {
 }
 
 .chart-container {
-  background: white;
+  background: var(--color-paper);
   border-radius: 20px;
   padding: 20px 16px 16px;
-  border: none;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   margin-bottom: 24px;
 }
 
