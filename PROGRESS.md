@@ -7,8 +7,8 @@
 
 - **Date:** 2026-06-13
 - **Phase:** 2 — Product
-- **Last completed:** P2.4 · Wardrobe screen & Edit sheet
-- **Next package:** P2.5 · lane **AG** (Drop-off flow)
+- **Last completed:** P2.5 · Drop-off flow
+- **Next package:** P2.6 · lane **AG** (Check-in flow)
 - **Repo state:** pushed to main; 108 tests passing.
 
 ## Decisions
@@ -33,6 +33,6 @@
 
 ## Handoff notes
 
-- P2.4 Wardrobe screen (AG) complete. Displayed the garments grid with AT LAUNDRY indicators and fully functioning edit sheet (Retake, Re-tag, Remove). Tested manually and verified.
-- Acceptance criteria: ✓ Wardrobe UI implements 2-col image grid. ✓ Re-tag works and assigns fresh codes. ✓ Retake photo updates blob successfully. ✓ Remove uses 2-tap confirm.
-- Next: P2.5 [AG] — Drop-off flow (item select grid, receipt capture, amount/shop/date, batch create). Switch to Antigravity.
+- P2.5 Drop-off flow (AG) complete. Built the Checkout sheet with smart preselection (last items minus 'out' items), form details, and receipt capture. Verified exact 3-tap path to receipt.
+- Acceptance criteria: ✓ Repeat path ≤ 3 taps. ✓ `out` status only affects batch items, not garment records.
+- Next: P2.6 [AG] — Check-in flow: count-first one-tap close + per-item tick. Stay in Antigravity.
