@@ -109,9 +109,15 @@ export function BatchDetailsSheet({ batch, onClose }: BatchDetailsSheetProps) {
           </div>
 
           <h4 style={{ marginBottom: '12px' }}>Items ({garments.length})</h4>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <div
+            style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}
+          >
             {garments.map(({ garment, state }) => (
-              <DetailItemCard key={garment.id} garment={garment} state={state} />
+              <DetailItemCard
+                key={garment.id}
+                garment={garment}
+                state={state}
+              />
             ))}
           </div>
         </div>

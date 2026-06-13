@@ -20,7 +20,11 @@ function BatchCard({
   onProof?: () => void;
 }) {
   return (
-    <div className={`batch-card ${batch.status}`} onClick={onClick} style={{ cursor: onClick ? 'pointer' : 'default' }}>
+    <div
+      className={`batch-card ${batch.status}`}
+      onClick={onClick}
+      style={{ cursor: onClick ? 'pointer' : 'default' }}
+    >
       <div className="batch-header">
         <div>
           <div className="batch-shop">{batch.shopName}</div>
@@ -197,7 +201,11 @@ export function DropOffs() {
                 History
               </h2>
               {closedBatches.map((b) => (
-                <BatchCard key={b.id} batch={b} onClick={() => setViewingBatch(b)} />
+                <BatchCard
+                  key={b.id}
+                  batch={b}
+                  onClick={() => setViewingBatch(b)}
+                />
               ))}
             </section>
           )}
@@ -239,7 +247,10 @@ export function DropOffs() {
       )}
 
       {viewingBatch && (
-        <BatchDetailsSheet batch={viewingBatch} onClose={() => setViewingBatch(null)} />
+        <BatchDetailsSheet
+          batch={viewingBatch}
+          onClose={() => setViewingBatch(null)}
+        />
       )}
     </div>
   );
