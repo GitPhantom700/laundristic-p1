@@ -14,7 +14,7 @@ html {
 
 body {
   font-family: var(--font-body);
-  background-color: var(--color-paper);
+  background-color: var(--color-paper-dark);
   color: var(--color-text);
   line-height: 1.6;
   -webkit-tap-highlight-color: transparent;
@@ -602,8 +602,9 @@ textarea:focus {
 }
 
 .garment-card {
-  background: var(--color-paper);
+  background: white;
   border-radius: 16px;
+  border: 1px solid var(--color-border-light);
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   position: relative;
