@@ -7,8 +7,8 @@
 
 - **Date:** 2026-06-13
 - **Phase:** 2 — Product
-- **Last completed:** P2.5 · Drop-off flow
-- **Next package:** P2.6 · lane **AG** (Check-in flow)
+- **Last completed:** P2.6 · Check-in flow
+- **Next package:** P2.7 · lane **CC** (Missing-item loop)
 - **Repo state:** pushed to main; 108 tests passing.
 
 ## Decisions
@@ -33,6 +33,6 @@
 
 ## Handoff notes
 
-- P2.5 Drop-off flow (AG) complete. Built the Checkout sheet with smart preselection (last items minus 'out' items), form details, and receipt capture. Verified exact 3-tap path to receipt.
-- Acceptance criteria: ✓ Repeat path ≤ 3 taps. ✓ `out` status only affects batch items, not garment records.
-- Next: P2.6 [AG] — Check-in flow: count-first one-tap close + per-item tick. Stay in Antigravity.
+- P2.6 Check-in flow (AG) complete. Built the DropOffs list rendering (Active, Awaiting, Closed) and the 1-tap Check-in Sheet. Verified that missing items correctly transition the batch to 'awaiting' and full check-ins transition it to 'closed'.
+- Acceptance criteria: ✓ Count-first one-tap close works perfectly. ✓ Un-ticking an item flags it as missing and keeps the batch open.
+- Next: P2.7 [CC] — Missing-item loop: Awaiting state UI, Proof screen, resolve Found/Lost. Switch to Claude Code.
