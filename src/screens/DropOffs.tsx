@@ -1,8 +1,8 @@
-import React from 'react';
-import { useToast } from '../components';
+import React, { useState } from 'react';
+import { DropOffSheet } from '../components/DropOffSheet';
 
 export function DropOffs() {
-  const { showToast } = useToast();
+  const [isDroppingOff, setIsDroppingOff] = useState(false);
 
   return (
     <div className="screen-container">
@@ -31,15 +31,17 @@ export function DropOffs() {
         <p className="empty-subtitle">
           Create a drop-off batch when you leave your clothes at the laundry.
         </p>
-        <button
-          onClick={() =>
-            showToast('New Drop-off feature coming in P2.5!', 'info')
-          }
-          className="btn-primary"
-        >
+        <button onClick={() => setIsDroppingOff(true)} className="btn-primary">
           New Drop-off
         </button>
       </div>
+
+      {isDroppingOff && (
+        <DropOffSheet
+          onClose={() => setIsDroppingOff(false)}
+          onSuccess={() => setIsDroppingOff(false)}
+        />
+      )}
     </div>
   );
 }
