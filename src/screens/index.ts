@@ -4,3 +4,4 @@ export { Wardrobe } from './Wardrobe';
 export { DropOffs } from './DropOffs';
 export { Stats } from './Stats';
 export { Catalog } from './Catalog';
+export { Settings } from './Settings';
