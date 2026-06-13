@@ -5,8 +5,6 @@ import {
   putBatch,
   getAllGarments,
   getAllBatches,
-  deleteGarment,
-  deleteBatch,
 } from '../src/lib/storage';
 import { exportBackup, importBackup } from '../src/lib/backup';
 import type { Garment, Batch } from '../src/lib/types';
