@@ -8,7 +8,7 @@
 - **Date:** 2026-06-13
 - **Phase:** 2 — Product
 - **Last completed:** P2.4 · Wardrobe screen & Edit sheet
-- **Next package:** P2.5 · lane **CC** (Checkout sheet)
+- **Next package:** P2.5 · lane **AG** (Drop-off flow)
 - **Repo state:** pushed to main; 108 tests passing.
 
 ## Decisions
@@ -35,4 +35,4 @@
 
 - P2.4 Wardrobe screen (AG) complete. Displayed the garments grid with AT LAUNDRY indicators and fully functioning edit sheet (Retake, Re-tag, Remove). Tested manually and verified.
 - Acceptance criteria: ✓ Wardrobe UI implements 2-col image grid. ✓ Re-tag works and assigns fresh codes. ✓ Retake photo updates blob successfully. ✓ Remove uses 2-tap confirm.
-- Next: P2.5 [CC] — Checkout sheet (building batch, total amount, creating records). Switch to Claude Code.
+- Next: P2.5 [AG] — Drop-off flow (item select grid, receipt capture, amount/shop/date, batch create). Switch to Antigravity.
