@@ -171,12 +171,19 @@ body {
   flex: 1;
 }
 
+.screen-header {
+  background-color: var(--color-green);
+  color: white;
+  margin: -16px -16px 16px -16px;
+  padding: 24px 16px 16px 16px;
+}
+
 .screen-header h1 {
   font-family: var(--font-display);
   font-size: 24px;
   font-weight: 700;
-  color: var(--color-text);
-  margin-bottom: 24px;
+  color: white;
+  margin: 0;
 }
 
 /* Typography */
@@ -415,21 +422,8 @@ h4 {
   width: 100%;
 }
 
-.btn-secondary {
-  background-color: transparent;
-  color: var(--color-text);
-  border: 1px solid #d1d5db;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
+.confirm-actions .btn-secondary {
   width: 100%;
-}
-
-.btn-secondary:active {
-  background-color: #f3f4f6;
 }
 
 /* Fallback state inside viewfinder */
@@ -505,9 +499,9 @@ h4 {
 .btn-secondary {
   -webkit-appearance: none;
   padding: 16px 24px;
-  background-color: var(--color-paper);
-  border: 1.5px solid var(--color-border);
-  color: var(--color-text);
+  background-color: transparent;
+  border: 2px solid var(--color-green);
+  color: var(--color-green);
   border-radius: 16px;
   font-weight: 600;
   font-size: 1.125rem;
@@ -523,7 +517,7 @@ h4 {
 }
 
 .btn-secondary:hover {
-  background-color: var(--color-paper-dark);
+  background-color: var(--color-green-pale, rgba(16, 185, 129, 0.1));
 }
 
 .nav-back-btn {
@@ -916,6 +910,25 @@ textarea:focus {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.batch-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 6px;
+}
+
+.batch-card.active::before {
+  background-color: #3b82f6;
+}
+
+.batch-card.awaiting::before {
+  background-color: #f59e0b;
 }
 
 .batch-header {

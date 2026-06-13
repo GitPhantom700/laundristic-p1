@@ -18,7 +18,7 @@ function BatchCard({
   onProof?: () => void;
 }) {
   return (
-    <div className="batch-card">
+    <div className={`batch-card ${batch.status}`}>
       <div className="batch-header">
         <div>
           <div className="batch-shop">{batch.shopName}</div>
