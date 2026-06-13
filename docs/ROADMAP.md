@@ -85,7 +85,7 @@ Phase 4 Ship         ░░░░░░░░░░░░░░░░░░░�
 | Package            | Lane | Status  | Notes                                                                          |
 | ------------------ | ---- | ------- | ------------------------------------------------------------------------------ |
 | P3.1 PWA & Offline | AG   | ✅ Done | VitePWA + CacheFirst for Google Fonts, app icons, iOS meta tags, InstallPrompt |
-| P3.2 Export/import | CC   | ✅ Done | ZIP backup (zip.ts STORE-mode encoder, no dep); Settings screen; 128 tests    |
+| P3.2 Export/import | CC   | ✅ Done | ZIP backup (zip.ts STORE-mode encoder, no dep); Settings screen; 128 tests     |
 | P3.3 Visual QA     | AG   | ⏳ Next | Browser-subagent screenshot run, issues filed in PROGRESS.md                   |
 | P3.4 Fix pass      | CC   | 🔲      | Consolidated fixes from P3.3 findings; CC may touch whole repo                 |
 
