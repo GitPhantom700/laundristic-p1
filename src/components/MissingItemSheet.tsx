@@ -140,16 +140,14 @@ export function MissingItemSheet({
           style={{ maxHeight: '80vh' }}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="edit-sheet-header">
-            <h3 className="edit-sheet-title">Resolve Missing Items</h3>
-            <button
-              onClick={onClose}
-              className="edit-sheet-close"
-              aria-label="Close"
-            >
+          <div
+            className="edit-sheet-header"
+            style={{ justifyContent: 'flex-start', gap: '8px' }}
+          >
+            <button onClick={onClose} className="nav-back-btn">
               <svg
-                width="20"
-                height="20"
+                width="24"
+                height="24"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -157,10 +155,16 @@ export function MissingItemSheet({
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
+                <polyline points="15 18 9 12 15 6"></polyline>
               </svg>
+              Cancel
             </button>
+            <h3
+              className="edit-sheet-title"
+              style={{ flex: 1, textAlign: 'center', marginRight: '80px' }}
+            >
+              Resolve Missing Items
+            </h3>
           </div>
 
           <button

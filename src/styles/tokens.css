@@ -9,21 +9,21 @@
   --font-body: 'Hanken Grotesk', sans-serif;
 
   /* Color palette */
-  --color-paper: #faf8f3;
-  --color-paper-dark: #f5f2ed;
-  --color-paper-darker: #e8e4dd;
+  --color-paper: #ffffff;
+  --color-paper-dark: #f8fafc;
+  --color-paper-darker: #f1f5f9;
 
-  --color-green: #2d8659;
-  --color-green-light: #4fa872;
-  --color-green-lighter: #7bc292;
-  --color-green-pale: #e8f3ed;
+  --color-green: #10b981; /* modern vibrant emerald */
+  --color-green-light: #34d399;
+  --color-green-lighter: #6ee7b7;
+  --color-green-pale: #d1fae5;
 
-  --color-text: #2b2b2b;
-  --color-text-muted: #6b6b6b;
-  --color-text-light: #a0a0a0;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-text-light: #94a3b8;
 
-  --color-border: #d9d6d1;
-  --color-border-light: #e8e4dd;
+  --color-border: #e2e8f0;
+  --color-border-light: #f1f5f9;
 
   --color-error: #c41c3b;
   --color-warning: #d97706;
