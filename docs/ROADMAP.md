@@ -22,36 +22,37 @@ Phase 4 Ship         ░░░░░░░░░░░░░░░░░░░�
 
 ## Legend
 
-| Symbol | Meaning |
-|--------|---------|
-| ✅ | Done — committed, pushed, acceptance criteria met |
-| 🔄 | In progress — current session |
-| ⏳ | Upcoming — next in queue |
-| 🔲 | Not started |
-| 🐛 | Known bug / fix item |
-| [CC] | Claude Code lane (scalpel — lib/domain/logic) |
-| [AG] | Antigravity lane (volume — UI/CSS/tests/docs) |
+| Symbol | Meaning                                           |
+| ------ | ------------------------------------------------- |
+| ✅     | Done — committed, pushed, acceptance criteria met |
+| 🔄     | In progress — current session                     |
+| ⏳     | Upcoming — next in queue                          |
+| 🔲     | Not started                                       |
+| 🐛     | Known bug / fix item                              |
+| [CC]   | Claude Code lane (scalpel — lib/domain/logic)     |
+| [AG]   | Antigravity lane (volume — UI/CSS/tests/docs)     |
 
 ---
 
 ## Phase 0 — Foundation ✅
 
-| Package | Lane | Status | Notes |
-|---------|------|--------|-------|
-| P0.1 Scaffold | CC | ✅ Done | Vite+React+idb+vite-plugin-pwa, folder structure, design tokens, repo created |
-| P0.2 Tooling | AG | ✅ Done | ESLint+Prettier, Vitest, GitHub Actions CI, MIT LICENSE, README |
+| Package       | Lane | Status  | Notes                                                                         |
+| ------------- | ---- | ------- | ----------------------------------------------------------------------------- |
+| P0.1 Scaffold | CC   | ✅ Done | Vite+React+idb+vite-plugin-pwa, folder structure, design tokens, repo created |
+| P0.2 Tooling  | AG   | ✅ Done | ESLint+Prettier, Vitest, GitHub Actions CI, MIT LICENSE, README               |
 
 ---
 
 ## Phase 1 — Data Spine ✅
 
-| Package | Lane | Status | Notes |
-|---------|------|--------|-------|
-| P1.1 Storage layer | CC | ✅ Done | IDB schema v1, blob photo store (ArrayBuffer+mimeType), CRUD API, storage.persist() |
-| P1.2 Domain core | CC | ✅ Done | Batch state machine, item transitions, code generator (prefix-NN), spend aggregations |
-| P1.3 Test expansion | AG | ✅ Done | Edge/property tests against P1.1–P1.2 APIs, coverage report |
+| Package             | Lane | Status  | Notes                                                                                 |
+| ------------------- | ---- | ------- | ------------------------------------------------------------------------------------- |
+| P1.1 Storage layer  | CC   | ✅ Done | IDB schema v1, blob photo store (ArrayBuffer+mimeType), CRUD API, storage.persist()   |
+| P1.2 Domain core    | CC   | ✅ Done | Batch state machine, item transitions, code generator (prefix-NN), spend aggregations |
+| P1.3 Test expansion | AG   | ✅ Done | Edge/property tests against P1.1–P1.2 APIs, coverage report                           |
 
 **Key decisions:**
+
 - Blobs stored as `{ buffer: ArrayBuffer, type: string }` in IDB for jsdom compatibility; public API returns Blob
 - `closeCheckIn(batch, Set<garmentId>)` — unmarked out-items auto-flip to `missing`
 
@@ -59,19 +60,20 @@ Phase 4 Ship         ░░░░░░░░░░░░░░░░░░░�
 
 ## Phase 2 — Product ✅
 
-| Package | Lane | Status | Notes |
-|---------|------|--------|-------|
-| P2.1 App shell | AG | ✅ Done | Bottom nav (Wardrobe/Drop-offs/Stats), state-based routing, toast system |
-| P2.2 useCamera | CC | ✅ Done | getUserMedia live viewfinder, iOS Safari quirks, file-input fallback, downscaleImageFile |
-| P2.3 Catalog screen | AG | ✅ Done | Assembly-line camera UI, shutter → category sheet → ID pill → loop |
-| P2.4 Wardrobe screen | AG | ✅ Done | Garment grid, edit sheet (re-tag/retake/2-tap remove), AT LAUNDRY chips |
-| P2.5 Drop-off flow | AG | ✅ Done | Select grid, repeat-last preselect, receipt capture, amount/shop/date, batch create |
-| P2.6 Check-in | AG | ✅ Done | Count-first one-tap close + per-item tick; unticked → missing on complete |
-| P2.7 Missing-item loop | CC | ✅ Done | MissingItemSheet (Found/Lost per item), Lost retires garment, auto-close batch, ProofScreen |
-| P2.8 Stats screen | AG | ✅ Done | 30-day spend, avg/drop, cost/garment, all-time, 6-month CSS bar chart |
-| P2.9 Visual refresh | AG | ✅ Done | Emerald/slate palette, soft shadows, larger buttons, iOS input zoom fix (16px), ← back nav |
+| Package                | Lane | Status  | Notes                                                                                       |
+| ---------------------- | ---- | ------- | ------------------------------------------------------------------------------------------- |
+| P2.1 App shell         | AG   | ✅ Done | Bottom nav (Wardrobe/Drop-offs/Stats), state-based routing, toast system                    |
+| P2.2 useCamera         | CC   | ✅ Done | getUserMedia live viewfinder, iOS Safari quirks, file-input fallback, downscaleImageFile    |
+| P2.3 Catalog screen    | AG   | ✅ Done | Assembly-line camera UI, shutter → category sheet → ID pill → loop                          |
+| P2.4 Wardrobe screen   | AG   | ✅ Done | Garment grid, edit sheet (re-tag/retake/2-tap remove), AT LAUNDRY chips                     |
+| P2.5 Drop-off flow     | AG   | ✅ Done | Select grid, repeat-last preselect, receipt capture, amount/shop/date, batch create         |
+| P2.6 Check-in          | AG   | ✅ Done | Count-first one-tap close + per-item tick; unticked → missing on complete                   |
+| P2.7 Missing-item loop | CC   | ✅ Done | MissingItemSheet (Found/Lost per item), Lost retires garment, auto-close batch, ProofScreen |
+| P2.8 Stats screen      | AG   | ✅ Done | 30-day spend, avg/drop, cost/garment, all-time, 6-month CSS bar chart                       |
+| P2.9 Visual refresh    | AG   | ✅ Done | Emerald/slate palette, soft shadows, larger buttons, iOS input zoom fix (16px), ← back nav  |
 
 **Key decisions:**
+
 - z-index stack: `.catalog-overlay` z-50 → `.edit-sheet-overlay` z-60 → `.proof-screen` z-80
 - ProofScreen rendered as Fragment sibling to escape stacking context
 - `ToastType = 'info' | 'success' | 'error'` only — `'warning'` is NOT valid
@@ -80,30 +82,30 @@ Phase 4 Ship         ░░░░░░░░░░░░░░░░░░░�
 
 ## Phase 3 — Hardening 🔄
 
-| Package | Lane | Status | Notes |
-|---------|------|--------|-------|
-| P3.1 PWA & Offline | AG | ✅ Done | VitePWA + CacheFirst for Google Fonts, app icons, iOS meta tags, InstallPrompt |
-| P3.2 Export/import | CC | ⏳ Next | JSON+photos backup (zip), restore with integrity check |
-| P3.3 Visual QA | AG | 🔲 | Browser-subagent screenshot run, issues filed in PROGRESS.md |
-| P3.4 Fix pass | CC | 🔲 | Consolidated fixes from P3.3 findings; CC may touch whole repo |
+| Package            | Lane | Status  | Notes                                                                          |
+| ------------------ | ---- | ------- | ------------------------------------------------------------------------------ |
+| P3.1 PWA & Offline | AG   | ✅ Done | VitePWA + CacheFirst for Google Fonts, app icons, iOS meta tags, InstallPrompt |
+| P3.2 Export/import | CC   | ⏳ Next | JSON+photos backup (zip), restore with integrity check                         |
+| P3.3 Visual QA     | AG   | 🔲      | Browser-subagent screenshot run, issues filed in PROGRESS.md                   |
+| P3.4 Fix pass      | CC   | 🔲      | Consolidated fixes from P3.3 findings; CC may touch whole repo                 |
 
 **P3.4 pre-filed fix items** (found in simulation test, 2026-06-13):
 
-| # | Bug | Severity | Fix |
-|---|-----|----------|-----|
-| 🐛 F1 | Layout overflow — `.app-frame` `min-height:100vh` + `overflow:visible` causes header to scroll off when content is tall | Medium | `height:100svh; overflow:hidden` on `.app-frame`; `overflow-y:auto; -webkit-overflow-scrolling:touch` on `.screen-container` |
-| 🐛 F2 | "Resolve Missing Items" title wraps to 2 lines at 390px | Minor | Shorten to "Resolve Items" or increase `gap` in header |
+| #     | Bug                                                                                                                     | Severity | Fix                                                                                                                          |
+| ----- | ----------------------------------------------------------------------------------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| 🐛 F1 | Layout overflow — `.app-frame` `min-height:100vh` + `overflow:visible` causes header to scroll off when content is tall | Medium   | `height:100svh; overflow:hidden` on `.app-frame`; `overflow-y:auto; -webkit-overflow-scrolling:touch` on `.screen-container` |
+| 🐛 F2 | "Resolve Missing Items" title wraps to 2 lines at 390px                                                                 | Minor    | Shorten to "Resolve Items" or increase `gap` in header                                                                       |
 
 ---
 
 ## Phase 4 — Ship 🔲
 
-| Package | Lane | Status | Notes |
-|---------|------|--------|-------|
-| P4.1 Docs | AG | 🔲 | Architecture, data model, user guide with screenshots, contributing |
-| P4.2 Deploy | AG | 🔲 | GitHub Pages, tag v0.1.0, release notes |
-| P4.3 Confluence mirror | AG | 🔲 | One-way publish `/docs` → Confluence space "Tally" |
-| P4.4 Launch review | CHAT | 🔲 | README/portfolio polish, LinkedIn framing |
+| Package                | Lane | Status | Notes                                                               |
+| ---------------------- | ---- | ------ | ------------------------------------------------------------------- |
+| P4.1 Docs              | AG   | 🔲     | Architecture, data model, user guide with screenshots, contributing |
+| P4.2 Deploy            | AG   | 🔲     | GitHub Pages, tag v0.1.0, release notes                             |
+| P4.3 Confluence mirror | AG   | 🔲     | One-way publish `/docs` → Confluence space "Tally"                  |
+| P4.4 Launch review     | CHAT | 🔲     | README/portfolio polish, LinkedIn framing                           |
 
 ---
 
