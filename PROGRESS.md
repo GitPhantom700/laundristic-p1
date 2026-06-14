@@ -13,6 +13,7 @@
 
 ## Decisions
 
+- 2026-06-14 · P4.2 Stress test fix: Added loading="lazy" to all list <img> tags to prevent iOS Safari out-of-memory crashes on long wardrobe lists.
 - 2026-06-14 · P3.4 F1: .app-frame height:100svh + overflow:hidden; .app-main overflow:hidden; .screen-container overflow-y:auto + -webkit-overflow-scrolling:touch. Page-level scroll eliminated.
 - 2026-06-14 · P3.4 F2: MissingItemSheet title "Resolve Missing Items" → "Resolve Items" (fits single line at 390px).
 - 2026-06-13 · P3.2: ZIP encoder/decoder implemented without any new dependency (STORE mode, CRC-32 inline). Format: backup.json + photos/<id>.jpg + receipts/<id>.jpg. importBackup validates structure + integrity before writing.
