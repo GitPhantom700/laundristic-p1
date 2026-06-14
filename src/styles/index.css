@@ -39,7 +39,8 @@ body {
   width: 100%;
   max-width: 390px; /* iPhone 12/13/14 base width */
   background-color: var(--color-paper-darker);
-  min-height: 100vh;
+  height: 100svh; /* pin to viewport; prevents page-level scroll */
+  overflow: hidden;
   position: relative;
   box-shadow:
     0 10px 15px -3px rgba(0, 0, 0, 0.1),
@@ -52,6 +53,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden; /* clips to app-frame; screen-container scrolls */
   padding-bottom: 72px; /* Space for bottom nav */
 }
 
@@ -169,6 +171,8 @@ body {
   height: 100%;
   padding: 16px;
   flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .screen-header {
