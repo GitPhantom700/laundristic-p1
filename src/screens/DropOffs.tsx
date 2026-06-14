@@ -9,6 +9,7 @@ import { BatchDetailsSheet } from '../components/BatchDetailsSheet';
 
 function BatchCard({
   batch,
+  onClick,
   onCheckIn,
   onResolve,
   onProof,
