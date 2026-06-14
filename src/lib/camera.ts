@@ -1,6 +1,11 @@
+// Reduced from 1200/0.82 to cut per-photo heap usage by ~60% on real devices.
+// iOS Safari OOM-kills tabs when too many large bitmaps are decoded simultaneously.
+const DEFAULT_MAX_DIMENSION = 800;
+const DEFAULT_JPEG_QUALITY = 0.75;
+
 export interface CaptureOptions {
-  maxDimension?: number; // default 1200px
-  jpegQuality?: number; // default 0.82
+  maxDimension?: number;
+  jpegQuality?: number;
 }
 
 /**
@@ -11,7 +16,10 @@ export async function captureFrame(
   video: HTMLVideoElement,
   options: CaptureOptions = {},
 ): Promise<Blob> {
-  const { maxDimension = 1200, jpegQuality = 0.82 } = options;
+  const {
+    maxDimension = DEFAULT_MAX_DIMENSION,
+    jpegQuality = DEFAULT_JPEG_QUALITY,
+  } = options;
 
   const srcW = video.videoWidth;
   const srcH = video.videoHeight;
@@ -44,7 +52,10 @@ export async function downscaleImageFile(
   file: File | Blob,
   options: CaptureOptions = {},
 ): Promise<Blob> {
-  const { maxDimension = 1200, jpegQuality = 0.82 } = options;
+  const {
+    maxDimension = DEFAULT_MAX_DIMENSION,
+    jpegQuality = DEFAULT_JPEG_QUALITY,
+  } = options;
 
   const bitmap = await createImageBitmap(file);
   const { width: srcW, height: srcH } = bitmap;
