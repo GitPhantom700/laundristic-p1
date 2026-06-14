@@ -7,12 +7,14 @@
 
 - **Date:** 2026-06-13
 - **Phase:** 3 — Hardening
-- **Last completed:** P3.2 · Export/import (CC)
-- **Next package:** P3.4 · lane **CC** (Consolidated fix pass)
-- **Repo state:** pushed to main; 128 tests passing.
+- **Last completed:** P3.4 · Consolidated fix pass (CC)
+- **Next package:** P4.1 · lane **AG** (Docs)
+- **Repo state:** pushed to main; 128 tests passing; Phase 3 complete.
 
 ## Decisions
 
+- 2026-06-14 · P3.4 F1: .app-frame height:100svh + overflow:hidden; .app-main overflow:hidden; .screen-container overflow-y:auto + -webkit-overflow-scrolling:touch. Page-level scroll eliminated.
+- 2026-06-14 · P3.4 F2: MissingItemSheet title "Resolve Missing Items" → "Resolve Items" (fits single line at 390px).
 - 2026-06-13 · P3.2: ZIP encoder/decoder implemented without any new dependency (STORE mode, CRC-32 inline). Format: backup.json + photos/<id>.jpg + receipts/<id>.jpg. importBackup validates structure + integrity before writing.
 - 2026-06-13 · P3.2: Settings tab added (gear icon); exportBackup triggers download; importBackup accepts .zip via file input; both surface feedback via useToast.
 - 2026-06-13 · Simulation test: layout overflow bug found — `.app-frame` min-height:100vh + overflow:visible causes page to scroll when content is tall, pushing screen header off-screen. Fix: height:100svh + overflow:hidden on app-frame; overflow-y:auto on screen-container. Log as P3.4 fix item.
@@ -56,7 +58,6 @@
 - Acceptance criteria: ✓ ZIP archive (valid PK magic, extractable by any unzip tool). ✓ Round-trip: photo bytes, receipt bytes, all metadata faithfully restored. ✓ Integrity check rejects partial/corrupt archives before writing. ✓ UI accessible from Settings tab.
 - P3.3 Visual QA (AG) complete. Ran Puppeteer to generate screenshots for Wardrobe, Drop-offs, Stats, and Settings flows into `/docs/qa/`. Found one layout overflow bug during simulation test.
 - Acceptance criteria: ✓ Artifact set in `/docs/qa/`. ✓ Issues logged for P3.4.
-- Next: P3.4 [CC] — Consolidated fix pass. Please fix the following issue found during QA:
-  - Layout overflow bug: `.app-frame` `min-height:100vh` + `overflow:visible` causes page to scroll when content is tall, pushing screen header off-screen. Fix: `height:100svh` + `overflow:hidden` on `.app-frame`; `overflow-y:auto` on `.screen-container`.
-  - Please ensure all Prettier checks (`npm run format:check`) pass before committing!
-- Switch to Claude Code.
+- P3.4 Consolidated fix pass (CC) complete. F1: layout overflow fixed (app-frame pinned to 100svh, screen-container scrolls). F2: MissingItemSheet title shortened to "Resolve Items". 128 tests passing; lint + format clean.
+- Acceptance criteria: ✓ Page-level scroll eliminated on tall screens. ✓ Title fits one line at 390px. ✓ CI green.
+- Next: P4.1 [AG] — Docs: architecture, data model, user guide with screenshots, contributing. Switch to Antigravity.

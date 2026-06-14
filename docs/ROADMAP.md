@@ -1,20 +1,20 @@
 # Roadmap — Laundristic
 
 > Local-first PWA for laundry tracking. Single user, on-device, free, open source (MIT).
-> Last updated: **2026-06-13** after feat(backup): P3.2 export/import ZIP + Settings screen.
+> Last updated: **2026-06-14** after fix(layout): P3.4 app-frame 100svh + screen-container scroll.
 
 ---
 
 ## Current Status
 
-**Phase 3 · Hardening** — 2 of 4 packages done.
-Next task: **P3.3 [AG]** Visual QA — browser screenshot run, issues filed in PROGRESS.md.
+**Phase 3 · Hardening** — 4 of 4 packages done. ✅
+Next task: **P4.1 [AG]** Docs — architecture, data model, user guide with screenshots.
 
 ```
 Phase 0 Foundation   ████████████████████  100%  COMPLETE
 Phase 1 Data Spine   ████████████████████  100%  COMPLETE
 Phase 2 Product      ████████████████████  100%  COMPLETE
-Phase 3 Hardening    ██████████░░░░░░░░░░   50%  IN PROGRESS
+Phase 3 Hardening    ████████████████████  100%  COMPLETE
 Phase 4 Ship         ░░░░░░░░░░░░░░░░░░░░    0%  NOT STARTED
 ```
 
@@ -86,8 +86,8 @@ Phase 4 Ship         ░░░░░░░░░░░░░░░░░░░�
 | ------------------ | ---- | ------- | ------------------------------------------------------------------------------ |
 | P3.1 PWA & Offline | AG   | ✅ Done | VitePWA + CacheFirst for Google Fonts, app icons, iOS meta tags, InstallPrompt |
 | P3.2 Export/import | CC   | ✅ Done | ZIP backup (zip.ts STORE-mode encoder, no dep); Settings screen; 128 tests     |
-| P3.3 Visual QA     | AG   | ⏳ Next | Browser-subagent screenshot run, issues filed in PROGRESS.md                   |
-| P3.4 Fix pass      | CC   | 🔲      | Consolidated fixes from P3.3 findings; CC may touch whole repo                 |
+| P3.3 Visual QA     | AG   | ✅ Done | Puppeteer screenshot run; artifacts in /docs/qa/; F1+F2 filed for P3.4         |
+| P3.4 Fix pass      | CC   | ✅ Done | F1 layout overflow (100svh+scroll); F2 title wrap ("Resolve Items"); CI green  |
 
 **P3.4 pre-filed fix items** (found in simulation test, 2026-06-13):
 
@@ -100,12 +100,12 @@ Phase 4 Ship         ░░░░░░░░░░░░░░░░░░░�
 
 ## Phase 4 — Ship 🔲
 
-| Package                | Lane | Status | Notes                                                               |
-| ---------------------- | ---- | ------ | ------------------------------------------------------------------- |
-| P4.1 Docs              | AG   | 🔲     | Architecture, data model, user guide with screenshots, contributing |
-| P4.2 Deploy            | AG   | 🔲     | GitHub Pages, tag v0.1.0, release notes                             |
-| P4.3 Confluence mirror | AG   | 🔲     | One-way publish `/docs` → Confluence space "Tally"                  |
-| P4.4 Launch review     | CHAT | 🔲     | README/portfolio polish, LinkedIn framing                           |
+| Package                | Lane | Status  | Notes                                                               |
+| ---------------------- | ---- | ------- | ------------------------------------------------------------------- |
+| P4.1 Docs              | AG   | ⏳ Next | Architecture, data model, user guide with screenshots, contributing |
+| P4.2 Deploy            | AG   | 🔲      | GitHub Pages, tag v0.1.0, release notes                             |
+| P4.3 Confluence mirror | AG   | 🔲      | One-way publish `/docs` → Confluence space "Tally"                  |
+| P4.4 Launch review     | CHAT | 🔲      | README/portfolio polish, LinkedIn framing                           |
 
 ---
 
