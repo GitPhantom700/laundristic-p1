@@ -150,6 +150,7 @@ export function EditGarmentSheet({
                 src={previewUrl}
                 alt={garment.code}
                 className="edit-preview"
+                loading="lazy"
               />
             )}
             <div className="edit-actions">

@@ -36,7 +36,12 @@ function MissingGarmentRow({
 
   return (
     <div className="missing-item-row">
-      <img src={url || ''} alt={garment.code} className="checkin-photo" />
+      <img
+        src={url || ''}
+        alt={garment.code}
+        className="checkin-photo"
+        loading="lazy"
+      />
       <div className="checkin-info">
         <span style={{ fontWeight: 600 }}>{garment.code}</span>
         <span

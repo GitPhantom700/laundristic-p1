@@ -30,7 +30,14 @@ function GarmentCard({
   return (
     <div className="garment-card" onClick={onClick}>
       <div className="garment-photo-container">
-        {url && <img src={url} alt={garment.code} className="garment-photo" />}
+        {url && (
+          <img
+            src={url}
+            alt={garment.code}
+            className="garment-photo"
+            loading="lazy"
+          />
+        )}
         {isOut && <div className="garment-status-chip">AT LAUNDRY</div>}
       </div>
       <div className="garment-info">
