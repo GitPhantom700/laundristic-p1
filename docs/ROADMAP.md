@@ -98,6 +98,25 @@ Phase 4 Ship         ░░░░░░░░░░░░░░░░░░░�
 
 ---
 
+## iOS Memory — Live Device Findings (2026-06-14)
+
+App hosted on AWS Amplify; tested on iPhone 15 (iOS Safari). Observed OOM tab-kills on Wardrobe when many garments present.
+
+**Applied (CC):**
+
+- `perf(camera)`: `DEFAULT_MAX_DIMENSION` 1200 → 800, `DEFAULT_JPEG_QUALITY` 0.82 → 0.75 — cuts new-photo heap footprint ~60%
+
+**Applied (AG):**
+
+- `loading="lazy"` on all `<img>` tags — defers GPU pixel-decode for off-screen images
+
+**If still crashing after live test — escalation path:**
+
+- **M1 (CC):** IDB migration — on first load, iterate existing garments, recompress photos to 800px, overwrite in IDB. One-time, runs in background, updates `schemaVersion`.
+- **M2 (CC):** Paginate `getAllGarments()` — load 20 at a time in the Wardrobe grid, infinite scroll for more.
+
+---
+
 ## Phase 4 — Ship 🔲
 
 | Package                | Lane | Status  | Notes                                                               |
