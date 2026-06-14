@@ -8,7 +8,7 @@
 - **Date:** 2026-06-13
 - **Phase:** 3 — Hardening
 - **Last completed:** P3.4 · Consolidated fix pass (CC)
-- **Next package:** P4.1 · lane **AG** (Docs)
+- **Next package:** P4.2 · lane **AG** (Deploy)
 - **Repo state:** pushed to main; 128 tests passing; Phase 3 complete.
 
 ## Decisions
@@ -60,4 +60,6 @@
 - Acceptance criteria: ✓ Artifact set in `/docs/qa/`. ✓ Issues logged for P3.4.
 - P3.4 Consolidated fix pass (CC) complete. F1: layout overflow fixed (app-frame pinned to 100svh, screen-container scrolls). F2: MissingItemSheet title shortened to "Resolve Items". 128 tests passing; lint + format clean.
 - Acceptance criteria: ✓ Page-level scroll eliminated on tall screens. ✓ Title fits one line at 390px. ✓ CI green.
-- Next: P4.1 [AG] — Docs: architecture, data model, user guide with screenshots, contributing. Switch to Antigravity.
+- P4.1 Docs (AG) complete. Created `README.md`, `docs/ARCHITECTURE.md`, `docs/DATA_MODEL.md`, `docs/USER_GUIDE.md` (with screenshots), and `docs/CONTRIBUTING.md`.
+- Acceptance criteria: ✓ `/docs` complete.
+- Next: P4.2 [AG] — Deploy PWA (GitHub Pages), tag v0.1.0, release notes.
