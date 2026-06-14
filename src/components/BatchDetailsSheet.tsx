@@ -24,7 +24,14 @@ function DetailItemCard({
 
   return (
     <div className="proof-item-card">
-      {url && <img src={url} alt={garment.code} className="proof-item-photo" />}
+      {url && (
+        <img
+          src={url}
+          alt={garment.code}
+          className="proof-item-photo"
+          loading="lazy"
+        />
+      )}
       <div className="proof-item-info">
         <span className="proof-item-code">{garment.code}</span>
         <span className="proof-item-type">{garment.type}</span>

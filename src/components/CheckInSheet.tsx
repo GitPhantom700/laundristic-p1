@@ -30,7 +30,12 @@ function CheckInItem({
   return (
     <div className="checkin-item" onClick={onToggle}>
       <div className={`checkin-checkbox ${isReceived ? 'checked' : ''}`} />
-      <img src={url || ''} alt={garment.code} className="checkin-photo" />
+      <img
+        src={url || ''}
+        alt={garment.code}
+        className="checkin-photo"
+        loading="lazy"
+      />
       <div className="checkin-info">
         <span style={{ fontWeight: 600, fontSize: '1rem' }}>
           {garment.code}

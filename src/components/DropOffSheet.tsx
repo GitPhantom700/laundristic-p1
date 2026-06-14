@@ -50,7 +50,12 @@ function SelectableGarment({
     <div className={className} onClick={handleClick}>
       <div className="selectable-photo-container">
         {url && (
-          <img src={url} alt={garment.code} className="selectable-photo" />
+          <img
+            src={url}
+            alt={garment.code}
+            className="selectable-photo"
+            loading="lazy"
+          />
         )}
       </div>
       <div
