@@ -8,7 +8,7 @@
 - **Date:** 2026-06-13
 - **Phase:** 3 — Hardening
 - **Last completed:** P3.4 · Consolidated fix pass (CC)
-- **Next package:** P4.2 · lane **AG** (Deploy)
+- **Next package:** P4.3 · lane **AG** (Confluence mirror)
 - **Repo state:** pushed to main; 128 tests passing; Phase 3 complete.
 
 ## Decisions
@@ -62,4 +62,6 @@
 - Acceptance criteria: ✓ Page-level scroll eliminated on tall screens. ✓ Title fits one line at 390px. ✓ CI green.
 - P4.1 Docs (AG) complete. Created `README.md`, `docs/ARCHITECTURE.md`, `docs/DATA_MODEL.md`, `docs/USER_GUIDE.md` (with screenshots), and `docs/CONTRIBUTING.md`.
 - Acceptance criteria: ✓ `/docs` complete.
-- Next: P4.2 [AG] — Deploy PWA (GitHub Pages), tag v0.1.0, release notes.
+- P4.2 Deploy (AG) complete. Configured `.github/workflows/deploy.yml` for GitHub Pages. Updated `vite.config.ts` base path to `/laundristic/`. Added `RELEASE_NOTES.md` and tagged `v0.1.0`.
+- Acceptance criteria: ✓ Installable from public URL.
+- Next: P4.3 [AG] — Confluence mirror: one-way publish `/docs` → Confluence space "Tally".
