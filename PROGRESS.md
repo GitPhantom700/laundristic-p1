@@ -8,7 +8,7 @@
 - **Date:** 2026-06-13
 - **Phase:** 3 — Hardening
 - **Last completed:** P3.2 · Export/import (CC)
-- **Next package:** P3.3 · lane **AG** (Visual QA)
+- **Next package:** P3.4 · lane **CC** (Consolidated fix pass)
 - **Repo state:** pushed to main; 128 tests passing.
 
 ## Decisions
@@ -54,4 +54,9 @@
 - Acceptance criteria: ✓ App boots entirely offline in standalone mode. ✓ Service worker registered and caches files + fonts.
 - P3.2 Export/import (CC) complete. zip.ts: pure STORE-mode ZIP encoder/decoder (no new dependency). backup.ts: exportBackup() and importBackup(File) with integrity check. Settings screen with Export/Import buttons added (4th nav tab). 20 new tests; 128 total passing.
 - Acceptance criteria: ✓ ZIP archive (valid PK magic, extractable by any unzip tool). ✓ Round-trip: photo bytes, receipt bytes, all metadata faithfully restored. ✓ Integrity check rejects partial/corrupt archives before writing. ✓ UI accessible from Settings tab.
-- Next: P3.3 [AG] — Visual QA: browser-subagent screenshot run, issues filed in PROGRESS.md. Switch to Antigravity.
+- P3.3 Visual QA (AG) complete. Ran Puppeteer to generate screenshots for Wardrobe, Drop-offs, Stats, and Settings flows into `/docs/qa/`. Found one layout overflow bug during simulation test.
+- Acceptance criteria: ✓ Artifact set in `/docs/qa/`. ✓ Issues logged for P3.4.
+- Next: P3.4 [CC] — Consolidated fix pass. Please fix the following issue found during QA:
+  - Layout overflow bug: `.app-frame` `min-height:100vh` + `overflow:visible` causes page to scroll when content is tall, pushing screen header off-screen. Fix: `height:100svh` + `overflow:hidden` on `.app-frame`; `overflow-y:auto` on `.screen-container`.
+  - Please ensure all Prettier checks (`npm run format:check`) pass before committing!
+- Switch to Claude Code.
