@@ -163,7 +163,7 @@ export function MissingItemSheet({
               className="edit-sheet-title"
               style={{ flex: 1, textAlign: 'center', marginRight: '80px' }}
             >
-              Resolve Missing Items
+              Resolve Items
             </h3>
           </div>
 
