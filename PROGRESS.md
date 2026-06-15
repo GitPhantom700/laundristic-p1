@@ -40,6 +40,10 @@
 
 ## Handoff notes
 
+- **[AG] INSTRUCTIONS FROM USER — read before starting P4.3:**
+  1. **Drop dark mode entirely. Force light mode.** The dark mode UI is broken on mobile (white-on-white buttons, invisible labels). Add `color-scheme: light` to `:root` in `tokens.css` and remove the `@media (prefers-color-scheme: dark)` block from `tokens.css`. The app should always render in light mode regardless of device system setting. This also eliminates Chrome Force Dark conflicts on Android.
+  2. **Fix the camera close button.** The `.catalog-close` button (top-left of the Catalog screen) is invisible — it renders as a dark blob because `background: rgba(0,0,0,0.4)` blends into the camera feed. Replace it with a clearly visible button: white background with a dark X icon, or a white X on a solid coloured circle. Minimum 44×44px tap target. Users currently cannot tell it is tappable.
+
 - P2.7 Missing-item loop (CC) complete. MissingItemSheet resolves items one by one (Found/Lost); Lost retires garment to status:'lost'; isBatchResolvable auto-closes batch when all items terminal. ProofScreen is a full-screen dark overlay (z-index 80) showing receipt + shop/date + each missing garment photo — opened from both awaiting batch card ("Proof") and from within MissingItemSheet ("View Proof"). 108 tests passing.
 - Acceptance criteria: ✓ Found/Lost resolution per item. ✓ Lost garment retired (status:'lost'). ✓ Batch auto-closes when all resolved. ✓ Proof screen accessible at counter with zero navigation.
 - Next: P2.8 [AG] — Stats screen from domain aggregations. Switch to Antigravity.
