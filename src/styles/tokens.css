@@ -4,6 +4,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&display=swap');
 
 :root {
+  color-scheme: light;
   /* Typography */
   --font-display: 'Fraunces', serif;
   --font-body: 'Hanken Grotesk', sans-serif;
@@ -54,20 +55,4 @@
   --z-sticky: 200;
   --z-modal: 1000;
   --z-toast: 2000;
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-paper: #1a1a1a;
-    --color-paper-dark: #242424;
-    --color-paper-darker: #333333;
-
-    --color-text: #f5f5f5;
-    --color-text-muted: #b0b0b0;
-    --color-text-light: #808080;
-
-    --color-border: #404040;
-    --color-border-light: #2d2d2d;
-  }
 }
