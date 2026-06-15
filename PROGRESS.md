@@ -13,6 +13,7 @@
 
 ## Decisions
 
+- 2026-06-15 · P4.2 UI fix: Dropped dark mode completely (forced light mode) and improved camera close button visibility.
 - 2026-06-14 · P4.2 Stress test fix: Added loading="lazy" to all list <img> tags to prevent iOS Safari out-of-memory crashes on long wardrobe lists.
 - 2026-06-14 · P3.4 F1: .app-frame height:100svh + overflow:hidden; .app-main overflow:hidden; .screen-container overflow-y:auto + -webkit-overflow-scrolling:touch. Page-level scroll eliminated.
 - 2026-06-14 · P3.4 F2: MissingItemSheet title "Resolve Missing Items" → "Resolve Items" (fits single line at 390px).
