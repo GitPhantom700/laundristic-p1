@@ -1357,3 +1357,83 @@ textarea:focus {
   flex-direction: column;
   gap: 12px;
 }
+
+/* ==========================================================================
+   Print Styles (P4.6)
+   ========================================================================== */
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .proof-screen,
+  .proof-screen * {
+    visibility: visible;
+  }
+
+  .proof-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    height: auto !important;
+    background-color: white !important;
+    color: black !important;
+    overflow: visible !important;
+    z-index: 9999;
+  }
+
+  .proof-header {
+    padding: 0;
+    margin-bottom: 20px;
+    justify-content: flex-start;
+  }
+
+  .proof-title {
+    color: black !important;
+    font-size: 24px;
+    margin-left: 0;
+  }
+
+  .proof-content {
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .proof-batch-info {
+    color: black !important;
+    border: none !important;
+    padding: 0 !important;
+    margin-bottom: 20px !important;
+  }
+
+  .proof-shop,
+  .proof-date,
+  .proof-amount,
+  .proof-items-label,
+  .proof-item-code,
+  .proof-item-type {
+    color: black !important;
+  }
+
+  .proof-receipt {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 0 !important;
+  }
+
+  .proof-item-card {
+    border: 1px solid #ccc !important;
+    border-radius: 0 !important;
+    break-inside: avoid;
+    background: white !important;
+    margin-bottom: 8px !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}

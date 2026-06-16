@@ -38,20 +38,22 @@ export function ProofScreen({ batch, onClose }: ProofScreenProps) {
   const [garments, setGarments] = useState<Garment[]>([]);
   const [receiptUrl, setReceiptUrl] = useState<string | null>(null);
 
+  const isClosed = batch.status === 'closed';
+
   useEffect(() => {
     async function load() {
-      const missingIds = batch.items
-        .filter((i) => i.state === 'missing')
+      const itemIds = batch.items
+        .filter((i) => isClosed || i.state === 'missing')
         .map((i) => i.garmentId);
       const loaded: Garment[] = [];
-      for (const id of missingIds) {
+      for (const id of itemIds) {
         const g = await getGarment(id);
         if (g) loaded.push(g);
       }
       setGarments(loaded);
     }
     load();
-  }, [batch]);
+  }, [batch, isClosed]);
 
   useEffect(() => {
     if (!batch.receiptBlob) return;
@@ -60,14 +62,16 @@ export function ProofScreen({ batch, onClose }: ProofScreenProps) {
     return () => URL.revokeObjectURL(url);
   }, [batch.receiptBlob]);
 
-  const missingItems = batch.items.filter((i) => i.state === 'missing');
+  const targetItems = batch.items.filter(
+    (i) => isClosed || i.state === 'missing',
+  );
 
   return (
     <div className="proof-screen">
       <div className="proof-header">
         <button
           onClick={onClose}
-          className="proof-close-btn"
+          className="proof-close-btn no-print"
           aria-label="Close"
         >
           <svg
@@ -84,8 +88,14 @@ export function ProofScreen({ batch, onClose }: ProofScreenProps) {
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
-        <h3 className="proof-title">Proof</h3>
-        <div style={{ width: 36 }} />
+        <h3 className="proof-title">{isClosed ? 'Receipt' : 'Proof'}</h3>
+        <button
+          onClick={() => window.print()}
+          className="btn-primary no-print"
+          style={{ padding: '6px 12px', fontSize: '0.875rem' }}
+        >
+          Share / Print
+        </button>
       </div>
 
       <div className="proof-content">
@@ -111,8 +121,8 @@ export function ProofScreen({ batch, onClose }: ProofScreenProps) {
         )}
 
         <div className="proof-items-label">
-          {missingItems.length} item{missingItems.length !== 1 ? 's' : ''} not
-          returned
+          {targetItems.length} item{targetItems.length !== 1 ? 's' : ''}{' '}
+          {isClosed ? 'total' : 'not returned'}
         </div>
 
         {garments.map((g) => (

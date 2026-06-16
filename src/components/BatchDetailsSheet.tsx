@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { getGarment } from '../lib/storage';
+import { getGarment, deleteBatch } from '../lib/storage';
 import type { Batch, Garment } from '../lib/types';
 
 interface BatchDetailsSheetProps {
   batch: Batch;
   onClose: () => void;
+  onDelete?: () => void;
 }
 
 function DetailItemCard({
@@ -47,7 +48,11 @@ function DetailItemCard({
   );
 }
 
-export function BatchDetailsSheet({ batch, onClose }: BatchDetailsSheetProps) {
+export function BatchDetailsSheet({
+  batch,
+  onClose,
+  onDelete,
+}: BatchDetailsSheetProps) {
   const [garments, setGarments] = useState<
     Array<{ garment: Garment; state: string }>
   >([]);
@@ -126,6 +131,26 @@ export function BatchDetailsSheet({ batch, onClose }: BatchDetailsSheetProps) {
                 state={state}
               />
             ))}
+          </div>
+
+          <div style={{ marginTop: '32px', marginBottom: '16px' }}>
+            <button
+              onClick={async () => {
+                if (
+                  window.confirm('Delete this batch? This cannot be undone.')
+                ) {
+                  await deleteBatch(batch.id);
+                  if (onDelete) onDelete();
+                }
+              }}
+              className="btn-secondary"
+              style={{
+                color: 'var(--color-error)',
+                borderColor: 'var(--color-error)',
+              }}
+            >
+              Delete Batch
+            </button>
           </div>
         </div>
       </div>
