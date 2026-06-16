@@ -82,6 +82,10 @@ export function Settings() {
           />
         </div>
       </section>
+      
+      <div style={{ textAlign: 'center', marginTop: '32px', marginBottom: '32px', color: '#999', fontSize: '12px' }}>
+        Laundristic v1.0.1
+      </div>
     </div>
   );
 }
