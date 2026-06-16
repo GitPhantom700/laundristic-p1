@@ -1376,9 +1376,12 @@ textarea:focus {
   body * {
     visibility: hidden;
   }
-  
+
   /* Reset layout constraints so it fills the paper */
-  #root, .app-shell, .app-main, .screen-container {
+  #root,
+  .app-shell,
+  .app-main,
+  .screen-container {
     max-width: none !important;
     width: 100% !important;
     height: auto !important;
@@ -1389,10 +1392,11 @@ textarea:focus {
     padding: 0 !important;
   }
 
-  .proof-screen, .proof-screen * {
+  .proof-screen,
+  .proof-screen * {
     visibility: visible;
   }
-  
+
   .proof-screen {
     position: absolute;
     left: 0;
@@ -1437,7 +1441,9 @@ textarea:focus {
     color: black !important;
   }
 
-  .proof-date, .proof-amount, .proof-items-label {
+  .proof-date,
+  .proof-amount,
+  .proof-items-label {
     color: black !important;
     font-size: 14px !important;
   }
@@ -1463,7 +1469,7 @@ textarea:focus {
     padding: 8px 0 !important;
     margin: 0 !important;
   }
-  
+
   .proof-item-photo {
     width: 48px !important;
     height: 48px !important;
