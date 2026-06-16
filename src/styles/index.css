@@ -1367,15 +1367,32 @@ textarea:focus {
    ========================================================================== */
 
 @media print {
+  body {
+    background-color: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
   body * {
     visibility: hidden;
   }
-
-  .proof-screen,
-  .proof-screen * {
-    visibility: visible;
+  
+  /* Reset layout constraints so it fills the paper */
+  #root, .app-shell, .app-main, .screen-container {
+    max-width: none !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    position: static !important;
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
+  .proof-screen, .proof-screen * {
+    visibility: visible;
+  }
+  
   .proof-screen {
     position: absolute;
     left: 0;
@@ -1386,6 +1403,7 @@ textarea:focus {
     color: black !important;
     overflow: visible !important;
     z-index: 9999;
+    padding: 20px !important;
   }
 
   .proof-header {
@@ -1396,7 +1414,7 @@ textarea:focus {
 
   .proof-title {
     color: black !important;
-    font-size: 24px;
+    font-size: 24px !important;
     margin-left: 0;
   }
 
@@ -1413,28 +1431,63 @@ textarea:focus {
     margin-bottom: 20px !important;
   }
 
-  .proof-shop,
-  .proof-date,
-  .proof-amount,
-  .proof-items-label,
-  .proof-item-code,
-  .proof-item-type {
+  .proof-shop {
+    font-size: 18px !important;
+    font-weight: bold !important;
     color: black !important;
   }
 
+  .proof-date, .proof-amount, .proof-items-label {
+    color: black !important;
+    font-size: 14px !important;
+  }
+
   .proof-receipt {
-    max-width: 100%;
-    max-height: 400px;
+    max-width: 300px !important;
+    max-height: 300px !important;
     object-fit: contain;
     border-radius: 0 !important;
+    display: block !important;
+    margin-bottom: 20px !important;
   }
 
   .proof-item-card {
-    border: 1px solid #ccc !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    border: none !important;
+    border-bottom: 1px solid #ccc !important;
     border-radius: 0 !important;
     break-inside: avoid;
     background: white !important;
-    margin-bottom: 8px !important;
+    padding: 8px 0 !important;
+    margin: 0 !important;
+  }
+  
+  .proof-item-photo {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 4px !important;
+    margin-right: 12px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .proof-item-info {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+  }
+
+  .proof-item-code {
+    color: black !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+  }
+
+  .proof-item-type {
+    color: #666 !important;
+    font-size: 12px !important;
   }
 
   .no-print {
