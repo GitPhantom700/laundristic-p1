@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { getGarmentsByStatus, putBatch } from '../lib/storage';
+import {
+  getGarmentsByStatus,
+  putBatch,
+  setGarmentStatus,
+} from '../lib/storage';
 import { closeCheckIn } from '../lib/domain';
 import type { Batch, Garment } from '../lib/types';
 import { useToast } from './ToastProvider';
@@ -91,6 +95,14 @@ export function CheckInSheet({
     try {
       const updatedBatch = closeCheckIn(batch, receivedIds);
       await putBatch(updatedBatch);
+
+      // Received garments are back in the user's possession — remove them from
+      // the active catalog. Missing garments stay until their batch resolves.
+      for (const item of updatedBatch.items) {
+        if (item.state === 'received') {
+          await setGarmentStatus(item.garmentId, 'returned');
+        }
+      }
 
       const missingCount = outItemsCount - receivedIds.size;
       if (missingCount === 0) {
