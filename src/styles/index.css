@@ -239,8 +239,8 @@ h4 {
 }
 
 .catalog-close {
-  background: white;
-  color: #000; /* Explicitly black to avoid variable inheritance issues */
+  background: rgba(0, 0, 0, 0.5) !important;
+  color: #fff !important;
   border: none;
   border-radius: 50%;
   width: 44px;
@@ -253,7 +253,7 @@ h4 {
 }
 
 .catalog-close svg {
-  stroke: #000; /* Force SVG stroke to black */
+  stroke: #fff !important;
 }
 
 .catalog-badge {

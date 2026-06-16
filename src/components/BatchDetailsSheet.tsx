@@ -99,10 +99,29 @@ export function BatchDetailsSheet({
           </button>
           <h3
             className="edit-sheet-title"
-            style={{ flex: 1, textAlign: 'center', marginRight: '80px' }}
+            style={{ flex: 1, textAlign: 'center' }}
           >
             Batch Details
           </h3>
+          <button
+            onClick={async () => {
+              if (window.confirm('Delete this batch? This cannot be undone.')) {
+                await deleteBatch(batch.id);
+                if (onDelete) onDelete();
+              }
+            }}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'var(--color-error)',
+              fontWeight: 600,
+              cursor: 'pointer',
+              padding: '8px',
+            }}
+            aria-label="Delete Batch"
+          >
+            Delete
+          </button>
         </div>
 
         <div style={{ overflowY: 'auto', flex: 1, padding: '0 16px 16px' }}>
@@ -131,26 +150,6 @@ export function BatchDetailsSheet({
                 state={state}
               />
             ))}
-          </div>
-
-          <div style={{ marginTop: '32px', marginBottom: '16px' }}>
-            <button
-              onClick={async () => {
-                if (
-                  window.confirm('Delete this batch? This cannot be undone.')
-                ) {
-                  await deleteBatch(batch.id);
-                  if (onDelete) onDelete();
-                }
-              }}
-              className="btn-secondary"
-              style={{
-                color: 'var(--color-error)',
-                borderColor: 'var(--color-error)',
-              }}
-            >
-              Delete Batch
-            </button>
           </div>
         </div>
       </div>

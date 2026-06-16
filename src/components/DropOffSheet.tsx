@@ -337,8 +337,11 @@ export function DropOffSheet({ onClose, onSuccess }: DropOffSheetProps) {
               className="catalog-viewfinder"
               style={{
                 borderRadius: '12px',
-                height: '300px',
+                flex: 1,
+                minHeight: '200px',
                 marginBottom: '16px',
+                display: 'flex',
+                flexDirection: 'column',
               }}
             >
               <video
