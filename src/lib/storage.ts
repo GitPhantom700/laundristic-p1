@@ -59,6 +59,20 @@ export async function deleteGarment(id: string): Promise<void> {
   await db.delete('garments', id);
 }
 
+/**
+ * Updates only the status of a garment, leaving the photo blob untouched.
+ * No-op if the garment does not exist.
+ */
+export async function setGarmentStatus(
+  id: string,
+  status: GarmentStatus,
+): Promise<void> {
+  const db = await getDb();
+  const stored = await db.get('garments', id);
+  if (!stored) return;
+  await db.put('garments', { ...stored, status });
+}
+
 // ─── Batches ─────────────────────────────────────────────────────────────────
 
 export async function putBatch(batch: Batch): Promise<void> {

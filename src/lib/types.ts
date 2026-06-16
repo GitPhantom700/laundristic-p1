@@ -1,4 +1,4 @@
-export type GarmentStatus = 'active' | 'lost' | 'removed';
+export type GarmentStatus = 'active' | 'lost' | 'removed' | 'returned';
 
 export type ItemState = 'out' | 'received' | 'missing' | 'found' | 'lost';
 

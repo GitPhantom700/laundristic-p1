@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { getGarment, putGarment, putBatch } from '../lib/storage';
+import {
+  getGarment,
+  putGarment,
+  putBatch,
+  setGarmentStatus,
+} from '../lib/storage';
 import {
   transitionBatchItem,
   isBatchResolvable,
@@ -117,6 +122,16 @@ export function MissingItemSheet({
       if (isBatchResolvable(updated)) {
         const closed = transitionBatch(updated, 'closed');
         await putBatch(closed);
+
+        // Batch is fully resolved — clear its garments from the active catalog.
+        // 'lost' garments were already retired to status 'lost' above; received
+        // and found garments are back with the user, so mark them 'returned'.
+        for (const item of closed.items) {
+          if (item.state === 'received' || item.state === 'found') {
+            await setGarmentStatus(item.garmentId, 'returned');
+          }
+        }
+
         showToast('All items resolved. Batch closed.', 'success');
         onComplete();
       } else {

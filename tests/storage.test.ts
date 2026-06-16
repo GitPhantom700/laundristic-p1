@@ -6,6 +6,7 @@ import {
   getAllGarments,
   getGarmentsByStatus,
   deleteGarment,
+  setGarmentStatus,
   putBatch,
   getBatch,
   getAllBatches,
@@ -110,6 +111,24 @@ describe('garment CRUD', () => {
     expect(active[0].id).toBe('g-001');
     expect(lost).toHaveLength(1);
     expect(lost[0].id).toBe('g-002');
+  });
+
+  it('setGarmentStatus updates status and preserves the photo blob', async () => {
+    await putGarment(makeGarment({ id: 'g-001', status: 'active' }));
+    await setGarmentStatus('g-001', 'returned');
+
+    const g = await getGarment('g-001');
+    expect(g!.status).toBe('returned');
+    expect(await readBlobAsText(g!.photoBlob)).toBe('photo');
+
+    // 'returned' garments drop out of the active catalog
+    expect(await getGarmentsByStatus('active')).toHaveLength(0);
+    expect(await getGarmentsByStatus('returned')).toHaveLength(1);
+  });
+
+  it('setGarmentStatus is a no-op for a missing garment', async () => {
+    await setGarmentStatus('nope', 'returned');
+    expect(await getGarment('nope')).toBeUndefined();
   });
 });
 

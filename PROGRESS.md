@@ -7,12 +7,15 @@
 
 - **Date:** 2026-06-13
 - **Phase:** 3 — Hardening
-- **Last completed:** P3.4 · Consolidated fix pass (CC)
-- **Next package:** P4.3 · lane **AG** (Confluence mirror)
-- **Repo state:** pushed to main; 128 tests passing; Phase 3 complete.
+- **Last completed:** P4.5 · Auto-delete garments on batch close (CC)
+- **Next package:** P4.3 · lane **AG** (Confluence mirror) + P4.6 email-PDF
+- **Repo state:** pushed to main; 130 tests passing.
 
 ## Decisions
 
+- 2026-06-16 · P4.5 Auto-delete: garments leave the active catalog once back with the user. SOFT delete via new `'returned'` GarmentStatus (NOT a hard IDB delete) so closed-batch history + the future email-PDF (P4.6) can still resolve garment code/category/photo. `received` garments flip to 'returned' at check-in completion (CheckInSheet); `found` garments flip at batch close (MissingItemSheet); `lost` already retire to 'lost'. New `setGarmentStatus(id,status)` storage helper updates status without a blob round-trip. Wardrobe already filters status==='active', so returned garments vanish automatically. **If user wants bytes physically freed, switch to hard delete + denormalize code/type/photo onto BatchItem first.**
+- 2026-06-16 · PWA cache: `registerSW` now calls `registration.update()` on every `visibilitychange→visible` (re-check for new build each time app is reopened/refocused); `cleanupOutdatedCaches: true` added to workbox. autoUpdate reloads when a newer SW activates. Offline still works (update() no-ops offline; cached build serves). Did NOT blanket-clear caches on open — that would break the SPEC offline requirement.
+- 2026-06-16 · Camera close button confirmed CODE-CORRECT on main (`.catalog-close` = white bg + dark X via currentColor, `--color-text:#292524`). User still seeing the dark blob = stale PWA/SW cache or an old local dev-server checkout, not a code bug. The visibilitychange auto-update above is the durable fix.
 - 2026-06-15 · P4.2 UI fix: Dropped dark mode completely (forced light mode) and improved camera close button visibility.
 - 2026-06-14 · P4.2 Stress test fix: Added loading="lazy" to all list <img> tags to prevent iOS Safari out-of-memory crashes on long wardrobe lists.
 - 2026-06-14 · P3.4 F1: .app-frame height:100svh + overflow:hidden; .app-main overflow:hidden; .screen-container overflow-y:auto + -webkit-overflow-scrolling:touch. Page-level scroll eliminated.
@@ -41,11 +44,11 @@
 
 ## Handoff notes
 
-- **[AG] INSTRUCTIONS FROM USER — read before starting P4.3:**
-  1. **Camera close button still not visible (must fix now).** The `.catalog-close` button (top-left of Catalog/camera screen) is still invisible against the camera feed. Replace it with a solid white circle (or solid green circle) containing a clearly contrasting X icon. Do NOT use any transparency — no `rgba` with low opacity. Minimum 44×44px tap target.
-  2. **Drop dark mode entirely. Force light mode.** Add `color-scheme: light` to `:root` in `tokens.css` and remove the `@media (prefers-color-scheme: dark)` block entirely. App must always render in light mode regardless of device setting.
-  3. **Auto-delete garments from catalog after check-in (new behaviour).** When a batch closes: garments marked `received` must be deleted from the catalog immediately on check-in completion. Garments marked `missing` must remain in the catalog until the missing-item loop fully resolves (batch transitions to `closed` after Found/Lost resolution) — then delete them too regardless of outcome. The catalog should only contain garments currently in the user's possession. Note: this touches `closeCheckIn` and missing-item resolution in `domain.ts`/`storage.ts` — AG to do UI wiring but flag CC if domain logic changes are needed.
-  4. **Email PDF feature (new package — do not squeeze into P4.3).** User wants to email a batch summary as a PDF for reimbursement purposes. Contents: shop name, date, amount paid, garment list (code + category), receipt photo embedded. Keep the existing ZIP backup/import (separate concern — data safety). Add a "Share / Email" button on closed batch cards and on the Proof screen. On tap, generate a PDF or well-formatted print page and open the native share sheet (`navigator.share` with a Blob file, or `mailto:` fallback). Scope this as a new roadmap package.
+- **[AG] STATUS OF USER REQUESTS:**
+  1. ✓ DONE (AG, P4.2) — camera close button restyled + dark mode dropped. NOTE: code is correct on main; if user still sees the dark blob it is a stale PWA cache, addressed by the visibilitychange auto-update (CC, 2026-06-16). Not an AG action item.
+  2. ✓ DONE (AG, P4.2) — light mode forced.
+  3. ✓ DONE (CC, P4.5, 2026-06-16) — auto-delete garments from catalog. Implemented as SOFT delete (`'returned'` status). No AG action needed unless user wants hard delete (see Decisions).
+  4. ⏳ TODO (AG, P4.6) — **Email PDF feature.** User wants to email a batch summary as a PDF for reimbursement. Contents: shop name, date, amount paid, garment list (code + category), receipt photo embedded. Keep the existing ZIP backup/import (separate concern — data safety). Add a "Share / Email" button on closed batch cards and on the Proof screen. On tap, generate a PDF or well-formatted print page and open the native share sheet (`navigator.share` with a Blob file, or `mailto:` fallback). Garment data survives on closed batches because P4.5 soft-deletes (status flip, record kept) — so code/type/photo are still resolvable via `getGarment(item.garmentId)`.
 
 - P2.7 Missing-item loop (CC) complete. MissingItemSheet resolves items one by one (Found/Lost); Lost retires garment to status:'lost'; isBatchResolvable auto-closes batch when all items terminal. ProofScreen is a full-screen dark overlay (z-index 80) showing receipt + shop/date + each missing garment photo — opened from both awaiting batch card ("Proof") and from within MissingItemSheet ("View Proof"). 108 tests passing.
 - Acceptance criteria: ✓ Found/Lost resolution per item. ✓ Lost garment retired (status:'lost'). ✓ Batch auto-closes when all resolved. ✓ Proof screen accessible at counter with zero navigation.
