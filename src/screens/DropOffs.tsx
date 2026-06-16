@@ -13,12 +13,14 @@ function BatchCard({
   onCheckIn,
   onResolve,
   onProof,
+  onViewReceipt,
 }: {
   batch: Batch;
   onClick?: () => void;
   onCheckIn?: () => void;
   onResolve?: () => void;
   onProof?: () => void;
+  onViewReceipt?: () => void;
 }) {
   return (
     <div
@@ -43,18 +45,36 @@ function BatchCard({
       </div>
       {onCheckIn && (
         <button
-          onClick={onCheckIn}
+          onClick={(e) => {
+            e.stopPropagation();
+            onCheckIn();
+          }}
           className="btn-secondary"
           style={{ marginTop: '8px' }}
         >
           Check In
         </button>
       )}
-      {(onResolve || onProof) && (
+      {(onResolve || onProof || onViewReceipt) && (
         <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+          {onViewReceipt && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onViewReceipt();
+              }}
+              className="btn-secondary"
+              style={{ flex: 1 }}
+            >
+              View Receipt
+            </button>
+          )}
           {onProof && (
             <button
-              onClick={onProof}
+              onClick={(e) => {
+                e.stopPropagation();
+                onProof();
+              }}
               className="btn-secondary"
               style={{ flex: 1 }}
             >
@@ -63,7 +83,10 @@ function BatchCard({
           )}
           {onResolve && (
             <button
-              onClick={onResolve}
+              onClick={(e) => {
+                e.stopPropagation();
+                onResolve();
+              }}
               className="btn-primary"
               style={{ flex: 2 }}
             >
@@ -206,6 +229,7 @@ export function DropOffs() {
                   key={b.id}
                   batch={b}
                   onClick={() => setViewingBatch(b)}
+                  onViewReceipt={() => setProofBatch(b)}
                 />
               ))}
             </section>
@@ -251,6 +275,10 @@ export function DropOffs() {
         <BatchDetailsSheet
           batch={viewingBatch}
           onClose={() => setViewingBatch(null)}
+          onDelete={() => {
+            setViewingBatch(null);
+            loadBatches();
+          }}
         />
       )}
     </div>
