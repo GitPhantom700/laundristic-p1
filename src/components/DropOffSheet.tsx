@@ -117,21 +117,13 @@ export function DropOffSheet({ onClose, onSuccess }: DropOffSheetProps) {
       });
       setOutIds(outSet);
 
-      // Get all batches to find the last one
+      // Get all batches to find the last one for prefilling shop
       const allBatches = await getAllBatches();
       allBatches.sort((a, b) => b.date - a.date);
       const lastBatch = allBatches.length > 0 ? allBatches[0] : null;
 
-      // Pre-select items from last batch that are not 'out'
-      const newSelected = new Set<string>();
-      if (lastBatch) {
-        lastBatch.items.forEach((i) => {
-          if (!outSet.has(i.garmentId)) {
-            newSelected.add(i.garmentId);
-          }
-        });
-      }
-      setSelectedIds(newSelected);
+      // Do NOT pre-select items from lastBatch. It causes invisible items to be included in new batches.
+      setSelectedIds(new Set());
 
       // Prefill shop & amount
       const savedShop = await getSetting('lastShop');
