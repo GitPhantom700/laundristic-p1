@@ -5,14 +5,15 @@
 
 ## Snapshot
 
-- **Date:** 2026-06-13
-- **Phase:** 3 — Hardening
-- **Last completed:** P4.5 · Auto-delete garments on batch close (CC)
-- **Next package:** P4.3 · lane **AG** (Confluence mirror) + P4.6 email-PDF
+- **Date:** 2026-06-16
+- **Phase:** 4 — Ship
+- **Last completed:** CC · Button contrast fix — `--color-green` darkened to accessible value (#4e6e52); all buttons now readable in both Safari and Chrome.
+- **Next package:** P4.6 · lane **AG** (email PDF + delete batch). P4.3 (Confluence) can follow.
 - **Repo state:** pushed to main; 130 tests passing.
 
 ## Decisions
 
+- 2026-06-16 · Button contrast fix (CC): `--color-green` changed from #849b87 (muted sage, contrast ~2.84:1) to #4e6e52 (dark sage, contrast ~4.98:1 on white). Fixes white-on-white appearance of btn-primary ("Export Backup", "New Drop-off", etc.) and low-contrast btn-secondary ("Check In", "Import Backup"). All variants updated: green-light → #698f6e, green-lighter → #a3bfa6, green-pale → #eaf0ea. btn-primary box-shadow RGB also corrected from hardcoded emerald (#10b981) to matching sage.
 - 2026-06-16 · P4.5 Auto-delete: garments leave the active catalog once back with the user. SOFT delete via new `'returned'` GarmentStatus (NOT a hard IDB delete) so closed-batch history + the future email-PDF (P4.6) can still resolve garment code/category/photo. `received` garments flip to 'returned' at check-in completion (CheckInSheet); `found` garments flip at batch close (MissingItemSheet); `lost` already retire to 'lost'. New `setGarmentStatus(id,status)` storage helper updates status without a blob round-trip. Wardrobe already filters status==='active', so returned garments vanish automatically. **If user wants bytes physically freed, switch to hard delete + denormalize code/type/photo onto BatchItem first.**
 - 2026-06-16 · PWA cache: `registerSW` now calls `registration.update()` on every `visibilitychange→visible` (re-check for new build each time app is reopened/refocused); `cleanupOutdatedCaches: true` added to workbox. autoUpdate reloads when a newer SW activates. Offline still works (update() no-ops offline; cached build serves). Did NOT blanket-clear caches on open — that would break the SPEC offline requirement.
 - 2026-06-16 · Camera close button confirmed CODE-CORRECT on main (`.catalog-close` = white bg + dark X via currentColor, `--color-text:#292524`). User still seeing the dark blob = stale PWA/SW cache or an old local dev-server checkout, not a code bug. The visibilitychange auto-update above is the durable fix.
@@ -48,7 +49,9 @@
   1. ✓ DONE (AG, P4.2) — camera close button restyled + dark mode dropped. NOTE: code is correct on main; if user still sees the dark blob it is a stale PWA cache, addressed by the visibilitychange auto-update (CC, 2026-06-16). Not an AG action item.
   2. ✓ DONE (AG, P4.2) — light mode forced.
   3. ✓ DONE (CC, P4.5, 2026-06-16) — auto-delete garments from catalog. Implemented as SOFT delete (`'returned'` status). No AG action needed unless user wants hard delete (see Decisions).
-  4. ⏳ TODO (AG, P4.6) — **Email PDF feature.** User wants to email a batch summary as a PDF for reimbursement. Contents: shop name, date, amount paid, garment list (code + category), receipt photo embedded. Keep the existing ZIP backup/import (separate concern — data safety). Add a "Share / Email" button on closed batch cards and on the Proof screen. On tap, generate a PDF or well-formatted print page and open the native share sheet (`navigator.share` with a Blob file, or `mailto:` fallback). Garment data survives on closed batches because P4.5 soft-deletes (status flip, record kept) — so code/type/photo are still resolvable via `getGarment(item.garmentId)`.
+  4. ✓ DONE (CC, 2026-06-16) — button contrast fix. `--color-green` darkened to #4e6e52 (WCAG AA compliant). All primary/secondary buttons are now readable in Chrome and Safari.
+  5. ⏳ TODO (AG, P4.6) — **Email PDF + historical receipt view.** User specifically wants a "Share / Email" button on **closed batch cards** (the History section of Drop-offs) and on the Proof screen. Generate a PDF or well-formatted print page containing: shop name, date, amount paid, garment list (code + category + state), receipt photo embedded. Open native share sheet (`navigator.share` with a Blob file, or `mailto:` fallback). Garment data survives because P4.5 soft-deletes keep the IDB records — resolve via `getGarment(item.garmentId)`. Also add a "View Receipt" button on closed batch cards to open the Proof screen for history review.
+  6. ⏳ TODO (AG, P4.7) — **Delete previous batches/receipts.** User wants the ability to delete a closed (historical) batch from the Drop-offs history. Add a delete button in `BatchDetailsSheet` (or on the closed batch card). On tap: confirm dialog ("Delete this batch? This cannot be undone."), then call `deleteBatch(batch.id)` from `src/lib/storage.ts` (already implemented). Refresh the list after deletion. Note: garments that were in this batch have already been soft-deleted to `status:'returned'` — do NOT try to restore them on batch deletion (too complex; user doesn't expect it).
 
 - P2.7 Missing-item loop (CC) complete. MissingItemSheet resolves items one by one (Found/Lost); Lost retires garment to status:'lost'; isBatchResolvable auto-closes batch when all items terminal. ProofScreen is a full-screen dark overlay (z-index 80) showing receipt + shop/date + each missing garment photo — opened from both awaiting batch card ("Proof") and from within MissingItemSheet ("View Proof"). 108 tests passing.
 - Acceptance criteria: ✓ Found/Lost resolution per item. ✓ Lost garment retired (status:'lost'). ✓ Batch auto-closes when all resolved. ✓ Proof screen accessible at counter with zero navigation.
