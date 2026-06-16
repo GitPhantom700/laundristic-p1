@@ -1367,24 +1367,6 @@ textarea:focus {
    ========================================================================== */
 
 @media print {
-  body {
-    background-color: white !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  /* Reset layout constraints so the PDF fills the paper horizontally */
-  #root,
-  .app-shell,
-  .app-main,
-  .screen-container {
-    max-width: none !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: visible !important;
-  }
-
   body * {
     visibility: hidden;
   }
