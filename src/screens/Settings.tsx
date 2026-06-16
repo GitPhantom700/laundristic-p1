@@ -92,7 +92,7 @@ export function Settings() {
           fontSize: '12px',
         }}
       >
-        Laundristic v1.0.1
+        Laundristic v1.0.2
       </div>
     </div>
   );
