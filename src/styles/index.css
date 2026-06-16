@@ -489,7 +489,7 @@ h4 {
   transition:
     background-color 0.2s,
     transform 0.1s;
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 4px 14px rgba(78, 110, 82, 0.4);
 }
 
 .btn-primary:active {

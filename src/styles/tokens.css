@@ -14,10 +14,10 @@
   --color-paper-dark: #f5f5f4; /* stone-100 */
   --color-paper-darker: #e7e5e4; /* stone-200 */
 
-  --color-green: #849b87; /* muted sage green */
-  --color-green-light: #a3b8a6;
-  --color-green-lighter: #c4d4c6;
-  --color-green-pale: #e8ece8;
+  --color-green: #4e6e52; /* dark sage — 4.98:1 contrast on white, WCAG AA */
+  --color-green-light: #698f6e;
+  --color-green-lighter: #a3bfa6; /* lighter variant for use on dark backgrounds */
+  --color-green-pale: #eaf0ea;
 
   --color-text: #292524; /* soft dark stone */
   --color-text-muted: #57534e;
