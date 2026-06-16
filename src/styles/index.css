@@ -240,7 +240,7 @@ h4 {
 
 .catalog-close {
   background: white;
-  color: var(--color-text);
+  color: #000; /* Explicitly black to avoid variable inheritance issues */
   border: none;
   border-radius: 50%;
   width: 44px;
@@ -250,6 +250,10 @@ h4 {
   justify-content: center;
   cursor: pointer;
   box-shadow: var(--shadow-md);
+}
+
+.catalog-close svg {
+  stroke: #000; /* Force SVG stroke to black */
 }
 
 .catalog-badge {
