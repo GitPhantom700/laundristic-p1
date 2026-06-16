@@ -1,7 +1,7 @@
 # Roadmap — Laundristic
 
 > Local-first PWA for laundry tracking. Single user, on-device, free, open source (MIT).
-> Last updated: **2026-06-14** after fix(layout): P3.4 app-frame 100svh + screen-container scroll.
+> Last updated: **2026-06-16** after feat(catalog): P4.5 auto-delete returned garments + PWA auto-update.
 
 ---
 
@@ -117,14 +117,16 @@ App hosted on AWS Amplify; tested on iPhone 15 (iOS Safari). Observed OOM tab-ki
 
 ---
 
-## Phase 4 — Ship 🔲
+## Phase 4 — Ship 🔄
 
-| Package                | Lane | Status  | Notes                                                               |
-| ---------------------- | ---- | ------- | ------------------------------------------------------------------- |
-| P4.1 Docs              | AG   | ⏳ Next | Architecture, data model, user guide with screenshots, contributing |
-| P4.2 Deploy            | AG   | 🔲      | GitHub Pages, tag v0.1.0, release notes                             |
-| P4.3 Confluence mirror | AG   | 🔲      | One-way publish `/docs` → Confluence space "Tally"                  |
-| P4.4 Launch review     | CHAT | 🔲      | README/portfolio polish, LinkedIn framing                           |
+| Package                   | Lane | Status  | Notes                                                                                                |
+| ------------------------- | ---- | ------- | ---------------------------------------------------------------------------------------------------- |
+| P4.1 Docs                 | AG   | 🔲      | Architecture, data model, user guide with screenshots, contributing                                  |
+| P4.2 Deploy (AWS Amplify) | AG   | ✅ Done | Hosted on AWS Amplify; live on iPhone 15 Safari; light mode forced; camera close button fix          |
+| P4.3 Confluence mirror    | AG   | 🔲      | One-way publish `/docs` → Confluence space "Tally"                                                   |
+| P4.4 Launch review        | CHAT | 🔲      | README/portfolio polish, LinkedIn framing                                                            |
+| P4.5 Auto-delete garments | CC   | ✅ Done | Soft-delete via `'returned'` status; `setGarmentStatus()` helper; Wardrobe auto-hides returned items |
+| P4.6 Email PDF            | AG   | ⏳ Next | Share batch summary as PDF/print page via native share sheet; "Share" button on closed batch + Proof |
 
 ---
 
