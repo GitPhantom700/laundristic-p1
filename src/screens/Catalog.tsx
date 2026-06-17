@@ -154,7 +154,13 @@ export function Catalog({ onClose }: CatalogProps) {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            style={{ width: '20px', height: '20px', minWidth: '20px', flexShrink: 0, display: 'block' }}
+            style={{
+              width: '20px',
+              height: '20px',
+              minWidth: '20px',
+              flexShrink: 0,
+              display: 'block',
+            }}
           >
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>

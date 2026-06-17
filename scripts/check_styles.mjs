@@ -14,22 +14,22 @@ async function run() {
   const browser = await puppeteer.launch({ executablePath, headless: 'new' });
   const page = await browser.newPage();
   await page.goto('http://localhost:5173');
-  
+
   // Open Catalog
   const newGarmentBtn = await page.$('.btn-primary');
   await newGarmentBtn.click();
-  await new Promise(r => setTimeout(r, 1000));
-  
+  await new Promise((r) => setTimeout(r, 1000));
+
   // Evaluate styles
   const styles = await page.evaluate(() => {
     const svg = document.querySelector('.catalog-close svg');
     const line = document.querySelector('.catalog-close svg line');
-    
+
     if (!svg || !line) return 'Elements not found';
-    
+
     const svgStyle = window.getComputedStyle(svg);
     const lineStyle = window.getComputedStyle(line);
-    
+
     return {
       svg: {
         width: svgStyle.width,
@@ -44,10 +44,10 @@ async function run() {
         stroke: lineStyle.stroke,
         display: lineStyle.display,
         visibility: lineStyle.visibility,
-      }
+      },
     };
   });
-  
+
   console.log(JSON.stringify(styles, null, 2));
   await browser.close();
 }
