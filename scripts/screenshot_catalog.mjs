@@ -14,22 +14,22 @@ async function run() {
   if (!executablePath) throw new Error('No browser found');
   const browser = await puppeteer.launch({ executablePath, headless: 'new' });
   const page = await browser.newPage();
-  
+
   await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 3 });
-  
+
   console.log('Navigating to app...');
   await page.goto('http://localhost:5173', { waitUntil: 'networkidle0' });
-  
+
   // Click "New Garment" button
   console.log('Clicking New Garment...');
   const newGarmentBtn = await page.$('.btn-primary');
   await newGarmentBtn.click();
-  
-  await new Promise(r => setTimeout(r, 1000));
-  
+
+  await new Promise((r) => setTimeout(r, 1000));
+
   console.log('Taking Catalog screenshot...');
   await page.screenshot({ path: 'catalog_screenshot.png' });
-  
+
   await browser.close();
 }
 run().catch(console.error);
