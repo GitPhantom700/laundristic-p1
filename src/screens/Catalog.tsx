@@ -137,6 +137,26 @@ export function Catalog({ onClose }: CatalogProps) {
     }
   };
 
+  const handleSave = async () => {
+    if (!photoBlob || !selectedCategory || !generatedCode) return;
+
+    try {
+      await putGarment({
+        id: generateId(),
+        code: generatedCode,
+        type: selectedCategory,
+        photoBlob,
+        status: 'active',
+        createdAt: Date.now(),
+      });
+
+      handleClose();
+    } catch (err) {
+      showToast('Failed to save garment', 'error');
+      console.error(err);
+    }
+  };
+
   return (
     <div className="catalog-overlay">
       <div className="catalog-header">
@@ -249,6 +269,9 @@ export function Catalog({ onClose }: CatalogProps) {
           <div className="confirm-actions">
             <button onClick={handleSaveAndNext} className="btn-primary">
               Save & Next
+            </button>
+            <button onClick={handleSave} className="btn-primary">
+              Save
             </button>
             <button onClick={handleRetake} className="btn-secondary">
               Retake

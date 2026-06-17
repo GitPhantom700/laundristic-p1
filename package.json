@@ -1,6 +1,6 @@
 {
   "name": "laundristic",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Laundry, accounted for. A local-first PWA for manual laundry record keeping.",
   "type": "module",
   "scripts": {
