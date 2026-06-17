@@ -13,6 +13,7 @@
 
 ## Decisions
 
+- 2026-06-17 · UI Fixes (AG): Added 'Save' button to `Catalog.tsx` confirm screen alongside 'Save & Next'. Reverted to robust inline SVG implementation for camera close button to bypass browser rendering bugs and unbreak CI pipeline. Bumped app version to 0.1.1 to invalidate PWA Service Worker cache.
 - 2026-06-16 · UI Fixes (AG): Resolved white spot on camera close button by making it a dark translucent circle (`rgba(0,0,0,0.5)`) with a white stroke. Moved "Delete Batch" button in `BatchDetailsSheet` to the top-right header for immediate visibility without scrolling. Refactored `DropOffSheet` camera viewfinder from fixed `300px` height to `flex: 1` to prevent UI layout jumps on smaller screens. Reverted broken `.proof-screen` base styling that corrupted the app layout.
 - 2026-06-16 · P4.6 & P4.7: Added "View Receipt" and "Share / Print" buttons for historical batches. Implemented `@media print` CSS for clean PDF generation via `window.print()`. Added "Delete Batch" button in BatchDetailsSheet with `window.confirm`.
 - 2026-06-16 · Button contrast fix (CC): `--color-green` changed from #849b87 (muted sage, contrast ~2.84:1) to #4e6e52 (dark sage, contrast ~4.98:1 on white). Fixes white-on-white appearance of btn-primary ("Export Backup", "New Drop-off", etc.) and low-contrast btn-secondary ("Check In", "Import Backup"). All variants updated: green-light → #698f6e, green-lighter → #a3bfa6, green-pale → #eaf0ea. btn-primary box-shadow RGB also corrected from hardcoded emerald (#10b981) to matching sage.
