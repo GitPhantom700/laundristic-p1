@@ -252,15 +252,6 @@ h4 {
   box-shadow: var(--shadow-md);
 }
 
-.catalog-close svg {
-  stroke: #fff !important;
-  width: 20px !important;
-  height: 20px !important;
-  min-width: 20px !important;
-  flex-shrink: 0;
-  display: block;
-}
-
 .catalog-badge {
   background: var(--color-green);
   color: white;
