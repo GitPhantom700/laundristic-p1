@@ -5,14 +5,15 @@
 
 ## Snapshot
 
-- **Date:** 2026-06-16
+- **Date:** 2026-06-17
 - **Phase:** 4 — Ship
-- **Last completed:** P4.6 & P4.7 · Email PDF & Delete Batch (AG)
-- **Next package:** P4.3 · lane **AG** (Confluence mirror) or whatever is next.
+- **Last completed:** Receipt camera viewfinder UI fix attempt (AG) — committed `2fff663`, not yet visually confirmed working
+- **Next package:** Receipt camera UI fix — needs further investigation and visual verification on device
 - **Repo state:** pushed to main; 130 tests passing.
 
 ## Decisions
 
+- 2026-06-17 · Receipt camera UI fix attempt (AG): Replaced `aspectRatio:'3/4'` + `maxHeight:'60vh'` with `height:'50vh'` on the catalog-viewfinder in `DropOffSheet.tsx` (commit `2fff663`). Fix confirmed by Puppeteer at 390px viewport — shutter button visible. However user reports the receipt screen UI is **still broken on device** (laptop normal mode browser). Root cause not yet identified — may be a deeper layout issue beyond the viewfinder container. Needs fresh investigation session tomorrow.
 - 2026-06-17 · UI Fixes (AG): Added 'Save' button to `Catalog.tsx` confirm screen alongside 'Save & Next'. Reverted to robust inline SVG implementation for camera close button to bypass browser rendering bugs and unbreak CI pipeline. Bumped app version to 0.1.1 to invalidate PWA Service Worker cache.
 - 2026-06-16 · UI Fixes (AG): Resolved white spot on camera close button by making it a dark translucent circle (`rgba(0,0,0,0.5)`) with a white stroke. Moved "Delete Batch" button in `BatchDetailsSheet` to the top-right header for immediate visibility without scrolling. Refactored `DropOffSheet` camera viewfinder from fixed `300px` height to `flex: 1` to prevent UI layout jumps on smaller screens. Reverted broken `.proof-screen` base styling that corrupted the app layout.
 - 2026-06-16 · P4.6 & P4.7: Added "View Receipt" and "Share / Print" buttons for historical batches. Implemented `@media print` CSS for clean PDF generation via `window.print()`. Added "Delete Batch" button in BatchDetailsSheet with `window.confirm`.
@@ -44,6 +45,7 @@
 
 ## Blockers
 
+- **AG (ACTIVE): Receipt camera screen UI still broken on laptop browser** — the `50vh` viewfinder fix passed Puppeteer testing at 390px but the user still sees a messed-up receipt screen. Need to share a fresh screenshot next session and investigate from scratch — the shutter button clip may not be the only layout problem. Look at the full `step === 'receipt'` render path in `DropOffSheet.tsx` including the controls overlay, the shutter button positioning, and the overall sheet container height constraints on desktop viewport sizes.
 - **AG: run `npx prettier --write .` before every commit** — CI `format:check` step has failed on every AG push (runs #33/#34/#35). CC fixed it in `539d319`. AG must adopt this habit or CI will keep failing.
 
 ## Handoff notes
