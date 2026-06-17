@@ -4,7 +4,6 @@ import { getAllGarments, putGarment } from '../lib/storage';
 import { generateId, generateCode } from '../lib/ids';
 import type { GarmentCategory } from '../lib/types';
 import { useToast } from '../components/ToastProvider';
-import { X } from 'lucide-react';
 
 // "ITM" is explicitly omitted from selectable options per SPEC
 const SELECTABLE_CATEGORIES: GarmentCategory[] = [
@@ -146,7 +145,20 @@ export function Catalog({ onClose }: CatalogProps) {
           className="catalog-close"
           aria-label="Close"
         >
-          <X color="#ffffff" size={24} strokeWidth={2.5} />
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#ffffff"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            style={{ width: '20px', height: '20px', minWidth: '20px', flexShrink: 0, display: 'block' }}
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
         </button>
         {runningCount > 0 && (
           <div className="catalog-badge">
