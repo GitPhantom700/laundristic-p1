@@ -8,7 +8,7 @@
 - **Date:** 2026-06-21
 - **Phase:** 4 — Ship
 - **Last completed:** ProofScreen Quick View feature, Camera background leak fix, White spot UI fix
-- **Next package:** Standing by for user directive
+- **Next package:** [CC] Fix PDF export layout issues
 - **Repo state:** pushed to main; tests passing.
 
 ## Next Session Notes
@@ -57,6 +57,8 @@
 - **AG: run `npx prettier --write .` before every commit** — CI `format:check` step has failed on every AG push (runs #33/#34/#35). CC fixed it in `539d319`. AG must adopt this habit or CI will keep failing.
 
 ## Handoff notes
+
+- **[CC] NEXT ACTION ITEM (PDF FIX):** The user has requested Claude to fix the PDF export layout. The current `@media print` CSS and `window.print()` implementation (from P4.6) is generating a poorly formatted PDF with resolution and layout issues. Please investigate and fix the PDF print layout.
 
 - **[AG] STATUS OF USER REQUESTS:**
   1. ✓ DONE (AG, P4.2) — camera close button restyled + dark mode dropped. NOTE: code is correct on main; if user still sees the dark blob it is a stale PWA cache, addressed by the visibilitychange auto-update (CC, 2026-06-16). Not an AG action item.
