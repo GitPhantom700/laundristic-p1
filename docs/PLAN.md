@@ -54,6 +54,7 @@ Conflict rule: if a package needs a file outside your lane, STOP, write the need
 - **P4.5 [CC]** ✅ DONE — Auto-delete garments on batch close. SOFT delete via `'returned'` GarmentStatus (record kept so closed-batch history/PDF still resolve garment data): `received` garments flip to 'returned' on check-in completion; `found` garments flip on batch close; `lost` already retire to 'lost'. New `setGarmentStatus` storage helper. Wardrobe filters status==='active' so returned garments drop out. ✓ Catalog only shows garments in user's possession; 130 tests passing.
 - **P4.6 [AG]** Email PDF share: "Share / Email" button on closed batch cards + Proof screen. Generates PDF (or print-formatted HTML fallback) containing shop name, date, amount, garment list, embedded receipt photo. Opens native share sheet (`navigator.share` / `mailto:` fallback). ✓ User can email batch summary for reimbursement.
 - **P4.7 [CHAT]** Launch review: README/portfolio polish, LinkedIn framing. ✓ Done in planning chat.
+- **P4.8 [CHAT]** LinkedIn outreach research: identify articles, posts, and open-source showcase communities on LinkedIn where sharing the public GitHub repo would reach real users (laundry/household apps, indie PWA builders, portfolio showcases). Curate a shortlist of relevant hashtags, groups, and post formats. ✓ Done in planning chat.
 
 ## Standing rules
 
