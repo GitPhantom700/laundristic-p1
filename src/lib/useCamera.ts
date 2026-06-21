@@ -70,6 +70,18 @@ export function useCamera(options: CaptureOptions = {}): UseCameraReturn {
     setError(null);
     setBusy(true);
     try {
+      if (streamRef.current) {
+        const video = videoRef.current;
+        if (video) {
+          video.srcObject = streamRef.current;
+          video.playsInline = true;
+          video.muted = true;
+          await video.play();
+        }
+        if (!unmountedRef.current) setMode('stream');
+        return;
+      }
+
       if (!isGetUserMediaSupported()) {
         if (!unmountedRef.current) setMode('fallback');
         return;

@@ -78,6 +78,7 @@ export function Catalog({ onClose }: CatalogProps) {
     try {
       const blob = await capture();
       setPhotoBlob(blob);
+      stop(); // Immediately release the camera hardware
       setPreviewUrl(URL.createObjectURL(blob));
       setStep('category');
     } catch (error) {

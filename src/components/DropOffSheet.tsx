@@ -224,6 +224,7 @@ export function DropOffSheet({ onClose, onSuccess }: DropOffSheetProps) {
     try {
       const blob = await capture();
       setCapturedBlob(blob);
+      stop(); // Immediately release the camera hardware
     } catch (err) {
       showToast('Capture failed', 'error');
     }
@@ -457,7 +458,10 @@ export function DropOffSheet({ onClose, onSuccess }: DropOffSheetProps) {
             ) : (
               <div style={{ display: 'flex', gap: '12px' }}>
                 <button
-                  onClick={() => setCapturedBlob(null)}
+                  onClick={() => {
+                    setCapturedBlob(null);
+                    start(); // Restart the camera hardware
+                  }}
                   className="btn-secondary"
                   style={{ flex: 1 }}
                 >
