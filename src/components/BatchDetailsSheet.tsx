@@ -181,22 +181,37 @@ export function BatchDetailsSheet({
           <div
             style={{
               position: 'absolute',
-              top: '16px',
-              left: '16px',
+              top: 'calc(env(safe-area-inset-top, 0px) + 16px)',
+              right: '16px',
               zIndex: 1001,
             }}
           >
             <button
-              className="catalog-close"
               aria-label="Close photo"
-              onClick={() => setExpandedPhoto(null)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setExpandedPhoto(null);
+              }}
+              style={{
+                width: '44px',
+                height: '44px',
+                borderRadius: '50%',
+                backgroundColor: '#ffffff',
+                color: '#000000',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
+              }}
             >
               <svg
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#ffffff"
+                stroke="#000000"
               >
                 <path
                   strokeLinecap="round"
