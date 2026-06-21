@@ -12,6 +12,7 @@
 - **Repo state:** pushed to main; 130 tests passing.
 
 ## Next Session Notes
+
 - The receipt UI bug and Save button feature have been completed.
 - We are continuing development in this environment (abandoning Firebase Studio migration).
 - Standing by for the user's next directive (e.g. Admin App, P4.3, or other features).
