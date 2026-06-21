@@ -43,6 +43,7 @@ export function useCamera(options: CaptureOptions = {}): UseCameraReturn {
   const [error, setError] = useState<string | null>(null);
 
   const unmountedRef = useRef(false);
+  const requestRef = useRef(0);
 
   // Clean up stream on unmount
   useEffect(() => {
@@ -53,6 +54,7 @@ export function useCamera(options: CaptureOptions = {}): UseCameraReturn {
   }, []);
 
   const stop = useCallback(() => {
+    requestRef.current += 1;
     if (streamRef.current) {
       stopStream(streamRef.current);
       streamRef.current = null;
@@ -73,10 +75,11 @@ export function useCamera(options: CaptureOptions = {}): UseCameraReturn {
         return;
       }
 
+      const reqId = ++requestRef.current;
       const stream = await getRearCameraStream();
 
-      // If unmounted or stopped while requesting camera, stop it immediately
-      if (unmountedRef.current) {
+      // If unmounted or a new request/stop occurred while requesting camera, stop it immediately
+      if (unmountedRef.current || requestRef.current !== reqId) {
         stopStream(stream);
         return;
       }
