@@ -140,13 +140,17 @@ export function ProofScreen({ batch, onClose, onDelete }: ProofScreenProps) {
             }}
             className="no-print"
             style={{
-              width: '100%',
-              marginTop: '32px',
+              width: '70%',
+              margin: '32px auto 0',
               backgroundColor: 'var(--color-paper)',
               border: '2px solid var(--color-green)',
-              color: 'var(--color-error)',
+              color: 'var(--color-green)',
               fontWeight: 600,
               borderRadius: '24px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '12px',
             }}
           >
             Delete Receipt
