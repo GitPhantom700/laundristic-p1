@@ -42,9 +42,12 @@ export function useCamera(options: CaptureOptions = {}): UseCameraReturn {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const unmountedRef = useRef(false);
+
   // Clean up stream on unmount
   useEffect(() => {
     return () => {
+      unmountedRef.current = true;
       if (streamRef.current) stopStream(streamRef.current);
     };
   }, []);
@@ -66,11 +69,18 @@ export function useCamera(options: CaptureOptions = {}): UseCameraReturn {
     setBusy(true);
     try {
       if (!isGetUserMediaSupported()) {
-        setMode('fallback');
+        if (!unmountedRef.current) setMode('fallback');
         return;
       }
 
       const stream = await getRearCameraStream();
+
+      // If unmounted or stopped while requesting camera, stop it immediately
+      if (unmountedRef.current) {
+        stopStream(stream);
+        return;
+      }
+
       streamRef.current = stream;
 
       const video = videoRef.current;
@@ -85,8 +95,9 @@ export function useCamera(options: CaptureOptions = {}): UseCameraReturn {
       video.muted = true;
 
       await video.play();
-      setMode('stream');
+      if (!unmountedRef.current) setMode('stream');
     } catch (err) {
+      if (unmountedRef.current) return;
       const msg = err instanceof Error ? err.message : String(err);
       // Permission denied or no camera → fall back to file picker
       if (
@@ -101,7 +112,7 @@ export function useCamera(options: CaptureOptions = {}): UseCameraReturn {
         setMode('fallback');
       }
     } finally {
-      setBusy(false);
+      if (!unmountedRef.current) setBusy(false);
     }
   }, []);
 
