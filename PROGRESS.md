@@ -45,7 +45,6 @@
 
 ## Blockers
 
-- **AG (ACTIVE): Receipt camera screen UI still broken on laptop browser** — the `50vh` viewfinder fix passed Puppeteer testing at 390px but the user still sees a messed-up receipt screen. Need to share a fresh screenshot next session and investigate from scratch — the shutter button clip may not be the only layout problem. Look at the full `step === 'receipt'` render path in `DropOffSheet.tsx` including the controls overlay, the shutter button positioning, and the overall sheet container height constraints on desktop viewport sizes.
 - **AG: run `npx prettier --write .` before every commit** — CI `format:check` step has failed on every AG push (runs #33/#34/#35). CC fixed it in `539d319`. AG must adopt this habit or CI will keep failing.
 
 ## Handoff notes
