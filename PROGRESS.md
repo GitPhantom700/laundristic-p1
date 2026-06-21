@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Date:** 2026-06-17
+- **Date:** 2026-06-21
 - **Phase:** 4 — Ship
-- **Last completed:** ProofScreen UI and Delete button fixes
+- **Last completed:** ProofScreen Quick View feature, Camera background leak fix, White spot UI fix
 - **Next package:** Standing by for user directive
 - **Repo state:** pushed to main; tests passing.
 
@@ -18,6 +18,8 @@
 
 ## Decisions
 
+- 2026-06-21 · Camera Privacy Fix (AG): Fixed critical bug where the camera hardware stream remained active in the background after taking a photo or unmounting the camera component. `start()` now properly re-binds streams, and `stop()` is called immediately on capture.
+- 2026-06-21 · UI Fixes (AG): Implemented "Quick View" popup on `ProofScreen` to allow users to click and enlarge garment items. Fixed white spot issue on the camera preview 'X' close button.
 - 2026-06-21 · UI Fixes (AG): Fixed ProofScreen to use light theme variables matching the rest of the app, added a Delete Receipt button styled to match the theme, and fixed a Safari layout bug where flex item images stretched horizontally over text by enforcing explicit flex dimensions.
 - 2026-06-21 · Layout Fix (AG): Moved all overlay sheets (`DropOffSheet`, `EditGarmentSheet`, etc.) outside of `.screen-container` in `DropOffs.tsx` and `Wardrobe.tsx` to fix a `z-index` stacking context bug on iOS/mobile browsers. Changed `.edit-sheet-overlay` to `position: fixed` to ensure full-screen coverage. Confirmed working on device.
 - 2026-06-17 · Receipt camera UI fix (AG): Replaced `aspectRatio:'3/4'` + `maxHeight:'60vh'` with `height:'50vh'` on the catalog-viewfinder in `DropOffSheet.tsx`. Verified on device.
