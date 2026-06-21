@@ -7,13 +7,18 @@
 
 - **Date:** 2026-06-17
 - **Phase:** 4 — Ship
-- **Last completed:** Receipt camera viewfinder UI fix attempt (AG) — committed `2fff663`, not yet visually confirmed working
-- **Next package:** Receipt camera UI fix — needs further investigation and visual verification on device
+- **Last completed:** Receipt camera UI fix and Save button feature
+- **Next package:** Standing by for user directive
 - **Repo state:** pushed to main; 130 tests passing.
+
+## Next Session Notes
+- The receipt UI bug and Save button feature have been completed.
+- We are continuing development in this environment (abandoning Firebase Studio migration).
+- Standing by for the user's next directive (e.g. Admin App, P4.3, or other features).
 
 ## Decisions
 
-- 2026-06-17 · Receipt camera UI fix attempt (AG): Replaced `aspectRatio:'3/4'` + `maxHeight:'60vh'` with `height:'50vh'` on the catalog-viewfinder in `DropOffSheet.tsx` (commit `2fff663`). Fix confirmed by Puppeteer at 390px viewport — shutter button visible. However user reports the receipt screen UI is **still broken on device** (laptop normal mode browser). Root cause not yet identified — may be a deeper layout issue beyond the viewfinder container. Needs fresh investigation session tomorrow.
+- 2026-06-17 · Receipt camera UI fix (AG): Replaced `aspectRatio:'3/4'` + `maxHeight:'60vh'` with `height:'50vh'` on the catalog-viewfinder in `DropOffSheet.tsx`. Verified on device.
 - 2026-06-17 · UI Fixes (AG): Added 'Save' button to `Catalog.tsx` confirm screen alongside 'Save & Next'. Reverted to robust inline SVG implementation for camera close button to bypass browser rendering bugs and unbreak CI pipeline. Bumped app version to 0.1.1 to invalidate PWA Service Worker cache.
 - 2026-06-16 · UI Fixes (AG): Resolved white spot on camera close button by making it a dark translucent circle (`rgba(0,0,0,0.5)`) with a white stroke. Moved "Delete Batch" button in `BatchDetailsSheet` to the top-right header for immediate visibility without scrolling. Refactored `DropOffSheet` camera viewfinder from fixed `300px` height to `flex: 1` to prevent UI layout jumps on smaller screens. Reverted broken `.proof-screen` base styling that corrupted the app layout.
 - 2026-06-16 · P4.6 & P4.7: Added "View Receipt" and "Share / Print" buttons for historical batches. Implemented `@media print` CSS for clean PDF generation via `window.print()`. Added "Delete Batch" button in BatchDetailsSheet with `window.confirm`.
