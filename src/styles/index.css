@@ -261,6 +261,28 @@ h4 {
   font-weight: 600;
 }
 
+.overlay-close-btn {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.overlay-close-btn svg {
+  stroke: #000000 !important;
+  width: 24px;
+  height: 24px;
+}
+
 .catalog-viewfinder {
   flex: 1;
   position: relative;

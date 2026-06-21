@@ -197,26 +197,15 @@ export function ProofScreen({ batch, onClose, onDelete }: ProofScreenProps) {
             }}
           >
             <button
+              className="overlay-close-btn"
               aria-label="Close photo"
               onClick={(e) => {
                 e.stopPropagation();
                 setExpandedPhoto(null);
               }}
-              style={{
-                width: '44px',
-                height: '44px',
-                borderRadius: '50%',
-                backgroundColor: '#ffffff',
-                color: '#000000',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: 'none',
-                cursor: 'pointer',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
-              }}
             >
               <svg
+                xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
