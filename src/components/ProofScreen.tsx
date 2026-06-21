@@ -8,7 +8,13 @@ interface ProofScreenProps {
   onDelete?: () => void;
 }
 
-function ProofItemCard({ garment }: { garment: Garment }) {
+function ProofItemCard({
+  garment,
+  onExpand,
+}: {
+  garment: Garment;
+  onExpand?: (url: string) => void;
+}) {
   const [url, setUrl] = useState<string | null>(null);
 
   useEffect(() => {
@@ -18,7 +24,11 @@ function ProofItemCard({ garment }: { garment: Garment }) {
   }, [garment.photoBlob]);
 
   return (
-    <div className="proof-item-card">
+    <div
+      className="proof-item-card"
+      onClick={() => onExpand && url && onExpand(url)}
+      style={{ cursor: onExpand ? 'pointer' : 'default' }}
+    >
       {url && (
         <img
           src={url}
@@ -38,6 +48,7 @@ function ProofItemCard({ garment }: { garment: Garment }) {
 export function ProofScreen({ batch, onClose, onDelete }: ProofScreenProps) {
   const [garments, setGarments] = useState<Garment[]>([]);
   const [receiptUrl, setReceiptUrl] = useState<string | null>(null);
+  const [expandedPhoto, setExpandedPhoto] = useState<string | null>(null);
 
   const isClosed = batch.status === 'closed';
 
@@ -125,9 +136,12 @@ export function ProofScreen({ batch, onClose, onDelete }: ProofScreenProps) {
           {targetItems.length} item{targetItems.length !== 1 ? 's' : ''}{' '}
           {isClosed ? 'total' : 'not returned'}
         </div>
-
         {garments.map((g) => (
-          <ProofItemCard key={g.id} garment={g} />
+          <ProofItemCard
+            key={g.id}
+            garment={g}
+            onExpand={(url) => setExpandedPhoto(url)}
+          />
         ))}
 
         {isClosed && (
@@ -157,6 +171,66 @@ export function ProofScreen({ batch, onClose, onDelete }: ProofScreenProps) {
           </button>
         )}
       </div>
+
+      {expandedPhoto && (
+        <div
+          className="no-print"
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            zIndex: 1000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '16px',
+            cursor: 'zoom-out',
+          }}
+          onClick={() => setExpandedPhoto(null)}
+        >
+          <div
+            style={{
+              position: 'absolute',
+              top: '16px',
+              left: '16px',
+              zIndex: 1001,
+            }}
+          >
+            <button
+              className="catalog-close"
+              aria-label="Close photo"
+              onClick={() => setExpandedPhoto(null)}
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+          <img
+            src={expandedPhoto}
+            alt="Expanded view"
+            style={{
+              maxWidth: '100%',
+              maxHeight: '100%',
+              objectFit: 'contain',
+              borderRadius: '8px',
+              userSelect: 'none',
+              WebkitUserSelect: 'none',
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }

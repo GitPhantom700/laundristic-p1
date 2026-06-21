@@ -11,9 +11,11 @@ interface BatchDetailsSheetProps {
 function DetailItemCard({
   garment,
   state,
+  onExpand,
 }: {
   garment: Garment;
   state: string;
+  onExpand?: (url: string) => void;
 }) {
   const [url, setUrl] = useState<string | null>(null);
 
@@ -24,7 +26,11 @@ function DetailItemCard({
   }, [garment.photoBlob]);
 
   return (
-    <div className="proof-item-card">
+    <div
+      className="proof-item-card"
+      onClick={() => onExpand && url && onExpand(url)}
+      style={{ cursor: onExpand ? 'pointer' : 'default' }}
+    >
       {url && (
         <img
           src={url}
@@ -56,6 +62,7 @@ export function BatchDetailsSheet({
   const [garments, setGarments] = useState<
     Array<{ garment: Garment; state: string }>
   >([]);
+  const [expandedPhoto, setExpandedPhoto] = useState<string | null>(null);
 
   useEffect(() => {
     async function load() {
@@ -148,11 +155,72 @@ export function BatchDetailsSheet({
                 key={garment.id}
                 garment={garment}
                 state={state}
+                onExpand={(url) => setExpandedPhoto(url)}
               />
             ))}
           </div>
         </div>
       </div>
+
+      {expandedPhoto && (
+        <div
+          className="no-print"
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            zIndex: 1000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '16px',
+            cursor: 'zoom-out',
+          }}
+          onClick={() => setExpandedPhoto(null)}
+        >
+          <div
+            style={{
+              position: 'absolute',
+              top: '16px',
+              left: '16px',
+              zIndex: 1001,
+            }}
+          >
+            <button
+              className="catalog-close"
+              aria-label="Close photo"
+              onClick={() => setExpandedPhoto(null)}
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+          <img
+            src={expandedPhoto}
+            alt="Expanded view"
+            style={{
+              maxWidth: '100%',
+              maxHeight: '100%',
+              objectFit: 'contain',
+              borderRadius: '8px',
+              userSelect: 'none',
+              WebkitUserSelect: 'none',
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }
