@@ -145,104 +145,107 @@ export function DropOffs() {
     closedBatches.length > 0;
 
   return (
-    <div className="screen-container">
-      <header className="screen-header">
-        <h1>Drop-offs</h1>
-      </header>
+    <>
+      <div className="screen-container">
+        <header className="screen-header">
+          <h1>Drop-offs</h1>
+        </header>
 
-      {!hasBatches ? (
-        <div className="screen-empty-state">
-          <div className="empty-icon">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+        {!hasBatches ? (
+          <div className="screen-empty-state">
+            <div className="empty-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="16"></line>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+              </svg>
+            </div>
+            <h2 className="empty-title">No active drop-offs</h2>
+            <p className="empty-subtitle">
+              Create a drop-off batch when you leave your clothes at the
+              laundry.
+            </p>
+            <button
+              onClick={() => setIsDroppingOff(true)}
+              className="btn-primary"
             >
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="8" x2="12" y2="16"></line>
-              <line x1="8" y1="12" x2="16" y2="12"></line>
-            </svg>
+              New Drop-off
+            </button>
           </div>
-          <h2 className="empty-title">No active drop-offs</h2>
-          <p className="empty-subtitle">
-            Create a drop-off batch when you leave your clothes at the laundry.
-          </p>
-          <button
-            onClick={() => setIsDroppingOff(true)}
-            className="btn-primary"
+        ) : (
+          <div
+            style={{
+              padding: '0 16px 16px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '24px',
+            }}
           >
-            New Drop-off
-          </button>
-        </div>
-      ) : (
-        <div
-          style={{
-            padding: '0 16px 16px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '24px',
-          }}
-        >
-          {activeBatches.length > 0 && (
-            <section>
-              <h2 style={{ fontSize: '1.25rem', marginBottom: '12px' }}>
-                Active
-              </h2>
-              {activeBatches.map((b) => (
-                <BatchCard
-                  key={b.id}
-                  batch={b}
-                  onCheckIn={() => setCheckingInBatch(b)}
-                />
-              ))}
-            </section>
-          )}
+            {activeBatches.length > 0 && (
+              <section>
+                <h2 style={{ fontSize: '1.25rem', marginBottom: '12px' }}>
+                  Active
+                </h2>
+                {activeBatches.map((b) => (
+                  <BatchCard
+                    key={b.id}
+                    batch={b}
+                    onCheckIn={() => setCheckingInBatch(b)}
+                  />
+                ))}
+              </section>
+            )}
 
-          {awaitingBatches.length > 0 && (
-            <section>
-              <h2 style={{ fontSize: '1.25rem', marginBottom: '12px' }}>
-                Awaiting Items
-              </h2>
-              {awaitingBatches.map((b) => (
-                <BatchCard
-                  key={b.id}
-                  batch={b}
-                  onResolve={() => setResolvingBatch(b)}
-                  onProof={() => setProofBatch(b)}
-                />
-              ))}
-            </section>
-          )}
+            {awaitingBatches.length > 0 && (
+              <section>
+                <h2 style={{ fontSize: '1.25rem', marginBottom: '12px' }}>
+                  Awaiting Items
+                </h2>
+                {awaitingBatches.map((b) => (
+                  <BatchCard
+                    key={b.id}
+                    batch={b}
+                    onResolve={() => setResolvingBatch(b)}
+                    onProof={() => setProofBatch(b)}
+                  />
+                ))}
+              </section>
+            )}
 
-          {closedBatches.length > 0 && (
-            <section>
-              <h2 style={{ fontSize: '1.25rem', marginBottom: '12px' }}>
-                History
-              </h2>
-              {closedBatches.map((b) => (
-                <BatchCard
-                  key={b.id}
-                  batch={b}
-                  onClick={() => setViewingBatch(b)}
-                  onViewReceipt={() => setProofBatch(b)}
-                />
-              ))}
-            </section>
-          )}
+            {closedBatches.length > 0 && (
+              <section>
+                <h2 style={{ fontSize: '1.25rem', marginBottom: '12px' }}>
+                  History
+                </h2>
+                {closedBatches.map((b) => (
+                  <BatchCard
+                    key={b.id}
+                    batch={b}
+                    onClick={() => setViewingBatch(b)}
+                    onViewReceipt={() => setProofBatch(b)}
+                  />
+                ))}
+              </section>
+            )}
 
-          <button
-            onClick={() => setIsDroppingOff(true)}
-            className="btn-primary"
-          >
-            New Drop-off
-          </button>
-        </div>
-      )}
+            <button
+              onClick={() => setIsDroppingOff(true)}
+              className="btn-primary"
+            >
+              New Drop-off
+            </button>
+          </div>
+        )}
+      </div>
 
       {isDroppingOff && (
         <DropOffSheet
@@ -281,6 +284,6 @@ export function DropOffs() {
           }}
         />
       )}
-    </div>
+    </>
   );
 }
