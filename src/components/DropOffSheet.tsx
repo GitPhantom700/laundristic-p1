@@ -97,6 +97,9 @@ export function DropOffSheet({ onClose, onSuccess }: DropOffSheetProps) {
     new Date().toISOString().substring(0, 10),
   );
 
+  const [capturedBlob, setCapturedBlob] = useState<Blob | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
   useEffect(() => {
     async function init() {
       // Fetch garments
@@ -174,6 +177,16 @@ export function DropOffSheet({ onClose, onSuccess }: DropOffSheetProps) {
   };
 
   // Safe close explicitly stops camera
+  useEffect(() => {
+    if (capturedBlob) {
+      const url = URL.createObjectURL(capturedBlob);
+      setPreviewUrl(url);
+      return () => URL.revokeObjectURL(url);
+    } else {
+      setPreviewUrl(null);
+    }
+  }, [capturedBlob]);
+
   const handleClose = () => {
     stop();
     onClose();
@@ -210,7 +223,7 @@ export function DropOffSheet({ onClose, onSuccess }: DropOffSheetProps) {
   const handleCapture = async () => {
     try {
       const blob = await capture();
-      await completeBatch(blob);
+      setCapturedBlob(blob);
     } catch (err) {
       showToast('Capture failed', 'error');
     }
@@ -219,7 +232,7 @@ export function DropOffSheet({ onClose, onSuccess }: DropOffSheetProps) {
   const handlePickFile = async () => {
     try {
       const blob = await pickFile();
-      await completeBatch(blob);
+      setCapturedBlob(blob);
     } catch (err) {
       // silently ignore cancel
     }
@@ -333,66 +346,132 @@ export function DropOffSheet({ onClose, onSuccess }: DropOffSheetProps) {
 
         {step === 'receipt' && (
           <>
-            <div
-              className="catalog-viewfinder"
-              style={{
-                borderRadius: '12px',
-                flex: 'none',
-                width: '100%',
-                height: '50vh',
-                marginBottom: '16px',
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
-              <video
-                ref={videoRef}
-                className="catalog-video"
-                style={{ display: cameraMode === 'stream' ? 'block' : 'none' }}
-              />
-              {cameraMode === 'fallback' && (
-                <div className="fallback-state">
-                  <p>Camera not available.</p>
-                  <button
-                    onClick={handlePickFile}
-                    className="btn-primary"
-                    disabled={busy}
-                  >
-                    Choose Photo
-                  </button>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    style={{ display: 'none' }}
-                  />
-                </div>
-              )}
-              {cameraMode === 'stream' && (
-                <div className="catalog-controls" style={{ padding: '16px' }}>
-                  <button
-                    className="shutter-btn"
+            {!capturedBlob ? (
+              <div
+                style={{
+                  borderRadius: '12px',
+                  width: '100%',
+                  aspectRatio: '3/4',
+                  maxHeight: '50vh',
+                  marginBottom: '16px',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  background: '#111',
+                }}
+              >
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
+                >
+                  <video
+                    ref={videoRef}
+                    className="catalog-video"
                     style={{
-                      width: '56px',
-                      height: '56px',
-                      borderWidth: '3px',
+                      display: cameraMode === 'stream' ? 'block' : 'none',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
                     }}
-                    onClick={handleCapture}
-                    disabled={busy}
-                    aria-label="Take photo"
                   />
+                  {cameraMode === 'fallback' && (
+                    <div className="fallback-state">
+                      <p>Camera not available.</p>
+                      <button
+                        onClick={handlePickFile}
+                        className="btn-primary"
+                        disabled={busy}
+                      >
+                        Choose Photo
+                      </button>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        style={{ display: 'none' }}
+                      />
+                    </div>
+                  )}
+                  {cameraMode === 'stream' && (
+                    <div
+                      className="catalog-controls"
+                      style={{ padding: '16px' }}
+                    >
+                      <button
+                        className="shutter-btn"
+                        style={{
+                          width: '56px',
+                          height: '56px',
+                          borderWidth: '3px',
+                        }}
+                        onClick={handleCapture}
+                        disabled={busy}
+                        aria-label="Take photo"
+                      />
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-            <button
-              onClick={() => {
-                stop();
-                setStep('details');
-              }}
-              className="btn-secondary"
-            >
-              Back
-            </button>
+              </div>
+            ) : (
+              <div
+                style={{
+                  borderRadius: '12px',
+                  width: '100%',
+                  aspectRatio: '3/4',
+                  maxHeight: '50vh',
+                  marginBottom: '16px',
+                  overflow: 'hidden',
+                  background: '#111',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                {previewUrl && (
+                  <img
+                    src={previewUrl}
+                    alt="Receipt preview"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                    }}
+                  />
+                )}
+              </div>
+            )}
+
+            {!capturedBlob ? (
+              <button
+                onClick={() => {
+                  stop();
+                  setStep('details');
+                }}
+                className="btn-secondary"
+              >
+                Back
+              </button>
+            ) : (
+              <div style={{ display: 'flex', gap: '12px' }}>
+                <button
+                  onClick={() => setCapturedBlob(null)}
+                  className="btn-secondary"
+                  style={{ flex: 1 }}
+                >
+                  Retake
+                </button>
+                <button
+                  onClick={() => completeBatch(capturedBlob)}
+                  className="btn-primary"
+                  style={{ flex: 2 }}
+                >
+                  Save
+                </button>
+              </div>
+            )}
           </>
         )}
       </div>
