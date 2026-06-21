@@ -710,16 +710,26 @@ textarea:focus {
    ========================================================================== */
 
 .edit-sheet-overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 60;
+  z-index: 100;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  align-items: center;
+}
+
+.edit-sheet-overlay > .dropoff-sheet,
+.edit-sheet-overlay > .edit-sheet,
+.edit-sheet-overlay > .missing-item-sheet {
+  width: 100%;
+  max-width: 390px;
 }
 
 .edit-sheet {
