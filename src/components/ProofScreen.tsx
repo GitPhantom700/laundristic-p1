@@ -138,12 +138,14 @@ export function ProofScreen({ batch, onClose, onDelete }: ProofScreenProps) {
                 if (onDelete) onDelete();
               }
             }}
-            className="btn-outline no-print"
+            className="no-print"
             style={{
               width: '100%',
               marginTop: '32px',
-              borderColor: 'var(--color-error)',
+              backgroundColor: 'var(--color-paper)',
+              border: '2px solid var(--color-green)',
               color: 'var(--color-error)',
+              fontWeight: 600,
             }}
           >
             Delete Receipt
