@@ -56,6 +56,11 @@ Conflict rule: if a package needs a file outside your lane, STOP, write the need
 - **P4.7 [CHAT]** Launch review: README/portfolio polish, LinkedIn framing. ✓ Done in planning chat.
 - **P4.8 [CHAT]** LinkedIn outreach research: identify articles, posts, and open-source showcase communities on LinkedIn where sharing the public GitHub repo would reach real users (laundry/household apps, indie PWA builders, portfolio showcases). Curate a shortlist of relevant hashtags, groups, and post formats. ✓ Done in planning chat.
 
+## Phase 5 — Admin App
+
+- **P5.1 [CC]** Data layer & Routing: Set up routing and data fetching for the new Admin App.
+- **P5.2 [AG]** UI Layout: Build the "Dusty Blue & Sand" UI design mockup for the Admin dashboard (per `docs/ADMIN_APP.md`).
+
 ## Standing rules
 
 - Plan drift is expected: packages may split/merge. Update this file in the same commit; never re-litigate SPEC scope inside a build session — take scope questions to CHAT.
