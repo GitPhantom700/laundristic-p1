@@ -7,17 +7,18 @@
 
 - **Date:** 2026-06-17
 - **Phase:** 4 — Ship
-- **Last completed:** Receipt camera UI fix and Save button feature
+- **Last completed:** ProofScreen UI and Delete button fixes
 - **Next package:** Standing by for user directive
-- **Repo state:** pushed to main; 130 tests passing.
+- **Repo state:** pushed to main; tests passing.
 
 ## Next Session Notes
 
-- The receipt UI bug and stacking context issues (overlays appearing under BottomNav) have been successfully resolved on mobile devices.
-- Standing by for the user to specify the "next fixing screen" or feature.
+- `ProofScreen` UI styling issues (dark mode bleed, image stretching, delete button styling/alignment) have been fully fixed and aligned with the light theme.
+- Standing by for the user to specify the next screen or feature to work on.
 
 ## Decisions
 
+- 2026-06-21 · UI Fixes (AG): Fixed ProofScreen to use light theme variables matching the rest of the app, added a Delete Receipt button styled to match the theme, and fixed a Safari layout bug where flex item images stretched horizontally over text by enforcing explicit flex dimensions.
 - 2026-06-21 · Layout Fix (AG): Moved all overlay sheets (`DropOffSheet`, `EditGarmentSheet`, etc.) outside of `.screen-container` in `DropOffs.tsx` and `Wardrobe.tsx` to fix a `z-index` stacking context bug on iOS/mobile browsers. Changed `.edit-sheet-overlay` to `position: fixed` to ensure full-screen coverage. Confirmed working on device.
 - 2026-06-17 · Receipt camera UI fix (AG): Replaced `aspectRatio:'3/4'` + `maxHeight:'60vh'` with `height:'50vh'` on the catalog-viewfinder in `DropOffSheet.tsx`. Verified on device.
 - 2026-06-17 · UI Fixes (AG): Added 'Save' button to `Catalog.tsx` confirm screen alongside 'Save & Next'. Reverted to robust inline SVG implementation for camera close button to bypass browser rendering bugs and unbreak CI pipeline. Bumped app version to 0.1.1 to invalidate PWA Service Worker cache.
