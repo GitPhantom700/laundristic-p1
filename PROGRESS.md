@@ -13,12 +13,12 @@
 
 ## Next Session Notes
 
-- The receipt UI bug and Save button feature have been completed.
-- We are continuing development in this environment (abandoning Firebase Studio migration).
-- Standing by for the user's next directive (e.g. Admin App, P4.3, or other features).
+- The receipt UI bug and stacking context issues (overlays appearing under BottomNav) have been successfully resolved on mobile devices.
+- Standing by for the user to specify the "next fixing screen" or feature.
 
 ## Decisions
 
+- 2026-06-21 · Layout Fix (AG): Moved all overlay sheets (`DropOffSheet`, `EditGarmentSheet`, etc.) outside of `.screen-container` in `DropOffs.tsx` and `Wardrobe.tsx` to fix a `z-index` stacking context bug on iOS/mobile browsers. Changed `.edit-sheet-overlay` to `position: fixed` to ensure full-screen coverage. Confirmed working on device.
 - 2026-06-17 · Receipt camera UI fix (AG): Replaced `aspectRatio:'3/4'` + `maxHeight:'60vh'` with `height:'50vh'` on the catalog-viewfinder in `DropOffSheet.tsx`. Verified on device.
 - 2026-06-17 · UI Fixes (AG): Added 'Save' button to `Catalog.tsx` confirm screen alongside 'Save & Next'. Reverted to robust inline SVG implementation for camera close button to bypass browser rendering bugs and unbreak CI pipeline. Bumped app version to 0.1.1 to invalidate PWA Service Worker cache.
 - 2026-06-16 · UI Fixes (AG): Resolved white spot on camera close button by making it a dark translucent circle (`rgba(0,0,0,0.5)`) with a white stroke. Moved "Delete Batch" button in `BatchDetailsSheet` to the top-right header for immediate visibility without scrolling. Refactored `DropOffSheet` camera viewfinder from fixed `300px` height to `flex: 1` to prevent UI layout jumps on smaller screens. Reverted broken `.proof-screen` base styling that corrupted the app layout.
