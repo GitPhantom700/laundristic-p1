@@ -271,7 +271,14 @@ export function DropOffs() {
       )}
 
       {proofBatch && (
-        <ProofScreen batch={proofBatch} onClose={() => setProofBatch(null)} />
+        <ProofScreen
+          batch={proofBatch}
+          onClose={() => setProofBatch(null)}
+          onDelete={() => {
+            setProofBatch(null);
+            loadBatches();
+          }}
+        />
       )}
 
       {viewingBatch && (

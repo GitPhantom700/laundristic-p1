@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { getGarment } from '../lib/storage';
+import { getGarment, deleteBatch } from '../lib/storage';
 import type { Batch, Garment } from '../lib/types';
 
 interface ProofScreenProps {
   batch: Batch;
   onClose: () => void;
+  onDelete?: () => void;
 }
 
 function ProofItemCard({ garment }: { garment: Garment }) {
@@ -34,7 +35,7 @@ function ProofItemCard({ garment }: { garment: Garment }) {
   );
 }
 
-export function ProofScreen({ batch, onClose }: ProofScreenProps) {
+export function ProofScreen({ batch, onClose, onDelete }: ProofScreenProps) {
   const [garments, setGarments] = useState<Garment[]>([]);
   const [receiptUrl, setReceiptUrl] = useState<string | null>(null);
 
@@ -128,6 +129,26 @@ export function ProofScreen({ batch, onClose }: ProofScreenProps) {
         {garments.map((g) => (
           <ProofItemCard key={g.id} garment={g} />
         ))}
+
+        {isClosed && (
+          <button
+            onClick={async () => {
+              if (window.confirm('Delete this batch? This cannot be undone.')) {
+                await deleteBatch(batch.id);
+                if (onDelete) onDelete();
+              }
+            }}
+            className="btn-outline no-print"
+            style={{
+              width: '100%',
+              marginTop: '32px',
+              borderColor: 'var(--color-error)',
+              color: 'var(--color-error)',
+            }}
+          >
+            Delete Receipt
+          </button>
+        )}
       </div>
     </div>
   );
