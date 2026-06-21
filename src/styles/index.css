@@ -1107,7 +1107,7 @@ textarea:focus {
 .proof-screen {
   position: fixed;
   inset: 0;
-  background-color: #111827;
+  background-color: var(--color-paper-dark);
   z-index: 100;
   display: flex;
   flex-direction: column;
@@ -1125,7 +1125,7 @@ textarea:focus {
 .proof-title {
   font-family: var(--font-display);
   font-size: 1.125rem;
-  color: white;
+  color: var(--color-text);
   margin: 0;
 }
 
@@ -1227,8 +1227,8 @@ textarea:focus {
 }
 
 .proof-close-btn {
-  background: rgba(255, 255, 255, 0.12);
-  color: white;
+  background: var(--color-paper-darker);
+  color: var(--color-text);
   border: none;
   border-radius: 50%;
   width: 36px;
@@ -1244,7 +1244,7 @@ textarea:focus {
 }
 
 .proof-close-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: #d6d3d1;
 }
 
 .proof-content {
@@ -1257,29 +1257,30 @@ textarea:focus {
 }
 
 .proof-batch-info {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--color-paper);
   border-radius: 12px;
   padding: 16px;
+  border: 1px solid var(--color-border);
 }
 
 .proof-shop {
   font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 700;
-  color: white;
+  color: var(--color-text);
   margin-bottom: 4px;
 }
 
 .proof-date {
   font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--color-text-muted);
   margin-bottom: 4px;
 }
 
 .proof-amount {
   font-size: 1rem;
   font-weight: 600;
-  color: var(--color-green-lighter);
+  color: var(--color-green);
 }
 
 .proof-receipt {
@@ -1291,7 +1292,7 @@ textarea:focus {
 }
 
 .proof-items-label {
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--color-text-muted);
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -1299,22 +1300,26 @@ textarea:focus {
 }
 
 .proof-item-card {
-  background: rgba(255, 255, 255, 0.07);
+  background: var(--color-paper);
   border-radius: 12px;
   overflow: hidden;
   display: flex;
   gap: 16px;
   align-items: center;
   padding: 12px;
+  border: 1px solid var(--color-border);
 }
 
 .proof-item-photo {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  max-width: 60px;
+  flex-basis: 60px;
   object-fit: cover;
   border-radius: 8px;
   flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--color-paper-darker);
 }
 
 .proof-item-info {
@@ -1325,14 +1330,14 @@ textarea:focus {
 
 .proof-item-code {
   font-family: var(--font-display);
-  font-size: 1.375rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  color: white;
+  color: var(--color-text);
 }
 
 .proof-item-type {
   font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
