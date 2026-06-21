@@ -26,8 +26,8 @@ const executablePath = paths.find((p) => fs.existsSync(p));
   // Forward browser console logs to Node console
   page.on('console', (msg) => console.log('BROWSER:', msg.text()));
 
-  // Mobile viewport
-  await page.setViewport({ width: 390, height: 844 });
+  // Desktop viewport
+  await page.setViewport({ width: 1366, height: 768 });
 
   // a. Load http://localhost:5173
   await page.goto('http://localhost:5173', { waitUntil: 'networkidle0' });
