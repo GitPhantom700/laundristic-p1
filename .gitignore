@@ -23,6 +23,15 @@ node_modules/
 # Testing
 /coverage/
 .nyc_output/
+*_screenshot.png
+*_test.png
+
+# Agent workspaces (Antigravity / Claude Code internals)
+.agents/
+
+# Scratch / temp files
+*.txt
+!README*.txt
 
 # PWA
 /public/sw.js
