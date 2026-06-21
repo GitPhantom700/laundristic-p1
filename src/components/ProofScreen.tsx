@@ -146,6 +146,7 @@ export function ProofScreen({ batch, onClose, onDelete }: ProofScreenProps) {
               border: '2px solid var(--color-green)',
               color: 'var(--color-error)',
               fontWeight: 600,
+              borderRadius: '24px',
             }}
           >
             Delete Receipt
