@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getGarment, deleteBatch } from '../lib/storage';
 import type { Batch, Garment } from '../lib/types';
+import { useToast } from './ToastProvider';
 
 interface ProofScreenProps {
   batch: Batch;
@@ -46,11 +47,58 @@ function ProofItemCard({
 }
 
 export function ProofScreen({ batch, onClose, onDelete }: ProofScreenProps) {
+  const { showToast } = useToast();
   const [garments, setGarments] = useState<Garment[]>([]);
   const [receiptUrl, setReceiptUrl] = useState<string | null>(null);
   const [expandedPhoto, setExpandedPhoto] = useState<string | null>(null);
+  const [sharing, setSharing] = useState(false);
 
   const isClosed = batch.status === 'closed';
+
+  async function handleShare() {
+    if (sharing) return;
+    setSharing(true);
+    try {
+      // Lazy-load pdf-lib only when the user actually shares — keeps it out of
+      // the initial bundle (it's ~400 kB) for faster first load on mobile.
+      const { generateReceiptPdf } = await import('../lib/receipt-pdf');
+      const blob = await generateReceiptPdf(batch, garments);
+      const slug = batch.shopName
+        ? batch.shopName.replace(/[^a-z0-9]+/gi, '-').toLowerCase() + '-'
+        : '';
+      const filename = `laundristic-receipt-${slug}${new Date(batch.date)
+        .toISOString()
+        .slice(0, 10)}.pdf`;
+      const file = new File([blob], filename, { type: 'application/pdf' });
+
+      // Prefer the native share sheet (iOS Safari → Mail/WhatsApp/etc.).
+      const nav = navigator as Navigator & {
+        canShare?: (data?: ShareData) => boolean;
+      };
+      if (nav.share && nav.canShare?.({ files: [file] })) {
+        await nav.share({
+          files: [file],
+          title: 'Laundry Receipt',
+          text: `Receipt from ${batch.shopName || 'laundry'}`,
+        });
+      } else {
+        // Fallback (desktop / browsers without file share): download the PDF.
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    } catch (err) {
+      // Dismissing the iOS share sheet rejects with AbortError — not a failure.
+      if ((err as Error).name !== 'AbortError') {
+        showToast('Could not generate receipt PDF', 'error');
+      }
+    } finally {
+      setSharing(false);
+    }
+  }
 
   useEffect(() => {
     async function load() {
@@ -102,11 +150,12 @@ export function ProofScreen({ batch, onClose, onDelete }: ProofScreenProps) {
         </button>
         <h3 className="proof-title">{isClosed ? 'Receipt' : 'Proof'}</h3>
         <button
-          onClick={() => window.print()}
+          onClick={handleShare}
+          disabled={sharing}
           className="btn-primary no-print"
           style={{ padding: '6px 12px', fontSize: '0.875rem' }}
         >
-          Share / Print
+          {sharing ? 'Preparing…' : 'Share PDF'}
         </button>
       </div>
 
