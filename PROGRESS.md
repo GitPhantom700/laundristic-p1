@@ -5,20 +5,20 @@
 
 ## Snapshot
 
-- **Date:** 2026-06-21
+- **Date:** 2026-06-22
 - **Phase:** 4 — Ship
-- **Last completed:** ProofScreen Quick View feature, Camera background leak fix, White spot UI fix
-- **Next package:** [CC] Fix PDF export layout issues
-- **Repo state:** pushed to main; tests passing.
+- **Last completed:** P4.6 (CC) — real PDF receipt export + native share (pdf-lib), replacing the broken window.print() flow
+- **Next package:** Standing by for user directive
+- **Repo state:** pushed to main; 136 tests passing; lint + format clean; build green.
 
 ## Next Session Notes
 
-- `ProofScreen` UI styling issues (dark mode bleed, image stretching, delete button styling/alignment) have been fully fixed and aligned with the light theme.
+- P4.6 PDF fix is done. Final verification is **on-device**: open a closed batch's Receipt → tap "Share PDF" → confirm the iOS share sheet opens with a clean, full-resolution PDF that can be emailed/WhatsApp'd. `navigator.share` only works on a real HTTPS device, not in desktop dev.
 - Standing by for the user to specify the next screen or feature to work on.
 
 ## Decisions
 
-- 2026-06-21 · Camera Privacy Fix (AG): Fixed critical bug where the camera hardware stream remained active in the background after taking a photo or unmounting the camera component. `start()` now properly re-binds streams, and `stop()` is called immediately on capture.
+- 2026-06-22 · P4.6 PDF export (CC): Added `pdf-lib` dependency (user-approved; SPEC §Tech amended). New pure lib `generateReceiptPdf(batch, garments)` returns an `application/pdf` Blob — A4 layout, full-res JPEGs embedded verbatim via `embedJpg` (no canvas), WinAnsi text sanitised so non-Latin shop names can't crash drawText. ProofScreen shares it via `navigator.share({files})` with download fallback. Removed `window.print()` + the whole `@media print` CSS block (the buggy mechanism). pdf-lib lazy-loaded via dynamic `import()` → split into its own chunk (main bundle 632→201 kB). 6 new tests (136 total). **The `no-print` classNames left in ProofScreen/BatchDetailsSheet are now inert (CSS removed) — harmless, can be cleaned up by AG in a later UI pass.** Fixed critical bug where the camera hardware stream remained active in the background after taking a photo or unmounting the camera component. `start()` now properly re-binds streams, and `stop()` is called immediately on capture.
 - 2026-06-21 · UI Fixes (AG): Implemented "Quick View" popup on `ProofScreen` to allow users to click and enlarge garment items. Fixed white spot issue on the camera preview 'X' close button.
 - 2026-06-21 · UI Fixes (AG): Fixed ProofScreen to use light theme variables matching the rest of the app, added a Delete Receipt button styled to match the theme, and fixed a Safari layout bug where flex item images stretched horizontally over text by enforcing explicit flex dimensions.
 - 2026-06-21 · Layout Fix (AG): Moved all overlay sheets (`DropOffSheet`, `EditGarmentSheet`, etc.) outside of `.screen-container` in `DropOffs.tsx` and `Wardrobe.tsx` to fix a `z-index` stacking context bug on iOS/mobile browsers. Changed `.edit-sheet-overlay` to `position: fixed` to ensure full-screen coverage. Confirmed working on device.
@@ -58,14 +58,14 @@
 
 ## Handoff notes
 
-- **[CC] NEXT ACTION ITEM (PDF FIX):** The user has requested Claude to fix the PDF export layout. The current `@media print` CSS and `window.print()` implementation (from P4.6) is generating a poorly formatted PDF with resolution and layout issues. Please investigate and fix the PDF print layout.
+- **[CC] PDF FIX — ✅ DONE (2026-06-22):** Root cause was the `@media print` `visibility:hidden` hack — hidden elements still reserve layout space, so the whole app printed as blank pages around the receipt. Replaced entirely: new pure lib `generateReceiptPdf(batch, garments)` (`src/lib/receipt-pdf.ts`, pdf-lib) builds a self-contained A4 receipt with full-res JPEGs embedded verbatim (no rasterisation). ProofScreen "Share PDF" → `navigator.share({files})` (Mail/WhatsApp) with a download fallback for desktop. `window.print()` + the entire `@media print` CSS block removed. pdf-lib is lazy-loaded (`import()`) so it's code-split out of the main bundle.
 
 - **[AG] STATUS OF USER REQUESTS:**
   1. ✓ DONE (AG, P4.2) — camera close button restyled + dark mode dropped. NOTE: code is correct on main; if user still sees the dark blob it is a stale PWA cache, addressed by the visibilitychange auto-update (CC, 2026-06-16). Not an AG action item.
   2. ✓ DONE (AG, P4.2) — light mode forced.
   3. ✓ DONE (CC, P4.5, 2026-06-16) — auto-delete garments from catalog. Implemented as SOFT delete (`'returned'` status). No AG action needed unless user wants hard delete (see Decisions).
   4. ✓ DONE (CC, 2026-06-16) — button contrast fix. `--color-green` darkened to #4e6e52 (WCAG AA compliant). All primary/secondary buttons are now readable in Chrome and Safari.
-  5. ✓ DONE (AG, P4.6) — Email PDF + historical receipt view. Share/Print button triggers native window.print() configured with pristine @media print CSS.
+  5. ✓ DONE (CC, P4.6, 2026-06-22) — Email/share receipt PDF. **Reworked:** the original AG `window.print()` + `@media print` approach produced a broken PDF (blank pages, low res) and was replaced by `generateReceiptPdf` (pdf-lib) + `navigator.share`. See Decisions 2026-06-22.
   6. ✓ DONE (AG, P4.7) — Delete previous batches. Delete button added to BatchDetailsSheet with window.confirm() prompt.
 
 - P2.7 Missing-item loop (CC) complete. MissingItemSheet resolves items one by one (Found/Lost); Lost retires garment to status:'lost'; isBatchResolvable auto-closes batch when all items terminal. ProofScreen is a full-screen dark overlay (z-index 80) showing receipt + shop/date + each missing garment photo — opened from both awaiting batch card ("Proof") and from within MissingItemSheet ("View Proof"). 108 tests passing.

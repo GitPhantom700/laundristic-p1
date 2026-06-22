@@ -1,21 +1,21 @@
 # Roadmap — Laundristic
 
 > Local-first PWA for laundry tracking. Single user, on-device, free, open source (MIT).
-> Last updated: **2026-06-16** after feat(catalog): P4.5 auto-delete returned garments + PWA auto-update.
+> Last updated: **2026-06-22** after feat(receipt): P4.6 PDF receipt export + native share (pdf-lib).
 
 ---
 
 ## Current Status
 
-**Phase 3 · Hardening** — 4 of 4 packages done. ✅
-Next task: **P4.1 [AG]** Docs — architecture, data model, user guide with screenshots.
+**Phase 4 · Ship** — in progress. P4.6 (receipt PDF + share) just completed.
+Remaining: **P4.3 [AG]** Confluence mirror, **P4.4 [CHAT]** launch review, then Phase 5 (Admin App).
 
 ```
 Phase 0 Foundation   ████████████████████  100%  COMPLETE
 Phase 1 Data Spine   ████████████████████  100%  COMPLETE
 Phase 2 Product      ████████████████████  100%  COMPLETE
 Phase 3 Hardening    ████████████████████  100%  COMPLETE
-Phase 4 Ship         ░░░░░░░░░░░░░░░░░░░░    0%  NOT STARTED
+Phase 4 Ship         █████████████░░░░░░░   65%  IN PROGRESS
 ```
 
 ---
@@ -119,14 +119,14 @@ App hosted on AWS Amplify; tested on iPhone 15 (iOS Safari). Observed OOM tab-ki
 
 ## Phase 4 — Ship 🔄
 
-| Package                   | Lane | Status  | Notes                                                                                                |
-| ------------------------- | ---- | ------- | ---------------------------------------------------------------------------------------------------- |
-| P4.1 Docs                 | AG   | 🔲      | Architecture, data model, user guide with screenshots, contributing                                  |
-| P4.2 Deploy (AWS Amplify) | AG   | ✅ Done | Hosted on AWS Amplify; live on iPhone 15 Safari; light mode forced; camera close button fix          |
-| P4.3 Confluence mirror    | AG   | 🔲      | One-way publish `/docs` → Confluence space "Tally"                                                   |
-| P4.4 Launch review        | CHAT | 🔲      | README/portfolio polish, LinkedIn framing                                                            |
-| P4.5 Auto-delete garments | CC   | ✅ Done | Soft-delete via `'returned'` status; `setGarmentStatus()` helper; Wardrobe auto-hides returned items |
-| P4.6 Email PDF            | AG   | ⏳ Next | Share batch summary as PDF/print page via native share sheet; "Share" button on closed batch + Proof |
+| Package                   | Lane | Status  | Notes                                                                                                                                                                                                               |
+| ------------------------- | ---- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| P4.1 Docs                 | AG   | 🔲      | Architecture, data model, user guide with screenshots, contributing                                                                                                                                                 |
+| P4.2 Deploy (AWS Amplify) | AG   | ✅ Done | Hosted on AWS Amplify; live on iPhone 15 Safari; light mode forced; camera close button fix                                                                                                                         |
+| P4.3 Confluence mirror    | AG   | 🔲      | One-way publish `/docs` → Confluence space "Tally"                                                                                                                                                                  |
+| P4.4 Launch review        | CHAT | 🔲      | README/portfolio polish, LinkedIn framing                                                                                                                                                                           |
+| P4.5 Auto-delete garments | CC   | ✅ Done | Soft-delete via `'returned'` status; `setGarmentStatus()` helper; Wardrobe auto-hides returned items                                                                                                                |
+| P4.6 Email PDF            | CC   | ✅ Done | `generateReceiptPdf` (pdf-lib, lazy-loaded) builds an A4 receipt; ProofScreen "Share PDF" → `navigator.share` file (Mail/WhatsApp) w/ download fallback. Replaced the broken `window.print()` + `@media print` hack |
 
 ---
 
