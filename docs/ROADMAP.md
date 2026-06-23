@@ -1,4 +1,4 @@
-# Roadmap — Laundristic
+# Roadmap
 
 > Local-first PWA for laundry tracking. Single user, on-device, free, open source (MIT).
 > Last updated: **2026-06-22** after feat(receipt): P4.6 PDF receipt export + native share (pdf-lib).

@@ -1,4 +1,4 @@
-# Contributing to Laundristic
+# Contributing
 
 Thank you for contributing to Laundristic! This project uses a very specific two-lane development workflow to manage scope and minimize merge conflicts.
 

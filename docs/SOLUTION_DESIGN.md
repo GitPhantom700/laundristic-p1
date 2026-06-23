@@ -1,4 +1,4 @@
-# Solution Design — Laundristic
+# Solution Design
 
 > A solution-level view of what Laundristic is, who it's for, what problem it solves, and how it's structured at the top. Pair this with [Technical Design](TECHNICAL_DESIGN.md) for the engineering detail.
 

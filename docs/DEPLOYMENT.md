@@ -1,4 +1,4 @@
-# Deployment Guide — Laundristic
+# Deployment Guide
 
 > How the app gets from a commit on `main` to a live PWA on an iPhone. Covers the GitHub repository, the CI pipeline, the AWS Amplify hosting pipeline, the release process, and the Confluence docs mirror.
 

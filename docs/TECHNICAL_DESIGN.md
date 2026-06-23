@@ -1,4 +1,4 @@
-# Technical Design — Laundristic
+# Technical Design
 
 > Engineering-level companion to [Solution Design](SOLUTION_DESIGN.md). All diagrams are Mermaid and render natively on GitHub and in modern Confluence (via the Mermaid Cloud macro).
 
