@@ -16,10 +16,18 @@ Laundristic is a local-first Progressive Web App (PWA) designed for people who h
 
 ## Documentation
 
-- [Architecture](docs/ARCHITECTURE.md) - Learn how the local-first PWA is structured.
-- [Data Model](docs/DATA_MODEL.md) - Understand the IndexedDB schema and state machines.
-- [User Guide](docs/USER_GUIDE.md) - A step-by-step guide to using Laundristic, complete with screenshots.
-- [Contributing](docs/CONTRIBUTING.md) - Guidelines for setting up, testing, and developing the app.
+**Design**
+
+- [Solution Design](docs/SOLUTION_DESIGN.md) — what Laundristic is, who it's for, why each major decision was made.
+- [Technical Design](docs/TECHNICAL_DESIGN.md) — architecture, data model, state machines, and sequence diagrams of every critical flow.
+- [Deployment Guide](docs/DEPLOYMENT.md) — GitHub repository, GitHub Actions CI, AWS Amplify hosting, Confluence docs mirror.
+
+**Reference**
+
+- [Architecture](docs/ARCHITECTURE.md) — implementation-level notes (narrative form).
+- [Data Model](docs/DATA_MODEL.md) — IndexedDB schema and state-transition rules.
+- [User Guide](docs/USER_GUIDE.md) — step-by-step end-user walkthrough with screenshots.
+- [Contributing](docs/CONTRIBUTING.md) — local dev setup, two-lane workflow.
 
 ## Tech Stack
 
