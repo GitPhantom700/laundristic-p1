@@ -1,5 +1,16 @@
 # Release Notes
 
+## v0.1.4
+
+_The v0.1.x freeze build — the reference base future versions fork from._
+
+### What's New
+
+- **Solution / Technical / Deployment design docs** authored with 17 Mermaid diagrams (system context, ER, state machines, sequence flows, CI/CD pipelines).
+- **Confluence one-way docs mirror** (`scripts/sync-confluence.mjs`) with native page attachments — diagrams rendered via mermaid.ink, screenshots uploaded from disk, idempotent across re-syncs.
+- **`.env.example` template** so contributors have a clear reference for the Confluence sync credentials.
+- Minor cleanup: dead `no-print` classNames removed, stale `Tally` references purged from `SPEC.md`, Settings footer version label corrected, `tsconfig.json` deprecated `baseUrl` dropped.
+
 ## v0.1.3
 
 ### What's New
