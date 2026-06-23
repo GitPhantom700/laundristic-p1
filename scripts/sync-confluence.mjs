@@ -80,32 +80,58 @@ async function fetchConfluence(url, options = {}) {
 /**
  * Render a Mermaid diagram source to PNG bytes via the public mermaid.ink
  * service. Returns a Buffer. Throws if the service rejects the diagram.
+ *
+ * mermaid.ink is a free public service and 503s under burst load. Retry with
+ * exponential backoff on 429/503 to ride out rate limits.
  */
 async function renderMermaidToPng(source) {
   const encoded = Buffer.from(source, 'utf-8').toString('base64url');
   const url = `https://mermaid.ink/img/${encoded}?type=png&bgColor=white`;
-  const res = await fetch(url);
-  if (!res.ok) {
+  const maxAttempts = 5;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    const res = await fetch(url);
+    if (res.ok) return Buffer.from(await res.arrayBuffer());
+    if ((res.status === 429 || res.status === 503) && attempt < maxAttempts) {
+      // 1.5s, 3s, 6s, 12s
+      const wait = 1500 * 2 ** (attempt - 1);
+      await new Promise((r) => setTimeout(r, wait));
+      continue;
+    }
     const text = await res.text().catch(() => '');
     throw new Error(
-      `mermaid.ink ${res.status} (${source.length} chars) — ${text.slice(0, 200)}`,
+      `mermaid.ink ${res.status} (${source.length} chars, attempt ${attempt}) — ${text.slice(0, 200)}`,
     );
   }
-  return Buffer.from(await res.arrayBuffer());
+  // Unreachable but satisfies linting.
+  throw new Error('mermaid.ink: exhausted retries');
 }
 
 /**
- * Upload a binary blob as a Confluence page attachment. Re-uploading the same
- * filename creates a new version of the attachment (idempotent).
+ * Upload a binary blob as a Confluence page attachment. Idempotent:
+ *   • If no attachment with this filename exists, POST a new one.
+ *   • If one already exists, PUT a new version to its existing ID.
  *
- * Confluence multipart attachment endpoint requires the `X-Atlassian-Token`
- * CSRF nopcheck header and `minorEdit=true` to avoid spamming watchers.
+ * The plain POST endpoint rejects duplicate filenames with HTTP 400
+ * ("Cannot add a new attachment"); the .../data PUT updates instead.
+ *
+ * Confluence multipart endpoints require the `X-Atlassian-Token` CSRF
+ * nopcheck header. `minorEdit=true` keeps watchers from being spammed.
  */
 async function uploadAttachment(pageId, filename, buffer, mimeType) {
+  // 1. Probe for an existing attachment with this filename.
+  const probeUrl = `${baseUrl}/${pageId}/child/attachment?filename=${encodeURIComponent(filename)}`;
+  const probe = await fetchConfluence(probeUrl);
+  const existing = probe.results && probe.results[0];
+
   const form = new FormData();
   form.append('file', new Blob([buffer], { type: mimeType }), filename);
   form.append('minorEdit', 'true');
-  const res = await fetch(`${baseUrl}/${pageId}/child/attachment`, {
+
+  const target = existing
+    ? `${baseUrl}/${pageId}/child/attachment/${existing.id}/data`
+    : `${baseUrl}/${pageId}/child/attachment`;
+
+  const res = await fetch(target, {
     method: 'POST',
     headers: {
       Authorization: authHeader,
@@ -294,21 +320,24 @@ async function syncFile(filePath) {
     return;
   }
 
-  // Render Mermaid diagrams up-front so we fail fast before touching Confluence.
-  const renderedAttachments = await Promise.all(
-    attachments.map(async (a) => {
-      if (a.kind !== 'mermaid') return a;
-      process.stdout.write(`  ▸ rendering ${a.filename} … `);
-      try {
-        const buffer = await renderMermaidToPng(a.source);
-        console.log(`${buffer.length} bytes`);
-        return { ...a, source: buffer };
-      } catch (err) {
-        console.log(`FAILED (${err.message})`);
-        return { ...a, source: null };
-      }
-    }),
-  );
+  // Render Mermaid diagrams up-front. Serialise to avoid hammering mermaid.ink
+  // (it 503s on bursts) and to keep retries from fighting each other.
+  const renderedAttachments = [];
+  for (const a of attachments) {
+    if (a.kind !== 'mermaid') {
+      renderedAttachments.push(a);
+      continue;
+    }
+    process.stdout.write(`  ▸ rendering ${a.filename} … `);
+    try {
+      const buffer = await renderMermaidToPng(a.source);
+      console.log(`${buffer.length} bytes`);
+      renderedAttachments.push({ ...a, source: buffer });
+    } catch (err) {
+      console.log(`FAILED (${err.message})`);
+      renderedAttachments.push({ ...a, source: null });
+    }
+  }
 
   // Find existing page by title (within the space).
   const searchUrl = `${baseUrl}?spaceKey=${SPACE_KEY}&title=${encodeURIComponent(title)}&expand=version`;
