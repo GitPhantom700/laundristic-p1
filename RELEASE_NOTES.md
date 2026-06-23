@@ -1,3 +1,13 @@
+# Laundristic v0.1.3
+
+## What's New
+
+- **Share Receipt as PDF (P4.6):** Open any closed batch's receipt and tap **Share PDF** to generate a clean, full-resolution PDF (shop, date, total, receipt photo, garment list). Opens the native iOS share sheet — email it, send it via WhatsApp, or save it to Files. Useful for reimbursement claims.
+- **Better photo quality in shared PDFs:** Garment and receipt JPEGs are embedded verbatim (no re-encoding), so resolution is preserved end-to-end.
+- **Smaller initial bundle:** The PDF library (`pdf-lib`) is lazy-loaded — it's only fetched the first time you tap Share PDF, keeping the app fast to open.
+
+## Previous Releases
+
 # Laundristic v0.1.0
 
 The first stable release of Laundristic! 🎉

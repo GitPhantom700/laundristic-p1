@@ -165,9 +165,10 @@ AG has been given Dribbble-style samples (teal-header laundry apps, June 2026 se
 
 ## Definition of Done (v0.1.0)
 
-- [ ] Full core loop including missing-item resolution works offline on an iPhone as installed PWA
-- [ ] Data survives app restart
-- [ ] Export/import round-trips on real device
-- [ ] Docs published (repo + Confluence mirror)
-- [ ] Public GitHub repo with CI green
+- [x] Full core loop including missing-item resolution works offline on an iPhone as installed PWA _(in active use on iPhone 15, AWS Amplify deploy)_
+- [x] Data survives app restart _(IDB persistence + `storage.persist()`)_
+- [ ] Export/import round-trips on real device _(implemented; on-device round-trip not yet attempted)_
+- [ ] Docs published (repo + Confluence mirror) _(repo done; Confluence mirror = P4.3, still open)_
+- [x] Public GitHub repo with CI green _(github.com/GitPhantom700/laundristic; lint + format + 136 tests on every push)_
 - [x] Simulation test: 8/8 core loop flows verified (2026-06-13)
+- [x] Receipt PDF export + native share verified on device (2026-06-23) _(added P4.6)_

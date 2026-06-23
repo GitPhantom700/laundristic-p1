@@ -10,6 +10,7 @@ Laundristic is a local-first Progressive Web App (PWA) designed for people who h
 - **Lightning-Fast Drop-offs:** Select the items you're dropping off, snap a photo of the receipt, and enter the cost.
 - **Count-First Reconciliation:** When you get laundry back, checking in is a single tap. If you're short, you can easily tick off missing items and deal with them later.
 - **The Missing Item Loop:** When items are missing, Laundristic acts as your proof. The Proof screen gives you the garment photo, the receipt, the shop name, and the date—all on one screen, ready to show at the counter.
+- **Share Receipt as PDF:** Generate a clean, full-resolution PDF of any closed batch (shop, date, total, receipt photo, garment list) and share it via the native iOS share sheet — straight to Mail, WhatsApp, or anywhere else.
 - **100% Offline & Private:** Your data and photos never leave your device. The app boots in under a second and works without an internet connection.
 - **Data Portability:** Full ZIP export/import means you can easily back up your data or move it to a new device.
 
@@ -26,6 +27,7 @@ Laundristic is a local-first Progressive Web App (PWA) designed for people who h
 - **Styling:** Plain CSS with Custom Properties
 - **Storage:** IndexedDB (via `idb`)
 - **PWA:** `vite-plugin-pwa`
+- **Receipt PDF:** `pdf-lib` (lazy-loaded, code-split)
 - **Testing:** Vitest & React Testing Library
 
 ## Getting Started

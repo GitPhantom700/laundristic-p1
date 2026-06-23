@@ -5,15 +5,15 @@
 
 ## Snapshot
 
-- **Date:** 2026-06-22
+- **Date:** 2026-06-23
 - **Phase:** 4 — Ship
-- **Last completed:** P4.6 (CC) — real PDF receipt export + native share (pdf-lib), replacing the broken window.print() flow
+- **Last completed:** P4.6 (CC) — receipt PDF export + native share (pdf-lib) — **verified working on iPhone 15 / iOS Safari 2026-06-23**
 - **Next package:** Standing by for user directive
 - **Repo state:** pushed to main; 136 tests passing; lint + format clean; build green.
 
 ## Next Session Notes
 
-- P4.6 PDF fix is done. Final verification is **on-device**: open a closed batch's Receipt → tap "Share PDF" → confirm the iOS share sheet opens with a clean, full-resolution PDF that can be emailed/WhatsApp'd. `navigator.share` only works on a real HTTPS device, not in desktop dev.
+- P4.6 PDF export is done and **device-verified**: tap **Receipt → Share PDF** on a closed batch → iOS share sheet opens with a clean, full-res PDF that can be emailed / WhatsApp'd.
 - Standing by for the user to specify the next screen or feature to work on.
 
 ## Decisions
@@ -58,7 +58,7 @@
 
 ## Handoff notes
 
-- **[CC] PDF FIX — ✅ DONE (2026-06-22):** Root cause was the `@media print` `visibility:hidden` hack — hidden elements still reserve layout space, so the whole app printed as blank pages around the receipt. Replaced entirely: new pure lib `generateReceiptPdf(batch, garments)` (`src/lib/receipt-pdf.ts`, pdf-lib) builds a self-contained A4 receipt with full-res JPEGs embedded verbatim (no rasterisation). ProofScreen "Share PDF" → `navigator.share({files})` (Mail/WhatsApp) with a download fallback for desktop. `window.print()` + the entire `@media print` CSS block removed. pdf-lib is lazy-loaded (`import()`) so it's code-split out of the main bundle.
+- **[CC] PDF FIX — ✅ DONE & DEVICE-VERIFIED (2026-06-23):** Root cause was the `@media print` `visibility:hidden` hack — hidden elements still reserve layout space, so the whole app printed as blank pages around the receipt. Replaced entirely: new pure lib `generateReceiptPdf(batch, garments)` (`src/lib/receipt-pdf.ts`, pdf-lib) builds a self-contained A4 receipt with full-res JPEGs embedded verbatim (no rasterisation). ProofScreen "Share PDF" → `navigator.share({files})` (Mail/WhatsApp) with a download fallback for desktop. `window.print()` + the entire `@media print` CSS block removed. pdf-lib is lazy-loaded (`import()`) so it's code-split out of the main bundle.
 
 - **[AG] STATUS OF USER REQUESTS:**
   1. ✓ DONE (AG, P4.2) — camera close button restyled + dark mode dropped. NOTE: code is correct on main; if user still sees the dark blob it is a stale PWA cache, addressed by the visibilitychange auto-update (CC, 2026-06-16). Not an AG action item.
