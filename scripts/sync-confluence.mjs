@@ -1,3 +1,21 @@
+/**
+ * Confluence one-way docs mirror (P4.3).
+ *
+ * Source of truth = repo markdown. Target = "Laundristic" Confluence space.
+ *
+ * v2 (attachment-based) — diagrams and screenshots are uploaded as native
+ * Confluence page attachments instead of being linked as external URLs. This
+ * means:
+ *   • Mermaid blocks (```mermaid …```) are rendered to PNG via mermaid.ink
+ *     and attached.
+ *   • Local image refs in markdown (e.g. ![alt](qa/01_wardrobe.png)) are
+ *     read from disk and attached.
+ *   • Page body references them as <ri:attachment ri:filename="…"/>.
+ *
+ * One-way: this script never reads from Confluence beyond find-by-title.
+ * It does not delete orphaned pages or attachments.
+ */
+
 import fs from 'fs';
 import path from 'path';
 import 'dotenv/config';
@@ -5,16 +23,13 @@ import { marked } from 'marked';
 
 // --- CONFIGURATION ---
 const SPACE_KEY = process.env.CONFLUENCE_SPACE_KEY;
-const DOMAIN = process.env.CONFLUENCE_DOMAIN; // e.g., your-domain.atlassian.net
+const DOMAIN = process.env.CONFLUENCE_DOMAIN;
 const EMAIL = process.env.CONFLUENCE_EMAIL;
 const TOKEN = process.env.CONFLUENCE_API_TOKEN;
-const PARENT_ID = process.env.CONFLUENCE_PARENT_ID; // Optional
+const PARENT_ID = process.env.CONFLUENCE_PARENT_ID;
 const DRY_RUN = process.argv.includes('--dry-run');
 
-const GITHUB_RAW_BASE =
-  'https://raw.githubusercontent.com/GitPhantom700/laundristic/main/';
-
-// Explicit list of mirrored files. Scaffolding/internal files are omitted.
+// Explicit allowlist. Scaffolding/internal files are omitted.
 const FILES_TO_SYNC = [
   'README.md',
   'RELEASE_NOTES.md',
@@ -32,7 +47,7 @@ const FILES_TO_SYNC = [
 
 if (!SPACE_KEY || !DOMAIN || !EMAIL || !TOKEN) {
   console.error(
-    'Error: Missing required environment variables. Please set CONFLUENCE_SPACE_KEY, CONFLUENCE_DOMAIN, CONFLUENCE_EMAIL, and CONFLUENCE_API_TOKEN in your .env file.',
+    'Error: Missing required env vars. Set CONFLUENCE_SPACE_KEY, CONFLUENCE_DOMAIN, CONFLUENCE_EMAIL, and CONFLUENCE_API_TOKEN in .env.',
   );
   process.exit(1);
 }
@@ -40,8 +55,7 @@ if (!SPACE_KEY || !DOMAIN || !EMAIL || !TOKEN) {
 const authHeader = `Basic ${Buffer.from(`${EMAIL}:${TOKEN}`).toString('base64')}`;
 const baseUrl = `https://${DOMAIN}/wiki/rest/api/content`;
 
-// Tech debt note: Using Confluence REST API v1 for initial setup, v2 is recommended for future.
-// Note: This script performs a one-way sync and does not delete orphaned pages from Confluence.
+// --- HTTP HELPERS ---
 
 async function fetchConfluence(url, options = {}) {
   const res = await fetch(url, {
@@ -55,172 +69,298 @@ async function fetchConfluence(url, options = {}) {
   });
   if (!res.ok) {
     const text = await res.text();
-    throw new Error(`Confluence API error: ${res.status} - ${text}`);
+    throw new Error(
+      `Confluence ${res.status} ${res.statusText} — ${text.slice(0, 400)}`,
+    );
   }
   if (res.status === 204) return null;
   return res.json();
 }
 
+/**
+ * Render a Mermaid diagram source to PNG bytes via the public mermaid.ink
+ * service. Returns a Buffer. Throws if the service rejects the diagram.
+ */
+async function renderMermaidToPng(source) {
+  const encoded = Buffer.from(source, 'utf-8').toString('base64url');
+  const url = `https://mermaid.ink/img/${encoded}?type=png&bgColor=white`;
+  const res = await fetch(url);
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    throw new Error(
+      `mermaid.ink ${res.status} (${source.length} chars) — ${text.slice(0, 200)}`,
+    );
+  }
+  return Buffer.from(await res.arrayBuffer());
+}
+
+/**
+ * Upload a binary blob as a Confluence page attachment. Re-uploading the same
+ * filename creates a new version of the attachment (idempotent).
+ *
+ * Confluence multipart attachment endpoint requires the `X-Atlassian-Token`
+ * CSRF nopcheck header and `minorEdit=true` to avoid spamming watchers.
+ */
+async function uploadAttachment(pageId, filename, buffer, mimeType) {
+  const form = new FormData();
+  form.append('file', new Blob([buffer], { type: mimeType }), filename);
+  form.append('minorEdit', 'true');
+  const res = await fetch(`${baseUrl}/${pageId}/child/attachment`, {
+    method: 'POST',
+    headers: {
+      Authorization: authHeader,
+      'X-Atlassian-Token': 'no-check',
+      Accept: 'application/json',
+    },
+    body: form,
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(
+      `attachment "${filename}" ${res.status} — ${text.slice(0, 200)}`,
+    );
+  }
+  return res.json();
+}
+
+// --- MARKDOWN PROCESSING ---
+
+const MIME_BY_EXT = {
+  png: 'image/png',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  gif: 'image/gif',
+  svg: 'image/svg+xml',
+};
+
+function slugify(s) {
+  return s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+/**
+ * Walk the markdown, hoist diagrams + local images into an `attachments` list,
+ * convert callouts + code, and return Confluence storage-format HTML with
+ * `<ri:attachment>` placeholders that resolve at view time.
+ */
 function processMarkdown(filePath, markdown) {
-  // 1. Page Title Strategy
-  // Use first H1. Fall back to Title Case if missing. Force 'Overview' for README.
+  const attachments = [];
+
+  // 1. Title — H1 of the file, with overrides for README.
   let title = 'Untitled';
   if (filePath === 'README.md') {
     title = 'Overview';
   } else {
-    const h1Match = markdown.match(/^#\s+(.+)$/m);
-    if (h1Match) {
-      title = h1Match[1].trim();
+    const h1 = markdown.match(/^#\s+(.+)$/m);
+    if (h1) {
+      title = h1[1].trim();
     } else {
-      const baseName = path.basename(filePath, '.md');
-      title = baseName
+      title = path
+        .basename(filePath, '.md')
         .replace(/_/g, ' ')
         .replace(/\b\w/g, (l) => l.toUpperCase());
     }
   }
 
-  // 2. Rewrite Image Links to GitHub raw URLs
-  const dirPath = path.dirname(filePath);
-  let processedMd = markdown.replace(
-    /!\[([^\]]*)\]\(([^)]+)\)/g,
-    (match, alt, imagePath) => {
-      if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-        return match;
-      }
-      let resolvedPath = path.posix.join(
-        dirPath.replace(/\\/g, '/'),
-        imagePath,
-      );
-      const absoluteUrl = `${GITHUB_RAW_BASE}${resolvedPath}`;
-      return `![${alt}](${absoluteUrl})`;
+  const fileSlug = slugify(path.basename(filePath, '.md'));
+  let diagramIdx = 0;
+
+  // 2. Extract Mermaid fences → schedule render + replace with placeholder image.
+  let processed = markdown.replace(
+    /```mermaid\n([\s\S]*?)```/g,
+    (_match, source) => {
+      diagramIdx++;
+      const filename = `${fileSlug}-diagram-${diagramIdx}.png`;
+      attachments.push({
+        filename,
+        mimeType: 'image/png',
+        kind: 'mermaid',
+        source,
+      });
+      return `![diagram ${diagramIdx}](attachment:${filename})`;
     },
   );
 
-  // 3. Transform GitHub Admonitions to Confluence Macros
-  processedMd = processedMd.replace(
+  // 3. Resolve local image refs (relative to the markdown file) → schedule upload.
+  const dirPath = path.dirname(filePath);
+  processed = processed.replace(
+    /!\[([^\]]*)\]\(([^)]+)\)/g,
+    (match, alt, imagePath) => {
+      if (imagePath.startsWith('attachment:')) return match; // ours
+      if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+        return match; // remote http(s) image — keep as-is
+      }
+      const resolvedPath = path.posix.join(
+        dirPath.replace(/\\/g, '/'),
+        imagePath,
+      );
+      if (!fs.existsSync(resolvedPath)) {
+        console.warn(`  ⚠ missing local image: ${resolvedPath}`);
+        return `*(missing image: ${imagePath})*`;
+      }
+      const filename = path.basename(resolvedPath);
+      const ext = path.extname(filename).slice(1).toLowerCase();
+      const mimeType = MIME_BY_EXT[ext] || 'application/octet-stream';
+      const buffer = fs.readFileSync(resolvedPath);
+      attachments.push({
+        filename,
+        mimeType,
+        kind: 'file',
+        source: buffer,
+      });
+      return `![${alt}](attachment:${filename})`;
+    },
+  );
+
+  // 4. GFM-style admonitions → Confluence info/warning/tip macros.
+  processed = processed.replace(
     /^> \[\!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\n((?:> .*\n?)*)/gm,
-    (match, type, body) => {
+    (_m, type, body) => {
       let acType = 'info';
       if (['WARNING', 'CAUTION', 'IMPORTANT'].includes(type))
         acType = 'warning';
       if (type === 'TIP') acType = 'tip';
-
-      const innerMarkdown = body.replace(/^> ?/gm, '').trim();
-      const innerHtml = marked.parse(innerMarkdown);
-
-      // Confluence storage format macros
+      const innerMd = body.replace(/^> ?/gm, '').trim();
+      const innerHtml = marked.parse(innerMd);
       return `<ac:structured-macro ac:name="${acType}"><ac:rich-text-body>${innerHtml}</ac:rich-text-body></ac:structured-macro>\n\n`;
     },
   );
 
-  // 4. Convert remaining Markdown to HTML
-  let htmlContent = marked.parse(processedMd);
+  // 5. Markdown → HTML.
+  let html = marked.parse(processed);
 
-  // 5. Post-process HTML to valid Confluence Storage Format (XML)
-  // Convert <img> to <ac:image>
-  htmlContent = htmlContent.replace(
-    /<img[^>]+src="([^">]+)"[^>]*>/g,
-    (match, src) => {
-      return `<ac:image><ri:url ri:value="${src}" /></ac:image>`;
-    },
+  // 6. Replace attachment: placeholders with Confluence attachment macros.
+  html = html.replace(
+    /<img[^>]+src="attachment:([^"]+)"[^>]*\/?>/g,
+    (_m, filename) =>
+      `<ac:image><ri:attachment ri:filename="${filename}" /></ac:image>`,
+  );
+  // Any remaining remote <img> (badges, etc.) stay as external URL references.
+  html = html.replace(
+    /<img[^>]+src="(https?:[^"]+)"[^>]*\/?>/g,
+    (_m, src) => `<ac:image><ri:url ri:value="${src}" /></ac:image>`,
   );
 
-  // Convert <pre><code> to Confluence Code Macro
-  htmlContent = htmlContent.replace(
+  // 7. <pre><code> → Confluence code macro (with language if present).
+  html = html.replace(
     /<pre><code(?:\s+class="language-([^"]+)")?>([\s\S]*?)<\/code><\/pre>/g,
-    (match, lang, code) => {
+    (_m, lang, code) => {
       const langParam = lang
         ? `<ac:parameter ac:name="language">${lang}</ac:parameter>`
         : '';
-      // Unescape HTML entities inside code block for CDATA
-      const unescapedCode = code
+      const unescaped = code
         .replace(/&lt;/g, '<')
         .replace(/&gt;/g, '>')
         .replace(/&quot;/g, '"')
         .replace(/&#39;/g, "'")
         .replace(/&amp;/g, '&');
-      return `<ac:structured-macro ac:name="code">${langParam}<ac:plain-text-body><![CDATA[${unescapedCode}]]></ac:plain-text-body></ac:structured-macro>`;
+      return `<ac:structured-macro ac:name="code">${langParam}<ac:plain-text-body><![CDATA[${unescaped}]]></ac:plain-text-body></ac:structured-macro>`;
     },
   );
 
-  // Ensure self-closing tags are XML-compliant
-  htmlContent = htmlContent
-    .replace(/<br>/g, '<br />')
-    .replace(/<hr>/g, '<hr />');
+  // 8. XML-compliant self-closing tags.
+  html = html.replace(/<br>/g, '<br />').replace(/<hr>/g, '<hr />');
 
-  return { title, htmlContent };
+  return { title, htmlContent: html, attachments };
 }
 
+// --- SYNC ---
+
 async function syncFile(filePath) {
-  console.log(`\nProcessing ${filePath}...`);
+  console.log(`\nProcessing ${filePath}…`);
   if (!fs.existsSync(filePath)) {
-    console.warn(`File not found: ${filePath}`);
+    console.warn(`  File not found: ${filePath}`);
     return;
   }
 
-  const markdown = fs.readFileSync(filePath, 'utf-8');
-  const { title, htmlContent } = processMarkdown(filePath, markdown);
+  const md = fs.readFileSync(filePath, 'utf-8');
+  const { title, htmlContent, attachments } = processMarkdown(filePath, md);
 
-  console.log(`Resolved Title: "${title}"`);
+  console.log(`  Title: "${title}"`);
+  const diagramCount = attachments.filter((a) => a.kind === 'mermaid').length;
+  const fileCount = attachments.filter((a) => a.kind === 'file').length;
+  if (attachments.length) {
+    console.log(
+      `  Attachments: ${attachments.length} (${diagramCount} mermaid, ${fileCount} file)`,
+    );
+  }
 
   if (DRY_RUN) {
     console.log(
-      `[DRY RUN] Would sync "${title}" to space ${SPACE_KEY}. HTML length: ${htmlContent.length} chars.`,
+      `  [DRY RUN] Would sync. Body: ${htmlContent.length} chars, attachments: ${attachments.length}.`,
     );
     return;
   }
 
-  // Search for existing page by title in the space
+  // Render Mermaid diagrams up-front so we fail fast before touching Confluence.
+  const renderedAttachments = await Promise.all(
+    attachments.map(async (a) => {
+      if (a.kind !== 'mermaid') return a;
+      process.stdout.write(`  ▸ rendering ${a.filename} … `);
+      try {
+        const buffer = await renderMermaidToPng(a.source);
+        console.log(`${buffer.length} bytes`);
+        return { ...a, source: buffer };
+      } catch (err) {
+        console.log(`FAILED (${err.message})`);
+        return { ...a, source: null };
+      }
+    }),
+  );
+
+  // Find existing page by title (within the space).
   const searchUrl = `${baseUrl}?spaceKey=${SPACE_KEY}&title=${encodeURIComponent(title)}&expand=version`;
   const searchResult = await fetchConfluence(searchUrl);
 
   const payload = {
     type: 'page',
-    title: title,
+    title,
     space: { key: SPACE_KEY },
-    body: {
-      storage: {
-        value: htmlContent,
-        representation: 'storage',
-      },
-    },
+    body: { storage: { value: htmlContent, representation: 'storage' } },
   };
+  if (PARENT_ID) payload.ancestors = [{ id: PARENT_ID }];
 
-  // Set parent if provided, else it creates at space root
-  if (PARENT_ID) {
-    payload.ancestors = [{ id: PARENT_ID }];
-  }
-
+  let pageId;
   if (searchResult.results && searchResult.results.length > 0) {
     const page = searchResult.results[0];
-    const currentVersion = page.version.number;
-    console.log(
-      `Page exists (ID: ${page.id}, Version: ${currentVersion}). Updating...`,
-    );
-
-    // Explicitly increment version from the current fetched version
-    payload.version = { number: currentVersion + 1 };
-
-    await fetchConfluence(`${baseUrl}/${page.id}`, {
+    pageId = page.id;
+    payload.version = { number: page.version.number + 1 };
+    await fetchConfluence(`${baseUrl}/${pageId}`, {
       method: 'PUT',
       body: JSON.stringify(payload),
     });
     console.log(
-      `Success: Updated page "${title}" to version ${currentVersion + 1}.`,
+      `  ✓ Updated page ${pageId} → version ${page.version.number + 1}`,
     );
   } else {
-    console.log(`Page does not exist. Creating...`);
-    await fetchConfluence(baseUrl, {
+    const created = await fetchConfluence(baseUrl, {
       method: 'POST',
       body: JSON.stringify(payload),
     });
-    console.log(`Success: Created page "${title}".`);
+    pageId = created.id;
+    console.log(`  ✓ Created page ${pageId}`);
+  }
+
+  // Upload attachments after the page exists. Re-upload bumps the version.
+  for (const a of renderedAttachments) {
+    if (!a.source) {
+      console.log(`  ✖ skip "${a.filename}" (no buffer)`);
+      continue;
+    }
+    try {
+      await uploadAttachment(pageId, a.filename, a.source, a.mimeType);
+      console.log(`  ↥ uploaded "${a.filename}" (${a.source.length} bytes)`);
+    } catch (err) {
+      console.error(`  ✖ attachment "${a.filename}" failed: ${err.message}`);
+    }
   }
 }
 
 async function run() {
   console.log(
-    `Starting Confluence Sync (Space: ${SPACE_KEY})${DRY_RUN ? ' [DRY RUN]' : ''}`,
+    `Confluence sync — space ${SPACE_KEY}${DRY_RUN ? ' [DRY RUN]' : ''}`,
   );
   for (const file of FILES_TO_SYNC) {
     await syncFile(file);
