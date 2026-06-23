@@ -164,7 +164,6 @@ export function BatchDetailsSheet({
 
       {expandedPhoto && (
         <div
-          className="no-print"
           style={{
             position: 'fixed',
             inset: 0,

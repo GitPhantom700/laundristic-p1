@@ -131,7 +131,7 @@ export function ProofScreen({ batch, onClose, onDelete }: ProofScreenProps) {
       <div className="proof-header">
         <button
           onClick={onClose}
-          className="proof-close-btn no-print"
+          className="proof-close-btn"
           aria-label="Close"
         >
           <svg
@@ -152,7 +152,7 @@ export function ProofScreen({ batch, onClose, onDelete }: ProofScreenProps) {
         <button
           onClick={handleShare}
           disabled={sharing}
-          className="btn-primary no-print"
+          className="btn-primary"
           style={{ padding: '6px 12px', fontSize: '0.875rem' }}
         >
           {sharing ? 'Preparing…' : 'Share PDF'}
@@ -201,7 +201,6 @@ export function ProofScreen({ batch, onClose, onDelete }: ProofScreenProps) {
                 if (onDelete) onDelete();
               }
             }}
-            className="no-print"
             style={{
               width: '70%',
               margin: '32px auto 0',
@@ -223,7 +222,6 @@ export function ProofScreen({ batch, onClose, onDelete }: ProofScreenProps) {
 
       {expandedPhoto && (
         <div
-          className="no-print"
           style={{
             position: 'fixed',
             inset: 0,
