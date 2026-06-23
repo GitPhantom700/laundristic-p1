@@ -14,12 +14,21 @@ export interface Garment {
   code: string; // Human readable code (e.g., SHT-01)
   type: GarmentCategory; // e.g., 'SHT', 'TRO', 'BED'
   photoBlob: Blob; // Binary image data
-  status: GarmentStatus; // 'active' | 'lost' | 'removed'
+  status: GarmentStatus; // 'active' | 'returned' | 'lost' | 'removed'
   createdAt: number; // Timestamp
 }
 ```
 
 - **ID Generation:** Internal `id`s are immutable UUIDs. Display `code`s are generated using a `PREFIX-NN` format (e.g., `SHT-01`). The system calculates the next number by finding the maximum existing number for that prefix and adding 1.
+
+#### `GarmentStatus` values
+
+- **`active`** — currently in the user's possession (visible in the Wardrobe).
+- **`returned`** — back from a closed batch. Soft-deleted from the Wardrobe but still resolvable from batch history so closed receipts and the shared PDF can render its photo/code/category. Set automatically when a batch closes (on `received` and `found` items). _Introduced in P4.5._
+- **`lost`** — the shop declared the garment lost. Retired from the Wardrobe permanently.
+- **`removed`** — the user manually deleted the garment from the Wardrobe.
+
+> The Wardrobe screen filters to `status === 'active'`. The other three states are kept in IDB so historical batches stay self-contained — if you want to physically reclaim the bytes, you would need to denormalize `code`/`type`/`photo` onto `BatchItem` first and hard-delete the garment.
 
 ### Batch
 

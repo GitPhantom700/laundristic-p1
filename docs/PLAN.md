@@ -47,16 +47,19 @@ Conflict rule: if a package needs a file outside your lane, STOP, write the need
 
 ## Phase 4 — Ship
 
-- **P4.1 [AG]** Docs: architecture, data model, user guide w/ screenshots, contributing. ✓ `/docs` complete.
-- **P4.2 [AG]** Deploy PWA (GitHub Pages), tag v0.1.0, release notes. ✓ Installable from public URL.
-- **P4.3 [AG]** Confluence mirror: one-way publish `/docs` → Confluence space "Laundristic" (script or manual; repo stays source of truth). ✓ Space matches repo docs.
-- **P4.4 [AG]** UI fixes: (a) camera close button solid + visible (no transparency); (b) force light mode — remove `@media (prefers-color-scheme: dark)` from tokens.css, add `color-scheme: light` to `:root`. ✓ Both verified on real device.
-- **P4.5 [CC]** ✅ DONE — Auto-delete garments on batch close. SOFT delete via `'returned'` GarmentStatus (record kept so closed-batch history/PDF still resolve garment data): `received` garments flip to 'returned' on check-in completion; `found` garments flip on batch close; `lost` already retire to 'lost'. New `setGarmentStatus` storage helper. Wardrobe filters status==='active' so returned garments drop out. ✓ Catalog only shows garments in user's possession; 130 tests passing.
-- **P4.6 [AG]** Email PDF share: "Share / Email" button on closed batch cards + Proof screen. Generates PDF (or print-formatted HTML fallback) containing shop name, date, amount, garment list, embedded receipt photo. Opens native share sheet (`navigator.share` / `mailto:` fallback). ✓ User can email batch summary for reimbursement.
-- **P4.7 [CHAT]** Launch review: README/portfolio polish, LinkedIn framing. ✓ Done in planning chat.
-- **P4.8 [CHAT]** LinkedIn outreach research: identify articles, posts, and open-source showcase communities on LinkedIn where sharing the public GitHub repo would reach real users (laundry/household apps, indie PWA builders, portfolio showcases). Curate a shortlist of relevant hashtags, groups, and post formats. ✓ Done in planning chat.
+> The numbering below reflects what actually shipped. Earlier drafts of this plan had P4.2 targeting GitHub Pages and several P4.x slots assigned differently; the working list here is the source of truth and matches `ROADMAP.md` and `PROGRESS.md`.
 
-## Phase 5 — Admin App
+- **P4.1 [AG]** Docs: architecture, data model, user guide w/ screenshots, contributing. ✓ Done — `/docs` complete.
+- **P4.2 [AG]** Deploy PWA (**AWS Amplify**, not GitHub Pages as originally drafted); force light mode; camera close button restyle. ✓ Done — installable on iPhone 15 Safari at the public URL.
+- **P4.3 [AG]** Confluence mirror: one-way publish `/docs` → Confluence space "Laundristic" (script or manual; repo stays source of truth). ⏳ Open — last item for the v0.1.x freeze.
+- **P4.4 [CHAT]** Launch review: README/portfolio polish, LinkedIn framing. Deferred to v-next (post-freeze).
+- **P4.5 [CC]** ✓ Done — Auto-delete garments on batch close. SOFT delete via `'returned'` GarmentStatus (record kept so closed-batch history/PDF still resolve garment data): `received` garments flip to 'returned' on check-in completion; `found` garments flip on batch close; `lost` already retire to 'lost'. New `setGarmentStatus` storage helper. Wardrobe filters status==='active' so returned garments drop out.
+- **P4.6 [CC]** ✓ Done — Receipt PDF + native share. **Lane reassigned to CC after AG's first attempt** (`window.print()` + `@media print`) produced a broken layout. Replaced by `generateReceiptPdf` (pdf-lib, lazy-loaded) → `navigator.share({ files: [pdf] })` with a download fallback. Device-verified on iPhone 15 (2026-06-23).
+- **P4.7 [AG]** ✓ Done — Delete previous batches: button in `BatchDetailsSheet` with `window.confirm()` prompt.
+
+## Phase 5 — Admin App (post-freeze; v-next)
+
+> Phase 5 is **out of scope for v0.1.x**. The v0.1.x branch ships with `P4.3` (Confluence mirror) as the final task; everything below moves to a forked v-next branch.
 
 - **P5.1 [CC]** Data layer & Routing: Set up routing and data fetching for the new Admin App.
 - **P5.2 [AG]** UI Layout: Build the "Dusty Blue & Sand" UI design mockup for the Admin dashboard (per `docs/ADMIN_APP.md`).

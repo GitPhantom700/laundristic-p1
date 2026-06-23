@@ -6,19 +6,21 @@
 ## Snapshot
 
 - **Date:** 2026-06-23
-- **Phase:** 4 — Ship
-- **Last completed:** P4.6 (CC) — receipt PDF export + native share (pdf-lib) — **verified working on iPhone 15 / iOS Safari 2026-06-23**
-- **Next package:** Standing by for user directive
+- **Phase:** 4 — Ship · **freezing v0.1.x as the reference base**
+- **Last completed:** Freeze-gate cleanup (CC) — version label, schema doc, dead `no-print` cleanup, PLAN.md reconciliation
+- **Next package:** **P4.3 [AG] Confluence mirror** — the last task before v0.1.x is locked. After that, all further work continues on forks.
 - **Repo state:** pushed to main; 136 tests passing; lint + format clean; build green.
 
 ## Next Session Notes
 
-- P4.6 PDF export is done and **device-verified**: tap **Receipt → Share PDF** on a closed batch → iOS share sheet opens with a clean, full-res PDF that can be emailed / WhatsApp'd.
-- Standing by for the user to specify the next screen or feature to work on.
+- **v0.1.x is being frozen.** Once P4.3 (Confluence mirror) lands, this branch becomes the reference base — future work happens on cloned/forked branches. All Phase 5 (Admin App), launch review, and iOS-memory escalation items are explicitly out of scope for v0.1.x.
+- P4.6 PDF export is **device-verified**: tap **Receipt → Share PDF** on a closed batch → iOS share sheet opens with a clean, full-res PDF that can be emailed / WhatsApp'd.
+- Handoff to AG: switch to Antigravity and execute P4.3 only.
 
 ## Decisions
 
-- 2026-06-22 · P4.6 PDF export (CC): Added `pdf-lib` dependency (user-approved; SPEC §Tech amended). New pure lib `generateReceiptPdf(batch, garments)` returns an `application/pdf` Blob — A4 layout, full-res JPEGs embedded verbatim via `embedJpg` (no canvas), WinAnsi text sanitised so non-Latin shop names can't crash drawText. ProofScreen shares it via `navigator.share({files})` with download fallback. Removed `window.print()` + the whole `@media print` CSS block (the buggy mechanism). pdf-lib lazy-loaded via dynamic `import()` → split into its own chunk (main bundle 632→201 kB). 6 new tests (136 total). **The `no-print` classNames left in ProofScreen/BatchDetailsSheet are now inert (CSS removed) — harmless, can be cleaned up by AG in a later UI pass.** Fixed critical bug where the camera hardware stream remained active in the background after taking a photo or unmounting the camera component. `start()` now properly re-binds streams, and `stop()` is called immediately on capture.
+- 2026-06-23 · v0.1.x freeze gate (CC): Reviewed code + every `.md` for the freeze. Cleaned the small drift the freeze would have locked in — Settings footer `v1.0.2`→`v0.1.3`, `DATA_MODEL.md` now documents the `'returned'` GarmentStatus (P4.5 soft-delete), dead `no-print` classNames removed from `ProofScreen.tsx` + `BatchDetailsSheet.tsx` (the `@media print` block was deleted with P4.6), placeholder `tests/example.test.ts` removed, unused `baseUrl`/`paths` dropped from `tsconfig.json` (the `@/*` alias was never used). `PLAN.md` reconciled with `ROADMAP.md`/`PROGRESS.md` (P4.2 = Amplify not GH Pages; numbering aligned). After P4.3 (Confluence mirror, AG) lands, v0.1.x is the locked reference base; future work moves to forks.
+- 2026-06-22 · P4.6 PDF export (CC): Added `pdf-lib` dependency (user-approved; SPEC §Tech amended). New pure lib `generateReceiptPdf(batch, garments)` returns an `application/pdf` Blob — A4 layout, full-res JPEGs embedded verbatim via `embedJpg` (no canvas), WinAnsi text sanitised so non-Latin shop names can't crash drawText. ProofScreen shares it via `navigator.share({files})` with download fallback. Removed `window.print()` + the whole `@media print` CSS block (the buggy mechanism). pdf-lib lazy-loaded via dynamic `import()` → split into its own chunk (main bundle 632→201 kB). 6 new tests (136 total). (Inert `no-print` classNames removed in the 2026-06-23 freeze-gate cleanup.) Fixed critical bug where the camera hardware stream remained active in the background after taking a photo or unmounting the camera component. `start()` now properly re-binds streams, and `stop()` is called immediately on capture.
 - 2026-06-21 · UI Fixes (AG): Implemented "Quick View" popup on `ProofScreen` to allow users to click and enlarge garment items. Fixed white spot issue on the camera preview 'X' close button.
 - 2026-06-21 · UI Fixes (AG): Fixed ProofScreen to use light theme variables matching the rest of the app, added a Delete Receipt button styled to match the theme, and fixed a Safari layout bug where flex item images stretched horizontally over text by enforcing explicit flex dimensions.
 - 2026-06-21 · Layout Fix (AG): Moved all overlay sheets (`DropOffSheet`, `EditGarmentSheet`, etc.) outside of `.screen-container` in `DropOffs.tsx` and `Wardrobe.tsx` to fix a `z-index` stacking context bug on iOS/mobile browsers. Changed `.edit-sheet-overlay` to `position: fixed` to ensure full-screen coverage. Confirmed working on device.
