@@ -11,7 +11,7 @@ Before you can drop off items, you need to add them to your Wardrobe.
 3. Select the category (e.g., Shirt, Trousers, Bedsheet).
 4. A unique ID pill (like `SHT-01`) is generated. The item is saved! You can immediately snap the next item.
 
-![Wardrobe Screen](file:///C:/Users/chand/Documents/GitHub/laundristic/docs/qa/01_wardrobe.png)
+![Wardrobe Screen](qa/01_wardrobe.png)
 
 ## 2. Dropping Off Laundry
 
@@ -23,7 +23,7 @@ Once your items are in the Wardrobe, you can create a drop-off batch.
 4. Enter the shop name and the total amount. (The app remembers your last shop name for faster entry).
 5. Tap **Confirm**. The batch is now **Active**.
 
-![Drop-offs Screen](file:///C:/Users/chand/Documents/GitHub/laundristic/docs/qa/02_dropoffs.png)
+![Drop-offs Screen](qa/02_dropoffs.png)
 
 ## 3. Checking In (Reconciliation)
 
@@ -65,7 +65,7 @@ Tap the **Stats** tab to see your laundry economics.
 - View your 30-day spend, all-time spend, and averages.
 - Check the 6-month bar chart to see spending trends over time.
 
-![Stats Screen](file:///C:/Users/chand/Documents/GitHub/laundristic/docs/qa/03_stats.png)
+![Stats Screen](qa/03_stats.png)
 
 ## 7. Settings (Backup & Restore)
 
@@ -74,4 +74,4 @@ Tap the **Settings** tab (the gear icon) to manage your data.
 - **Export Data:** Downloads a `.zip` file containing all your garments, receipts, and history.
 - **Import Data:** Restores a `.zip` file from a previous export. _Warning: Importing will replace your current data._
 
-![Settings Screen](file:///C:/Users/chand/Documents/GitHub/laundristic/docs/qa/04_settings.png)
+![Settings Screen](qa/04_settings.png)
