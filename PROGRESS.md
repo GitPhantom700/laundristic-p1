@@ -6,18 +6,21 @@
 ## Snapshot
 
 - **Date:** 2026-06-23
-- **Phase:** 5 — Admin App
-- **Last completed:** P4.3 (AG) — Confluence one-way sync script implemented (`sync:docs`).
-- **Next package:** P5.1 (CC) — Data layer & Routing for the new Admin App.
-- **Repo state:** pushed to main; tests passing; lint + format clean.
+- **Phase:** Frozen — v0.1.x ships as the daily-driver reference base.
+- **Last completed:** v0.1.4 freeze: design docs, Confluence sync v2 (attachment-based), title cleanup, version bump.
+- **Next package:** **None in this repo.** Future work (Laundristic 0.2 — sync, OCR, Hindi UI, iOS-memory escalation, Phase 5 Admin App, etc.) continues in a **GitHub fork** with its own Amplify deployment. This repo stays untouched as the user's working app.
+- **Repo state:** tagged `v0.1.4`; pushed to main; 135 tests passing; lint + format clean.
 
 ## Next Session Notes
 
-- Phase 4 is officially complete! The Confluence sync script (`npm run sync:docs`) is ready. It runs a one-way mirror from `/docs` to Confluence via API v1.
-- Standing by for Claude Code to execute P5.1 (Admin App routing and data layer) or for user directives to test the sync script locally.
+- **v0.1.x is frozen.** Do not start new feature work in this repo. The user is actively using the deployed PWA for daily laundry tracking and wants stability here.
+- For v-next: a fork lives at a separate GitHub repo with its own Amplify app. Start a fresh CC session in that checkout, read its own `CLAUDE.md` + `PROGRESS.md` + `PLAN.md`, then execute one package per session as usual.
+- If a security fix or critical bug needs to land in v0.1.x: branch off `v0.1.4`, fix, tag `v0.1.5`, deploy. Don't bring v-next work back here.
 
 ## Decisions
 
+- 2026-06-23 · v0.1.4 freeze tagged (CC): Bumped version to 0.1.4 (package.json, Settings footer, RELEASE_NOTES). Tagged `v0.1.4` as the frozen reference base. Future work moves to a GitHub fork (`laundristic-next` or similar) with its own Amplify app — this repo and its Amplify deploy stay untouched as the user's daily-driver PWA. v-next will be Laundristic 0.2 (sync, OCR, Hindi UI, iOS-memory escalation, eventually Phase 5 Admin App). v-next will skip Confluence sync for now; docs in fork's `/docs` only.
+- 2026-06-23 · Title cleanup (CC): Dropped redundant ' — Laundristic' suffix from 7 Confluence page titles + their source H1s. Renamed in place via PUT (no orphans). Release-notes H1 fixed from version-in-title to stable "Release Notes" (versions are headings inside the body).
 - 2026-06-23 · Confluence attachments v2 (CC): Earlier sync's external-URL strategy failed — `raw.githubusercontent.com` returns 404 for the private repo, so all 4 USER_GUIDE screenshots showed broken. All 17 Mermaid blocks rendered as code blocks (no native renderer in Confluence). Rewrote `scripts/sync-confluence.mjs` to upload BOTH diagrams and screenshots as native Confluence page attachments — Mermaid sources rendered to PNG via `mermaid.ink` (with retry/backoff for 503 bursts, serialised to avoid rate-limits), local image refs read from disk. Page body now uses `<ri:attachment ri:filename="..."/>`. Upload logic also probes for existing attachment by filename and PUTs `.../data` for updates (POST 400s on duplicate names). Verified post-sync via MCP: Solution Design's system-context PNG appears as `type:"file"` with a Confluence media ID, not the old `type:"external"` URL — proves the diagram is now Confluence-stored and will render.
 - 2026-06-23 · Design docs added (CC): Authored `docs/SOLUTION_DESIGN.md`, `docs/TECHNICAL_DESIGN.md`, and `docs/DEPLOYMENT.md` to professionalise the Confluence-mirrored set. Mermaid diagrams used throughout (system context, ER, three state machines, five sequence flows, CI/Amplify pipelines). README link section reorganised into Design / Reference groups. `scripts/sync-confluence.mjs` whitelist extended with the three new files. **Security note:** the user pasted a live Confluence API token in chat — CC refused to use it and instructed immediate rotation. The sync run is the user's / AG's job, with a fresh token in `.env` only.
 - 2026-06-23 · P4.3 Confluence Mirror (AG): Implemented `scripts/sync-confluence.mjs`. Parses Markdown to HTML via `marked`, rewrites relative image paths to GitHub raw URLs, and transforms GFM admonitions into Confluence `<ac:structured-macro>` info/warning blocks to preserve styling. Uses Confluence REST API v1 (`/wiki/rest/api/content`) as an initial baseline; marked as tech debt to upgrade to API v2. Only explicitly listed files are synced. The script requires `.env` credentials and currently operates as a one-way mirror with no delete capability for orphaned pages.
