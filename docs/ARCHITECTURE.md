@@ -38,6 +38,15 @@ To prevent data lock-in and provide a way to migrate to new devices, the app fea
 - **Format:** The backup archive contains a `backup.json` file with all structured data, alongside `photos/<id>.jpg` and `receipts/<id>.jpg` binary files.
 - **Integrity Checks:** When importing, the system strictly validates the ZIP structure and parses the JSON before dropping the existing database to prevent corruption.
 
+## Receipt PDF Export
+
+Closed batches can be exported as a PDF and shared via the native iOS share sheet (Mail, WhatsApp, etc.).
+
+- **Pure lib function:** `generateReceiptPdf(batch, garments)` in `src/lib/receipt-pdf.ts` returns an `application/pdf` Blob. The UI layer (`ProofScreen`) decides whether to share or download it — keeping the lib trivially unit-testable.
+- **Full-resolution photos:** The receipt JPEG and every garment thumbnail are embedded verbatim via `pdf-lib`'s `embedJpg` — no canvas rasterization, so quality is preserved end-to-end.
+- **Lazy-loaded:** `pdf-lib` is pulled in via dynamic `import('./receipt-pdf')` only when the user actually taps **Share PDF**. This keeps the library out of the initial bundle (it's ~400 kB) and Vite code-splits it into its own chunk. The chunk is still precached by the service worker, so offline export works.
+- **Native share with fallback:** On iOS Safari we use `navigator.share({ files: [pdf] })`. On platforms without file-share support, the app falls back to a regular download.
+
 ## Hardware Integration
 
 The `useCamera` hook interfaces with `getUserMedia` to provide a live viewfinder.

@@ -46,7 +46,19 @@ If a batch is stuck in "Awaiting items", you need to deal with the shop.
    - If they lost it: Tap the item and mark it as **Lost**. (This removes the item from your active Wardrobe).
 4. Once all missing items are resolved, the batch automatically closes!
 
-## 5. Stats
+## 5. Sharing a Receipt (PDF)
+
+When a batch is closed, you can share its receipt as a PDF — useful for reimbursement claims or just keeping a record.
+
+1. On the **Drop-offs** tab, open any **closed** batch and tap **Receipt** (or open the Proof screen).
+2. Tap **Share PDF** in the header.
+3. The native iOS share sheet opens. Pick **Mail**, **WhatsApp**, **Save to Files**, or anywhere else.
+
+The PDF includes the shop name, date, total, the receipt photo at full resolution, and a list of every garment in the batch with its photo and category.
+
+> ℹ️ Sharing files via the iOS share sheet requires HTTPS — it works in the installed PWA and on the live site, but not in a local desktop dev tab.
+
+## 6. Stats
 
 Tap the **Stats** tab to see your laundry economics.
 
@@ -55,7 +67,7 @@ Tap the **Stats** tab to see your laundry economics.
 
 ![Stats Screen](file:///C:/Users/chand/Documents/GitHub/laundristic/docs/qa/03_stats.png)
 
-## 6. Settings (Backup & Restore)
+## 7. Settings (Backup & Restore)
 
 Tap the **Settings** tab (the gear icon) to manage your data.
 
