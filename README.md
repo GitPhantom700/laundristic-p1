@@ -14,6 +14,20 @@ Laundristic is a local-first Progressive Web App (PWA) designed for people who h
 - **100% Offline & Private:** Your data and photos never leave your device. The app boots in under a second and works without an internet connection.
 - **Data Portability:** Full ZIP export/import means you can easily back up your data or move it to a new device.
 
+## Screenshots
+
+<details>
+<summary>📱 Screenshots</summary>
+
+|                                       **1. Proof Screen (Killer Feature)**                                        |                                       **2. Receipt PDF Viewer**                                        |                                     **3. Wardrobe (Populated)**                                     |
+| :---------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------: |
+| <img src="gallery/proof.png" alt="Proof screen showing garment photo, receipt, shop name and date" width="480" /> |     <img src="gallery/receipt.png" alt="Receipt PDF generated for share and print" width="480" />      |   <img src="gallery/wardrobe.png" alt="Wardrobe populated with cataloged garments" width="480" />   |
+|                                               **4. Drop-off Sheet**                                               |                                         **5. Check-in Sheet**                                          |                                       **6. Stats Dashboard**                                        |
+|                                                       :---:                                                       |                                                 :---:                                                  |                                                :---:                                                |
+|       <img src="gallery/dropoff.png" alt="Drop-off sheet with garments selected for laundry" width="480" />       | <img src="gallery/checkin.png" alt="Check-in sheet with checkboxes for returning items" width="480" /> | <img src="gallery/stats.png" alt="Stats dashboard showing spend charts and averages" width="480" /> |
+
+</details>
+
 ## Documentation
 
 **Design**
