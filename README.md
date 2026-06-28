@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/media/hero-with-text.webp" alt="Laundristic — a private, local-first laundry tracker" width="100%" />
+</p>
+
 # Laundristic
 
 _Never lose a garment again._
