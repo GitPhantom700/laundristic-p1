@@ -218,9 +218,8 @@ sequenceDiagram
     Cat->>Cam: capture()
     Cam-->>Cat: photoBlob (JPEG, ≤800px)
     Cat->>Cat: stop() immediately
-    U->>Cat: pick category (e.g. SHT)
-    Cat->>Lib: generateCode('SHT', existingCodes)
-    Lib-->>Cat: "SHT-04"
+    Cat->>Lib: generateCode('ITM', existingCodes)
+    Lib-->>Cat: "ITM-04"
     Cat->>Sto: putGarment({id, code, type, photoBlob, status:'active'})
     Sto->>IDB: put + storedBlob round-trip
     IDB-->>Sto: ack
