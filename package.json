@@ -1,7 +1,7 @@
 {
   "name": "laundristic",
   "version": "0.1.4",
-  "description": "Laundry, accounted for. A local-first PWA for manual laundry record keeping.",
+  "description": "A local-first, offline PWA to catalog garments, log laundry drop-offs, and keep proof of every pickup. No accounts, no cloud.",
   "type": "module",
   "scripts": {
     "dev": "vite",

@@ -2,14 +2,14 @@
 
 > A solution-level view of what Laundristic is, who it's for, what problem it solves, and how it's structured at the top. Pair this with [Technical Design](TECHNICAL_DESIGN.md) for the engineering detail.
 
-| Field          | Value                                                                                |
-| -------------- | ------------------------------------------------------------------------------------ |
-| **Status**     | v0.1.x — Shipping                                                                    |
-| **Owner**      | GitPhantom700                                                                |
-| **Repository** | [github.com/GitPhantom700/laundristic](https://github.com/GitPhantom700/laundristic) |
-| **Live URL**   | AWS Amplify (see [Deployment](DEPLOYMENT.md))                                        |
-| **Confluence** | [Laundristic space (TH)](https://your-domain.atlassian.net/wiki/spaces/YOURKEY/) |
-| **License**    | MIT                                                                                  |
+| Field          | Value                                                                                 |
+| -------------- | ------------------------------------------------------------------------------------- |
+| **Status**     | v0.1.x — Shipping                                                                     |
+| **Owner**      | GitPhantom700                                                                         |
+| **Repository** | [github.com/GitPhantom700/laundristic](https://github.com/GitPhantom700/laundristic)  |
+| **Live URL**   | AWS Amplify (see [Deployment](DEPLOYMENT.md))                                         |
+| **Confluence** | [Laundristic space (YOURKEY)](https://your-domain.atlassian.net/wiki/spaces/YOURKEY/) |
+| **License**    | MIT                                                                                   |
 
 ---
 

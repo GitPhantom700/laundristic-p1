@@ -5,3 +5,4 @@ export * from './BottomNav';
 export * from './Layout';
 export * from './ToastProvider';
 export * from './InstallPrompt';
+export * from './WelcomeScreen';
