@@ -1,6 +1,6 @@
 # Specification
 
-_Laundry, accounted for._ A local-first PWA for people who hand laundry to a shop weekly and keep manual records. Single-user, on-device, free, open source (MIT).
+_Never lose a garment again._ A local-first PWA for people who hand laundry to a shop weekly and keep manual records. Single-user, on-device, free, open source (MIT).
 
 ## The user
 

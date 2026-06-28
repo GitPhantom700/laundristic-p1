@@ -1392,3 +1392,169 @@ textarea:focus {
   flex-direction: column;
   gap: 12px;
 }
+
+/* ==========================================================================
+   Welcome / First-run screen (Concept D — editorial)
+   ========================================================================== */
+
+.welcome {
+  position: fixed;
+  inset: 0;
+  margin-inline: auto;
+  max-width: 390px;
+  background: var(--color-paper);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1000;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.welcome-band {
+  position: relative;
+  height: 46%;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: calc(env(safe-area-inset-top, 0px) + 30px) 30px 30px;
+  background: radial-gradient(
+    130% 100% at 18% 12%,
+    #c2d4c4 0%,
+    #8aa98e 45%,
+    var(--color-green) 100%
+  );
+}
+
+.welcome-garment {
+  position: absolute;
+  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.22));
+}
+
+.welcome-garment svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.welcome-garment--cream {
+  right: -22px;
+  top: 30px;
+  width: 236px;
+  height: 236px;
+  transform: rotate(10deg);
+}
+
+.welcome-garment--sage {
+  right: 122px;
+  top: 150px;
+  width: 184px;
+  height: 184px;
+  transform: rotate(-11deg);
+}
+
+.welcome-receipt {
+  position: absolute;
+  right: 30px;
+  top: 22px;
+  width: 74px;
+  height: 100px;
+  background: #fbfaf6;
+  border-radius: 8px;
+  transform: rotate(8deg);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+}
+
+.welcome-receipt::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  right: 11px;
+  top: 15px;
+  height: 5px;
+  border-radius: 3px;
+  background: #e7e2d6;
+  box-shadow:
+    0 12px 0 #e7e2d6,
+    0 24px 0 #eee9dd,
+    0 36px 0 #efe9dd;
+}
+
+.welcome-wordmark {
+  position: relative;
+  z-index: 2;
+}
+
+.welcome-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 3rem;
+  line-height: 1;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.welcome-tagline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.3125rem;
+  color: rgba(255, 255, 255, 0.92);
+  margin-top: 8px;
+}
+
+.welcome-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 38px 30px calc(env(safe-area-inset-bottom, 0px) + 34px);
+}
+
+.welcome-lede {
+  color: var(--color-text-muted);
+  font-size: 1.125rem;
+  line-height: 1.55;
+  margin: 0 0 auto;
+}
+
+.welcome-lede strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.welcome-cta {
+  width: 100%;
+  margin-top: 30px;
+  border-radius: 30px;
+}
+
+.welcome-restore {
+  -webkit-appearance: none;
+  background: transparent;
+  border: none;
+  color: var(--color-green);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.97rem;
+  padding: 14px;
+  margin-top: 4px;
+  cursor: pointer;
+}
+
+.welcome-restore:hover {
+  background: transparent;
+  color: var(--color-green-light);
+}
+
+.welcome-restore:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.welcome-foot {
+  text-align: center;
+  color: var(--color-text-light);
+  font-size: 0.84rem;
+  margin: 10px 0 0;
+}

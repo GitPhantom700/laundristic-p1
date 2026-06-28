@@ -1,6 +1,6 @@
 # Laundristic
 
-_Laundry, accounted for._
+_Never lose a garment again._
 
 Laundristic is a local-first Progressive Web App (PWA) designed for people who hand their laundry to a shop weekly and want a reliable way to keep track of it. It focuses on speed and simplicity—no accounts, no cloud sync, and no typing required. Just photos and taps.
 

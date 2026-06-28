@@ -177,7 +177,7 @@ The repository markdown in `/docs` is **the source of truth**. Confluence is a o
 flowchart LR
     Repo[GitPhantom700/laundristic<br/>/docs/*.md + README]
     Script[scripts/sync-confluence.mjs<br/>marked → Confluence storage]
-    CF[Confluence space TH<br/>chandraprakashhingal.atlassian.net]
+    CF[Confluence space YOURKEY<br/>your-domain.atlassian.net]
 
     Repo -->|npm run sync:docs| Script
     Script -->|REST API| CF

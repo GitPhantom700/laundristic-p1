@@ -42,4 +42,6 @@ export interface Batch {
 export interface Settings {
   lastShop: string;
   schemaVersion: number;
+  /** 1 once the first-run welcome screen has been completed. */
+  onboarded: number;
 }
