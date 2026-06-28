@@ -5,19 +5,11 @@ import { generateId, generateCode } from '../lib/ids';
 import type { GarmentCategory } from '../lib/types';
 import { useToast } from '../components/ToastProvider';
 
-// "ITM" is explicitly omitted from selectable options per SPEC
-const SELECTABLE_CATEGORIES: GarmentCategory[] = [
-  'SHT',
-  'TEE',
-  'TRO',
-  'HOO',
-  'KUR',
-  'BED',
-  'PIL',
-  'SHO',
-];
+// Garments are no longer manually categorized — every item uses the catch-all
+// "ITM" type, so cataloging is just: snap a photo, then save.
+const DEFAULT_CATEGORY: GarmentCategory = 'ITM';
 
-type Step = 'viewfinder' | 'category' | 'confirm';
+type Step = 'viewfinder' | 'confirm';
 
 interface CatalogProps {
   onClose: () => void;
@@ -31,9 +23,6 @@ export function Catalog({ onClose }: CatalogProps) {
   const [step, setStep] = useState<Step>('viewfinder');
   const [photoBlob, setPhotoBlob] = useState<Blob | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
-  const [selectedCategory, setSelectedCategory] =
-    useState<GarmentCategory | null>(null);
   const [generatedCode, setGeneratedCode] = useState<string | null>(null);
 
   const [runningCount, setRunningCount] = useState(0);
@@ -73,14 +62,15 @@ export function Catalog({ onClose }: CatalogProps) {
     onClose();
   };
 
-  // Handlers
+  // After a photo is taken, assign the next code and go straight to confirm.
   const handleCapture = async () => {
     try {
       const blob = await capture();
-      setPhotoBlob(blob);
       stop(); // Immediately release the camera hardware
+      setPhotoBlob(blob);
       setPreviewUrl(URL.createObjectURL(blob));
-      setStep('category');
+      setGeneratedCode(generateCode(DEFAULT_CATEGORY, existingCodes));
+      setStep('confirm');
     } catch (error) {
       showToast('Capture failed', 'error');
       console.error(error);
@@ -92,35 +82,28 @@ export function Catalog({ onClose }: CatalogProps) {
       const blob = await pickFile();
       setPhotoBlob(blob);
       setPreviewUrl(URL.createObjectURL(blob));
-      setStep('category');
+      setGeneratedCode(generateCode(DEFAULT_CATEGORY, existingCodes));
+      setStep('confirm');
     } catch (error) {
       // User might have cancelled file picker, ignore silently unless it's a real error
     }
   };
 
-  const handleSelectCategory = (cat: GarmentCategory) => {
-    const code = generateCode(cat, existingCodes);
-    setSelectedCategory(cat);
-    setGeneratedCode(code);
-    setStep('confirm');
-  };
-
   const handleRetake = () => {
     clearPreviewUrl();
     setPhotoBlob(null);
-    setSelectedCategory(null);
     setGeneratedCode(null);
     setStep('viewfinder');
   };
 
   const handleSaveAndNext = async () => {
-    if (!photoBlob || !selectedCategory || !generatedCode) return;
+    if (!photoBlob || !generatedCode) return;
 
     try {
       await putGarment({
         id: generateId(),
         code: generatedCode,
-        type: selectedCategory,
+        type: DEFAULT_CATEGORY,
         photoBlob,
         status: 'active',
         createdAt: Date.now(),
@@ -139,13 +122,13 @@ export function Catalog({ onClose }: CatalogProps) {
   };
 
   const handleSave = async () => {
-    if (!photoBlob || !selectedCategory || !generatedCode) return;
+    if (!photoBlob || !generatedCode) return;
 
     try {
       await putGarment({
         id: generateId(),
         code: generatedCode,
-        type: selectedCategory,
+        type: DEFAULT_CATEGORY,
         photoBlob,
         status: 'active',
         createdAt: Date.now(),
@@ -243,30 +226,9 @@ export function Catalog({ onClose }: CatalogProps) {
         </div>
       )}
 
-      {step === 'category' && (
-        <div className="category-sheet">
-          <h3 className="category-sheet-title">Select Category</h3>
-          <div className="category-grid">
-            {SELECTABLE_CATEGORIES.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => handleSelectCategory(cat)}
-                className="category-btn"
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-          <button onClick={handleRetake} className="btn-secondary">
-            Retake Photo
-          </button>
-        </div>
-      )}
-
       {step === 'confirm' && (
         <div className="confirm-pill">
           <div className="confirm-code">{generatedCode}</div>
-          <div className="confirm-cat">{selectedCategory}</div>
           <div className="confirm-actions">
             <button onClick={handleSaveAndNext} className="btn-primary">
               Save & Next
