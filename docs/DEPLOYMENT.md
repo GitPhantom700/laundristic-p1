@@ -207,7 +207,7 @@ flowchart LR
 **Files explicitly NOT mirrored** (internal-team scaffolding):
 
 - `CLAUDE.md`, `AGENTS.md`, `KICKOFF.md`, `PROGRESS.md`
-- `docs/PLAN.md`, `docs/PLAYBOOK-TEMPLATE.md`, `docs/coverage.md`
+- `docs/PLAN.md`, `docs/PLAYBOOK-TEMPLATE.md`, `docs/LAUNCH_MEDIA_PLAYBOOK.md`, `docs/coverage.md`
 - `docs/qa/README.md`
 
 ---
