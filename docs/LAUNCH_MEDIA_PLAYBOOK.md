@@ -5,9 +5,10 @@ Everything needed to produce the public-launch media + README, grounded in the
 Laundristic's real brand.
 
 > **Status (live):** Assets **A, B1, B2, C, D1** are produced; the README hero,
-> screenshot gallery, and demo are wired in. **D2 (NotebookLM deep dive)** is in
-> progress. Remaining repo work is the SEO/meta pass (§7) and the pre-public
-> scrub (§8). See `PROGRESS.md` for the running log.
+> screenshot gallery, and demo are wired in; the SEO/meta pass (§7) is done in-repo
+> (OG/Twitter tags + `og-cover.png`, with a placeholder deploy URL to swap).
+> **D2 (NotebookLM deep dive)** is in progress. Remaining: swap the deploy URL,
+> the manual GitHub-UI items (§7), and the pre-public scrub (§8). See `PROGRESS.md`.
 
 ## Brand constants (paste into every AI prompt)
 
@@ -22,14 +23,14 @@ Laundristic's real brand.
 
 ## 1. Asset register
 
-| #   | Asset              | Tool                                            | Output spec                             | Repo path                                     | README slot                         | Status                                   |
-| --- | ------------------ | ----------------------------------------------- | --------------------------------------- | --------------------------------------------- | ----------------------------------- | ---------------------------------------- |
-| A   | Demo GIF + MP4     | Real screen capture (`scripts/record_demo.mjs`) | GIF ≤8 MB, ~300px wide loop · MP4 H.264 | `docs/media/demo.gif` + `docs/media/demo.mp4` | Hero, right under tagline           | ✅ done                                  |
-| B1  | Hero banner        | Imagen 4 (Gemini)                               | 1280×400 PNG → WebP                     | `docs/media/hero-with-text.webp`              | Top, above title                    | ✅ done                                  |
-| B2  | Social/OG card     | Imagen 4 + Figma/Canva text                     | 1280×640 PNG → WebP                     | `docs/media/social-og-with-text.webp`         | meta tags + GitHub social preview   | ⚠️ image done; meta/preview pending (§7) |
-| C   | Screenshot gallery | Real capture + device frames                    | 6 framed PNGs, ~480px each              | `gallery/*.png`                               | "Screenshots" section (`<details>`) | ✅ done                                  |
-| D1  | Veo promo clip     | Veo 3 (Flow)                                    | 1080p MP4, ~8s                          | not in repo — LinkedIn                        | optional embed                      | ✅ done                                  |
-| D2  | Deep-dive          | NotebookLM                                      | shared link (audio + video)             | not in repo                                   | "📻 Deep dive" link                 | ⏳ in progress                           |
+| #   | Asset              | Tool                                            | Output spec                             | Repo path                                                     | README slot                         | Status                                                          |
+| --- | ------------------ | ----------------------------------------------- | --------------------------------------- | ------------------------------------------------------------- | ----------------------------------- | --------------------------------------------------------------- |
+| A   | Demo GIF + MP4     | Real screen capture (`scripts/record_demo.mjs`) | GIF ≤8 MB, ~300px wide loop · MP4 H.264 | `docs/media/demo.gif` + `docs/media/demo.mp4`                 | Hero, right under tagline           | ✅ done                                                         |
+| B1  | Hero banner        | Imagen 4 (Gemini)                               | 1280×400 PNG → WebP                     | `docs/media/hero-with-text.webp`                              | Top, above title                    | ✅ done                                                         |
+| B2  | Social/OG card     | Imagen 4 + Figma/Canva text                     | 1280×640 PNG → WebP                     | `docs/media/social-og-with-text.webp` + `public/og-cover.png` | meta tags + GitHub social preview   | ✅ image + meta tags; preview upload is a manual GitHub-UI step |
+| C   | Screenshot gallery | Real capture + device frames                    | 6 framed PNGs, ~480px each              | `gallery/*.png`                                               | "Screenshots" section (`<details>`) | ✅ done                                                         |
+| D1  | Veo promo clip     | Veo 3 (Flow)                                    | 1080p MP4, ~8s                          | not in repo — LinkedIn                                        | optional embed                      | ✅ done                                                         |
+| D2  | Deep-dive          | NotebookLM                                      | shared link (audio + video)             | not in repo                                                   | "📻 Deep dive" link                 | ⏳ in progress                                                  |
 
 **Conventions:** put README media in `docs/media/`. Keep the repo light — host the
 **MP4** by drag-dropping it into the GitHub README editor (stored on
@@ -153,16 +154,26 @@ link → README badge "📻 Listen to a deep dive" + a LinkedIn "behind the buil
 
 ---
 
-## 7. SEO / meta / GitHub settings (pending)
+## 7. SEO / meta / GitHub settings
 
-- **index.html meta to add:** `og:title`, `og:description`, `og:image` (absolute URL),
-  `og:url`, `og:type=website`, `twitter:card=summary_large_image`, `twitter:image`.
-- `theme-color` is already the brand sage `#4E6E52` ✅; keep `<meta description>` + `<title>` rich.
+Repo-side items (✅ done in-repo):
+
+- ✅ **index.html meta:** `og:type`, `og:title`, `og:description`, `og:url`,
+  `og:image`, `twitter:card=summary_large_image`, `twitter:title/description/image`.
+  **`og:url`/`og:image` use a placeholder domain (`laundristic.example.com`) —
+  swap it for the live deployed URL before launch** (single TODO in `index.html`).
+- ✅ `public/og-cover.png` (1280×640, PNG — scrapers render it more reliably than WebP).
+- ✅ `theme-color` is the brand sage `#4E6E52`; `<meta description>` + `<title>` are rich.
+- ✅ **Community health:** `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1) +
+  `SECURITY.md` added; CONTRIBUTING already linked from the README.
+- ✅ Cleaned the stale "Tally" comment in `src/styles/tokens.css:1`.
+
+Manual GitHub-UI items (owner action — can't be done from the repo):
+
 - **About sidebar:** description + Website = live URL + **topics**:
   `pwa, react, typescript, vite, indexeddb, local-first, offline-first, expense-tracker, laundry, pdf, mobile-first, progressive-web-app`.
-- **Community health:** surface CONTRIBUTING, add CODE_OF_CONDUCT.md + SECURITY.md.
+- Upload `public/og-cover.png` at **Settings → General → Social preview**.
 - Pin the repo on your profile; publish a tagged Release with notes.
-- Clean stale "Tally" comment in `src/styles/tokens.css:1`.
 
 ---
 
