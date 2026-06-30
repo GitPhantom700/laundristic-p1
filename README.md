@@ -6,6 +6,10 @@
 
 _Never lose a garment again._
 
+<p align="center">
+  <img src="docs/media/demo.gif" width="300" alt="Laundristic demo: cataloguing a garment with one tap, logging a drop-off, checking items back in, the proof screen for a missing item, and the spend stats." />
+</p>
+
 Laundristic is a local-first Progressive Web App (PWA) designed for people who hand their laundry to a shop weekly and want a reliable way to keep track of it. It focuses on speed and simplicity—no accounts, no cloud sync, and no typing required. Just photos and taps.
 
 ## Features

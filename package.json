@@ -13,7 +13,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "sync:docs": "node scripts/sync-confluence.mjs"
+    "sync:docs": "node scripts/sync-confluence.mjs",
+    "media:demo": "node scripts/record_demo.mjs"
   },
   "dependencies": {
     "idb": "^8.0.0",
