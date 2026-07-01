@@ -11,8 +11,9 @@ export default defineConfig({
       manifest: {
         name: 'Laundristic',
         short_name: 'Laundristic',
-        description: 'Laundry, accounted for.',
-        theme_color: '#10b981',
+        description:
+          'A local-first, offline PWA to catalog garments, log laundry drop-offs, and keep proof of every pickup. No accounts, no cloud.',
+        theme_color: '#4E6E52',
         background_color: '#ffffff',
         start_url: '/',
         scope: '/',

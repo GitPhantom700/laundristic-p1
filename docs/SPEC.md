@@ -1,6 +1,6 @@
 # Specification
 
-_Laundry, accounted for._ A local-first PWA for people who hand laundry to a shop weekly and keep manual records. Single-user, on-device, free, open source (MIT).
+_Never lose a garment again._ A local-first PWA for people who hand laundry to a shop weekly and keep manual records. Single-user, on-device, free, open source (MIT).
 
 ## The user
 
@@ -33,13 +33,13 @@ The missing-item loop is the product's reason to exist. It ships in MVP.
 - `settings`: { lastShop, schemaVersion }
 - Codes: `PREFIX-NN`, next = max existing for prefix + 1. Internal ids immutable; codes display-only.
 
-## Categories (allowlist)
+## Categories
 
-Shirt SHT · T-shirt TEE · Trousers TRO · Hoodie HOO · Kurta KUR · Bedsheet BED · Pillow cover PIL · Shoes SHO. Fallback `ITM` never user-selectable. "Garments, linens & shoes only" is stated policy, not CV-enforced.
+Items are not manually categorized; every garment uses the catch-all `ITM` type (codes `ITM-NN`). The data model retains a category enum (SHT · TEE · TRO · HOO · KUR · BED · PIL · SHO · ITM) for legacy garments. "Garments, linens & shoes only" is stated policy, not CV-enforced.
 
 ## Screens
 
-1. **Wardrobe** — grid (photo, category, code badge, AT LAUNDRY chip), tap to edit (re-tag → fresh code, retake photo, remove w/ 2-tap confirm). Assembly-line camera catalog: live viewfinder → shutter → category sheet → ID confirm pill → loop, running count.
+1. **Wardrobe** — grid (photo, code badge, AT LAUNDRY chip), tap to edit (retake photo, remove w/ 2-tap confirm). Assembly-line camera catalog: live viewfinder → shutter → ID confirm pill → loop, running count.
 2. **Drop-offs** — active batches up top w/ one-tap check-in entry; Awaiting section; closed history. New drop-off: Same-as-last-time preselect, out-items disabled, shop prefilled, last amount as placeholder.
 3. **Proof screen** — per missing item: garment photo, receipt, shop, date. Zero navigation at the counter.
 4. **Stats** — last-30-days spend, avg/drop, cost/garment, 6-month bars, all-time.

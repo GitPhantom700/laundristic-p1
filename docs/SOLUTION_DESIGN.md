@@ -2,14 +2,14 @@
 
 > A solution-level view of what Laundristic is, who it's for, what problem it solves, and how it's structured at the top. Pair this with [Technical Design](TECHNICAL_DESIGN.md) for the engineering detail.
 
-| Field          | Value                                                                                |
-| -------------- | ------------------------------------------------------------------------------------ |
-| **Status**     | v0.1.x — Shipping                                                                    |
-| **Owner**      | GitPhantom700                                                                |
-| **Repository** | [github.com/GitPhantom700/laundristic](https://github.com/GitPhantom700/laundristic) |
-| **Live URL**   | AWS Amplify (see [Deployment](DEPLOYMENT.md))                                        |
-| **Confluence** | [Laundristic space (TH)](https://your-domain.atlassian.net/wiki/spaces/YOURKEY/) |
-| **License**    | MIT                                                                                  |
+| Field          | Value                                                                                 |
+| -------------- | ------------------------------------------------------------------------------------- |
+| **Status**     | v0.1.x — Shipping                                                                     |
+| **Owner**      | GitPhantom700                                                                         |
+| **Repository** | [github.com/GitPhantom700/laundristic](https://github.com/GitPhantom700/laundristic)  |
+| **Live URL**   | AWS Amplify (see [Deployment](DEPLOYMENT.md))                                         |
+| **Confluence** | [Laundristic space (YOURKEY)](https://your-domain.atlassian.net/wiki/spaces/YOURKEY/) |
+| **License**    | MIT                                                                                   |
 
 ---
 
@@ -34,7 +34,7 @@ People who hand laundry to a shop every week face a recurring failure mode:
 
 Existing apps either solve the wrong problem (inventory management for businesses) or impose friction the casual user won't tolerate (accounts, typing item names, multi-screen forms). The friction kills adoption _before_ the missing-item incident happens.
 
-**Laundristic's bet:** if catalogue-as-you-go is reduced to _snap-photo + tap-category + done_ (no typing, no naming), people will actually do it, and they'll have the proof when they need it.
+**Laundristic's bet:** if catalogue-as-you-go is reduced to _snap-photo + done_ (no typing, no tagging, no naming), people will actually do it, and they'll have the proof when they need it.
 
 ---
 

@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Catalog } from './Catalog';
 import { EditGarmentSheet } from '../components/EditGarmentSheet';
-import {
-  getAllGarments,
-  getGarmentsByStatus,
-  getBatchesByStatus,
-} from '../lib/storage';
+import { getGarmentsByStatus, getBatchesByStatus } from '../lib/storage';
 import type { Garment } from '../lib/types';
 
 function GarmentCard({
@@ -51,7 +47,6 @@ function GarmentCard({
 export function Wardrobe() {
   const [isCataloging, setIsCataloging] = useState(false);
   const [garments, setGarments] = useState<Garment[]>([]);
-  const [existingCodes, setExistingCodes] = useState<string[]>([]);
   const [outIds, setOutIds] = useState<Set<string>>(new Set());
   const [editingGarment, setEditingGarment] = useState<Garment | null>(null);
 
@@ -63,11 +58,7 @@ export function Wardrobe() {
     active.sort((a, b) => b.createdAt - a.createdAt);
     setGarments(active);
 
-    // 2. Fetch all garments to get every used code (even removed/lost ones)
-    const all = await getAllGarments();
-    setExistingCodes(all.map((g) => g.code));
-
-    // 3. Compute "AT LAUNDRY" ids
+    // 2. Compute "AT LAUNDRY" ids
     const activeBatches = await getBatchesByStatus('active');
     const awaitingBatches = await getBatchesByStatus('awaiting');
     const batches = [...activeBatches, ...awaitingBatches];
@@ -158,7 +149,6 @@ export function Wardrobe() {
       {editingGarment && (
         <EditGarmentSheet
           garment={editingGarment}
-          existingCodes={existingCodes}
           onClose={() => setEditingGarment(null)}
           onUpdate={loadData}
         />

@@ -8,8 +8,7 @@ Before you can drop off items, you need to add them to your Wardrobe.
 
 1. Tap the **Camera Icon** at the top right of the Wardrobe screen.
 2. The live viewfinder will open. Point it at your garment and tap the shutter.
-3. Select the category (e.g., Shirt, Trousers, Bedsheet).
-4. A unique ID pill (like `SHT-01`) is generated. The item is saved! You can immediately snap the next item.
+3. A unique ID pill (like `ITM-01`) is generated and the item is saved! You can immediately snap the next item.
 
 ![Wardrobe Screen](qa/01_wardrobe.png)
 
