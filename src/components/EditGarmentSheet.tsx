@@ -1,35 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import type { Garment, GarmentCategory } from '../lib/types';
+import type { Garment } from '../lib/types';
 import { putGarment } from '../lib/storage';
-import { generateCode } from '../lib/ids';
 import { useCamera } from '../lib/useCamera';
-
-// Same as Catalog
-const SELECTABLE_CATEGORIES: GarmentCategory[] = [
-  'SHT',
-  'TEE',
-  'TRO',
-  'HOO',
-  'KUR',
-  'BED',
-  'PIL',
-  'SHO',
-];
 
 interface EditGarmentSheetProps {
   garment: Garment;
-  existingCodes: string[];
   onClose: () => void;
   onUpdate: () => void;
 }
 
 export function EditGarmentSheet({
   garment,
-  existingCodes,
   onClose,
   onUpdate,
 }: EditGarmentSheetProps) {
-  const [mode, setMode] = useState<'view' | 'camera' | 'category'>('view');
+  const [mode, setMode] = useState<'view' | 'camera'>('view');
   const [confirmRemove, setConfirmRemove] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
@@ -87,13 +72,6 @@ export function EditGarmentSheet({
     } catch (err) {
       // Ignored
     }
-  };
-
-  const handleSelectCategory = async (cat: GarmentCategory) => {
-    const newCode = generateCode(cat, existingCodes);
-    await putGarment({ ...garment, type: cat, code: newCode });
-    onUpdate();
-    setMode('view');
   };
 
   const handleRemove = async () => {
@@ -155,12 +133,6 @@ export function EditGarmentSheet({
             )}
             <div className="edit-actions">
               <button
-                onClick={() => setMode('category')}
-                className="btn-secondary"
-              >
-                Re-tag Category
-              </button>
-              <button
                 onClick={() => setMode('camera')}
                 className="btn-secondary"
               >
@@ -170,28 +142,6 @@ export function EditGarmentSheet({
                 {confirmRemove ? 'Tap again to confirm delete' : 'Remove item'}
               </button>
             </div>
-          </>
-        )}
-
-        {mode === 'category' && (
-          <>
-            <h4 style={{ textAlign: 'center', marginBottom: '8px' }}>
-              Select New Category
-            </h4>
-            <div className="category-grid">
-              {SELECTABLE_CATEGORIES.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => handleSelectCategory(cat)}
-                  className="category-btn"
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-            <button onClick={() => setMode('view')} className="btn-secondary">
-              Cancel
-            </button>
           </>
         )}
 

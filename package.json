@@ -1,7 +1,7 @@
 {
   "name": "laundristic",
   "version": "0.1.4",
-  "description": "Laundry, accounted for. A local-first PWA for manual laundry record keeping.",
+  "description": "A local-first, offline PWA to catalog garments, log laundry drop-offs, and keep proof of every pickup. No accounts, no cloud.",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,7 +13,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "sync:docs": "node scripts/sync-confluence.mjs"
+    "sync:docs": "node scripts/sync-confluence.mjs",
+    "media:demo": "node scripts/record_demo.mjs"
   },
   "dependencies": {
     "idb": "^8.0.0",

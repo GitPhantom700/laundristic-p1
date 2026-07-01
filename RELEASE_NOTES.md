@@ -23,7 +23,7 @@ _The v0.1.x freeze build — the reference base future versions fork from._
 
 The first stable release of Laundristic! 🎉
 
-_Laundry, accounted for._
+_Never lose a garment again._
 
 ### Features
 
