@@ -12,6 +12,12 @@ _Never lose a garment again._
 
 Laundristic is a local-first Progressive Web App (PWA) designed for people who hand their laundry to a shop weekly and want a reliable way to keep track of it. It focuses on speed and simplicity—no accounts, no cloud sync, and no typing required. Just photos and taps.
 
+<p align="center">
+  <a href="https://github.com/GitPhantom700/laundristic-p1/releases/download/media-assets/Laundristic_s_offline_proof_for_lost_laundry.m4a">📻 Listen to a deep dive</a>
+  ·
+  <a href="https://github.com/GitPhantom700/laundristic-p1/releases/download/media-assets/Laundristic_Lifecycle.mp4">🎬 Watch a deep dive</a>
+</p>
+
 ## Features
 
 - **Photo-First Catalog:** Snap a photo of a garment and it's saved. No typing, no tagging — each item gets an automatic ID.
