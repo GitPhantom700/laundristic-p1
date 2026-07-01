@@ -24,6 +24,10 @@ customHeaders:
     headers:
       - key: 'Cache-Control'
         value: 'public, max-age=0, must-revalidate'
+  - pattern: '/apple-touch-icon-v2.png'
+    headers:
+      - key: 'Cache-Control'
+        value: 'public, max-age=0, must-revalidate'
   - pattern: '/apple-touch-icon.png'
     headers:
       - key: 'Cache-Control'
