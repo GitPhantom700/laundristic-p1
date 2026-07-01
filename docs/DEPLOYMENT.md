@@ -1,6 +1,6 @@
 # Deployment Guide
 
-> How the app gets from a commit on `main` to a live PWA on an iPhone. Covers the GitHub repository, the CI pipeline, the AWS Amplify hosting pipeline, the release process, and the Confluence docs mirror.
+> How the app gets from a commit on `main` to a live PWA on an iPhone. Covers the GitHub repository, the CI pipeline, the AWS Amplify hosting pipeline, and the release process.
 
 ---
 
@@ -8,7 +8,7 @@
 
 ```mermaid
 flowchart LR
-    Dev[Developer<br/>laptop] -->|git push origin main| GH[GitHub<br/>GitPhantom700/laundristic]
+    Dev[Developer<br/>laptop] -->|git push origin main| GH[GitHub<br/>GitPhantom700/laundristic-p1]
     GH -->|webhook| GA[GitHub Actions<br/>ci.yml]
     GH -->|webhook| AMP[AWS Amplify<br/>app build]
     GA -->|lint + format + test| Verdict{pass?}
@@ -31,13 +31,13 @@ There is **no manual deploy step** under normal operation. Push to `main` → Am
 
 ## 2. GitHub repository
 
-| Field              | Value                                                                         |
-| ------------------ | ----------------------------------------------------------------------------- |
-| **URL**            | https://github.com/GitPhantom700/laundristic                                  |
-| **Default branch** | `main`                                                                        |
-| **Visibility**     | Public                                                                        |
-| **License**        | MIT                                                                           |
-| **Issue tracker**  | GitHub Issues (not currently in active use; project ships from `PROGRESS.md`) |
+| Field              | Value                                           |
+| ------------------ | ----------------------------------------------- |
+| **URL**            | https://github.com/GitPhantom700/laundristic-p1 |
+| **Default branch** | `main`                                          |
+| **Visibility**     | Public                                          |
+| **License**        | MIT                                             |
+| **Issue tracker**  | GitHub Issues                                   |
 
 ### Branch strategy (v0.1.x)
 
@@ -104,7 +104,7 @@ flowchart LR
 
 1. **Sign in to AWS** at https://console.aws.amazon.com and open **Amplify Hosting** (region: any; Amplify is global).
 2. Click **Create new app → Host web app**.
-3. Select **GitHub** as the source provider; authorise the Amplify GitHub App against the `GitPhantom700/laundristic` repo. _Use the GitHub App, not classic OAuth — the App scope is per-repo._
+3. Select **GitHub** as the source provider; authorise the Amplify GitHub App against the `GitPhantom700/laundristic-p1` repo. _Use the GitHub App, not classic OAuth — the App scope is per-repo._
 4. Pick branch **`main`** as the deploy branch.
 5. Amplify auto-detects Vite. Confirm:
    - **Build command:** `npm run build`
@@ -140,7 +140,7 @@ _v0.1.x ships without `amplify.yml` and uses Amplify's auto-detected defaults �
 
 ### 4.4 Environment variables
 
-The app has **no runtime environment variables** (no API keys, no backend URLs — local-first by design). The only env-var-dependent piece is the Confluence sync script (`scripts/sync-confluence.mjs`), which reads `.env` locally and does **not** need to run in Amplify.
+The app has **no runtime environment variables** (no API keys, no backend URLs — local-first by design). Nothing needs to be configured in Amplify beyond the build settings above.
 
 ### 4.5 Rollback procedure
 
@@ -169,50 +169,7 @@ Amplify rebuilds automatically. **Do not force-push to `main`** — Amplify cach
 
 ---
 
-## 5. Confluence docs mirror
-
-The repository markdown in `/docs` is **the source of truth**. Confluence is a one-way mirror published by `scripts/sync-confluence.mjs` (package P4.3, AG-owned).
-
-```mermaid
-flowchart LR
-    Repo[GitPhantom700/laundristic<br/>/docs/*.md + README]
-    Script[scripts/sync-confluence.mjs<br/>marked → Confluence storage]
-    CF[Confluence space YOURKEY<br/>your-domain.atlassian.net]
-
-    Repo -->|npm run sync:docs| Script
-    Script -->|REST API| CF
-```
-
-**Workflow:**
-
-1. Author / edit Markdown in `/docs`. Commit.
-2. Locally (with `.env` set):
-
-   ```bash
-   npm run sync:docs           # actually push to Confluence
-   npm run sync:docs -- --dry-run  # preview operations, no API calls
-   ```
-
-3. Confirm pages in the Confluence space.
-
-**Credentials:** Never check in `.env`. Generate Atlassian API tokens at https://id.atlassian.com/manage-profile/security/api-tokens and store locally only. **If a token is ever pasted in chat, code, or any shared surface — rotate it immediately.**
-
-**Files mirrored** (whitelist in `sync-confluence.mjs`):
-
-- `README.md`, `RELEASE_NOTES.md`
-- `docs/SOLUTION_DESIGN.md`, `docs/TECHNICAL_DESIGN.md`, `docs/DEPLOYMENT.md` _(added in this design pass)_
-- `docs/ARCHITECTURE.md`, `docs/DATA_MODEL.md`, `docs/USER_GUIDE.md`
-- `docs/CONTRIBUTING.md`, `docs/ROADMAP.md`, `docs/SPEC.md`, `docs/ADMIN_APP.md`
-
-**Files explicitly NOT mirrored** (internal-team scaffolding):
-
-- `CLAUDE.md`, `AGENTS.md`, `KICKOFF.md`, `PROGRESS.md`
-- `docs/PLAN.md`, `docs/PLAYBOOK-TEMPLATE.md`, `docs/LAUNCH_MEDIA_PLAYBOOK.md`, `docs/coverage.md`
-- `docs/qa/README.md`
-
----
-
-## 6. Release checklist
+## 5. Release checklist
 
 For each tagged release (e.g. `v0.1.4`):
 
@@ -222,19 +179,15 @@ For each tagged release (e.g. `v0.1.4`):
 - [ ] `npm run build` succeeds; main bundle ≤ ~210 KB gzip
 - [ ] App version bumped in `package.json` AND `src/screens/Settings.tsx` footer
 - [ ] `RELEASE_NOTES.md` entry written
-- [ ] `PROGRESS.md` decision logged
-- [ ] `ROADMAP.md` status updated
 - [ ] Commit + push → Amplify auto-deploy
 - [ ] On-device smoke test on iPhone 15: catalog → drop-off → check-in → share PDF
-- [ ] `npm run sync:docs` to mirror updated docs to Confluence
 - [ ] `git tag -a v0.1.x -m "…" && git push origin v0.1.x`
 
 ---
 
-## 7. Cross-references
+## 6. Cross-references
 
 - [Solution Design](SOLUTION_DESIGN.md)
 - [Technical Design](TECHNICAL_DESIGN.md)
 - [Architecture](ARCHITECTURE.md)
 - [Contributing](CONTRIBUTING.md) — local dev setup
-- [Roadmap](ROADMAP.md) — package status

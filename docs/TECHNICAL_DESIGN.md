@@ -1,13 +1,13 @@
 # Technical Design
 
-> Engineering-level companion to [Solution Design](SOLUTION_DESIGN.md). All diagrams are Mermaid and render natively on GitHub and in modern Confluence (via the Mermaid Cloud macro).
+> Engineering-level companion to [Solution Design](SOLUTION_DESIGN.md). All diagrams are Mermaid and render natively on GitHub.
 
-| Field          | Value                                                                                |
-| -------------- | ------------------------------------------------------------------------------------ |
-| **Version**    | v0.1.3                                                                               |
-| **Test suite** | 135 tests (Vitest)                                                                   |
-| **Build**      | Vite 5 + `vite-plugin-pwa`                                                           |
-| **Repo**       | [github.com/GitPhantom700/laundristic](https://github.com/GitPhantom700/laundristic) |
+| Field          | Value                                                                                      |
+| -------------- | ------------------------------------------------------------------------------------------ |
+| **Version**    | v0.1.3                                                                                     |
+| **Test suite** | 135 tests (Vitest)                                                                         |
+| **Build**      | Vite 5 + `vite-plugin-pwa`                                                                 |
+| **Repo**       | [github.com/GitPhantom700/laundristic-p1](https://github.com/GitPhantom700/laundristic-p1) |
 
 ---
 

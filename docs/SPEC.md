@@ -54,4 +54,4 @@ Receipt OCR · auto-category CV · CV content gate · accounts/cloud sync · mul
 
 ## Definition of done (v0.1.0)
 
-Full core loop incl. missing-item resolution works offline on an iPhone as installed PWA; data survives restart; export/import round-trips; docs published (repo + Confluence mirror); public GitHub repo with CI green.
+Full core loop incl. missing-item resolution works offline on an iPhone as installed PWA; data survives restart; export/import round-trips; docs published; public GitHub repo with CI green.
