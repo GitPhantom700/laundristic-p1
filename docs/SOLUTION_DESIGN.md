@@ -2,14 +2,13 @@
 
 > A solution-level view of what Laundristic is, who it's for, what problem it solves, and how it's structured at the top. Pair this with [Technical Design](TECHNICAL_DESIGN.md) for the engineering detail.
 
-| Field          | Value                                                                                 |
-| -------------- | ------------------------------------------------------------------------------------- |
-| **Status**     | v0.1.x — Shipping                                                                     |
-| **Owner**      | GitPhantom700                                                                         |
-| **Repository** | [github.com/GitPhantom700/laundristic](https://github.com/GitPhantom700/laundristic)  |
-| **Live URL**   | AWS Amplify (see [Deployment](DEPLOYMENT.md))                                         |
-| **Confluence** | [Laundristic space (YOURKEY)](https://your-domain.atlassian.net/wiki/spaces/YOURKEY/) |
-| **License**    | MIT                                                                                   |
+| Field          | Value                                                                                      |
+| -------------- | ------------------------------------------------------------------------------------------ |
+| **Status**     | v0.1.x — Shipping                                                                          |
+| **Owner**      | GitPhantom700                                                                              |
+| **Repository** | [github.com/GitPhantom700/laundristic-p1](https://github.com/GitPhantom700/laundristic-p1) |
+| **Live URL**   | AWS Amplify (see [Deployment](DEPLOYMENT.md))                                              |
+| **License**    | MIT                                                                                        |
 
 ---
 
@@ -106,7 +105,7 @@ The diagram emphasises what is **absent**: no application server, no database, n
 | **Offline-capable**   | Full core loop works in airplane mode after first install | `vite-plugin-pwa` service worker, `navigator.storage.persist()` |
 | **Photo-first UX**    | Every screen prefers visual evidence over text            | `useCamera` hook, photo blobs everywhere                        |
 | **No-typing default** | Categories, codes, counts — all tap-driven                | Catalog flow, count-first check-in                              |
-| **Frozen scope**      | New features go to v1.1; v0.1.x stays small               | `docs/SPEC.md §OUT`, two-lane workflow                          |
+| **Frozen scope**      | Scope is deliberately small and fixed for v0.1.x          | `docs/SPEC.md §OUT`                                             |
 
 ### Tech stack (frozen)
 
@@ -133,7 +132,6 @@ Each is a deliberate trade-off, captured here so reviewers don't have to redisco
 | KD4 | **Custom CSS, no Tailwind**                                   | Smaller bundle, total control of iOS Safari quirks (16px inputs, safe-area insets)                                           | More CSS to maintain                                                          |
 | KD5 | **Soft-delete via `'returned'` status** for returned garments | Closed-batch history and shared PDFs must still resolve garment photo/code; hard delete would break the receipt              | Slow disk growth — addressed by ZIP export, future hard-delete fork if needed |
 | KD6 | **`pdf-lib` for receipt PDF**, replacing `window.print()`     | `window.print()` + `@media print` produces blank pages on iOS; `pdf-lib` embeds JPEGs verbatim at full resolution            | One new dependency, ~400 KB lazy-loaded chunk                                 |
-| KD7 | **Two-lane (CC/AG) workflow**                                 | Separates scalpel (logic/domain) from volume (UI/docs) — avoids merge conflicts when using two AI assistants in parallel     | Process overhead documented in `CLAUDE.md` and `AGENTS.md`                    |
 
 ---
 
@@ -162,15 +160,9 @@ These are validated by the user's own usage, not by a dashboard.
 
 ---
 
-## 8. Roadmap pointer
+## 8. Scope & status
 
-The build is delivered in phased work packages (P0 through P5) along two lanes (CC = scalpel, AG = volume). The full plan, package ownership, and current status live in:
-
-- [`ROADMAP.md`](ROADMAP.md) — package-level status, "what's done / what's next"
-- [`PLAN.md`](PLAN.md) — ownership map, lane rules, phase boundaries
-- [`SPEC.md`](SPEC.md) — frozen scope, north-star principles, the explicit "do not build" list
-
-v0.1.x is being shipped as a frozen reference base. Future work (Admin App, launch review, iOS-memory escalation, sync, OCR, etc.) moves to a forked v-next branch.
+v0.1.x ships as a complete reference base — small on purpose. The frozen scope, north-star principles, and the explicit "do not build" list live in [`SPEC.md`](SPEC.md).
 
 ---
 
