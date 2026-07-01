@@ -7,7 +7,12 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'robots.txt'],
+      includeAssets: [
+        'favicon.ico',
+        'apple-touch-icon.png',
+        'apple-touch-icon-v2.png',
+        'robots.txt',
+      ],
       manifest: {
         name: 'Laundristic',
         short_name: 'Laundristic',
