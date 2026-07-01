@@ -4,11 +4,11 @@ Everything needed to produce the public-launch media + README, grounded in the
 5 studied repos (Immich, Actual Budget, Excalidraw, ExpenseOwl, Ghostfolio) and
 Laundristic's real brand.
 
-> **Status (live):** Assets **A, B1, B2, C, D1** are produced; the README hero,
-> screenshot gallery, and demo are wired in; the SEO/meta pass (§7) is done in-repo
-> (OG/Twitter tags + `og-cover.png`, with a placeholder deploy URL to swap).
-> **D2 (NotebookLM deep dive)** is in progress. Remaining: swap the deploy URL,
-> the manual GitHub-UI items (§7), and the pre-public scrub (§8). See `PROGRESS.md`.
+> **Status (live):** All six assets (**A, B1, B2, C, D1, D2**) are produced and
+> wired into the README; the SEO/meta pass (§7) is done in-repo (OG/Twitter tags +
+> `og-cover.png`, with a placeholder deploy URL to swap). Remaining: swap the
+> deploy URL, the manual GitHub-UI items (§7), and the pre-public scrub (§8).
+> See `PROGRESS.md`.
 
 ## Brand constants (paste into every AI prompt)
 
@@ -30,7 +30,7 @@ Laundristic's real brand.
 | B2  | Social/OG card     | Imagen 4 + Figma/Canva text                     | 1280×640 PNG → WebP                     | `docs/media/social-og-with-text.webp` + `public/og-cover.png` | meta tags + GitHub social preview   | ✅ image + meta tags; preview upload is a manual GitHub-UI step |
 | C   | Screenshot gallery | Real capture + device frames                    | 6 framed PNGs, ~480px each              | `gallery/*.png`                                               | "Screenshots" section (`<details>`) | ✅ done                                                         |
 | D1  | Veo promo clip     | Veo 3 (Flow)                                    | 1080p MP4, ~8s                          | not in repo — LinkedIn                                        | optional embed                      | ✅ done                                                         |
-| D2  | Deep-dive          | NotebookLM                                      | shared link (audio + video)             | not in repo                                                   | "📻 Deep dive" link                 | ⏳ in progress                                                  |
+| D2  | Deep-dive          | NotebookLM (Audio + Video Overview)             | .m4a (~37 MB) + .mp4 (~33 MB)           | GitHub Release binary assets, tag `media-assets`              | "📻 Listen" / "🎬 Watch" links      | ✅ done                                                         |
 
 **Conventions:** put README media in `docs/media/`. Keep the repo light — host the
 **MP4** by drag-dropping it into the GitHub README editor (stored on
@@ -132,8 +132,39 @@ shipped wording — treat it as a brand/mood reel and pair it with the real
 screen-recording demo (Asset A) for "what the app actually does."
 
 **D2 · NotebookLM** — upload `docs/SOLUTION_DESIGN.md`, `docs/TECHNICAL_DESIGN.md`,
-`docs/ARCHITECTURE.md` → generate **Audio Overview** + **Video Overview** → share public
-link → README badge "📻 Listen to a deep dive" + a LinkedIn "behind the build" post.
+`docs/ARCHITECTURE.md` → generate **Audio Overview** (Deep Dive format) + **Video
+Overview** (Explainer format) → README badge "📻 Listen" / "🎬 Watch" + a LinkedIn
+"behind the build" post.
+
+**Gotcha (found 2026-07-01): NotebookLM's "public" share link still requires a
+Google sign-in.** Setting a notebook or artifact to "Anyone with the link" does
+**not** make it anonymously viewable — every share-link variant tested (base
+notebook link, artifact link with `utm_source=nlm_web_share`) redirected to
+`accounts.google.com` for a fully logged-out/anonymous request, even after
+re-confirming the public toggle and cache-busting the check. Anyone without a
+Google account (or a repo visitor who isn't signed in) would just hit a login
+wall — not acceptable for a README link.
+
+**Fix used:** download both generated files from NotebookLM and self-host them —
+same principle as Asset A/D1 (don't depend on a third-party account wall for a
+public README asset). Both files exceeded the chat (~30 MB) and GitHub
+comment/PR attachment upload caps, so they're hosted as **GitHub Release
+binary assets** instead (up to 2 GB/file, separate storage from git history —
+doesn't conflict with the `--strip-blobs-bigger-than 1M` history scrub in §8):
+
+1. Release → new tag `media-assets` (not a version number — keeps it out of the
+   real `v0.1.x` release history), target `main`.
+2. Release label **Pre-release** (so it doesn't hijack the "Latest release"
+   badge from the actual versioned releases).
+3. Drag both files onto the release's own binary-attachment drop zone (a
+   different upload path from comment attachments, no ~30 MB cap) → Publish
+   (not draft — published releases get the stable `/releases/download/…` URL).
+
+Result: `Laundristic_s_offline_proof_for_lost_laundry.m4a` (audio, ~37 MB) +
+`Laundristic_Lifecycle.mp4` (video, ~33 MB), both at
+`github.com/GitPhantom700/laundristic-p1/releases/download/media-assets/<filename>`.
+Like every other link in this private repo, these 404 for anonymous requests
+until the repo goes public — that's expected, not a broken link.
 
 ---
 
@@ -179,10 +210,10 @@ Manual GitHub-UI items (owner action — can't be done from the repo):
 
 ## 8. Production sequence
 
-1. ✅ Generate B1/B2 (Imagen) + D1 (Veo) in Gemini/Flow; ⏳ D2 (NotebookLM).
+1. ✅ Generate B1/B2 (Imagen) + D1 (Veo) in Gemini/Flow; D2 (NotebookLM, self-hosted as Release assets).
 2. ✅ `scripts/record_demo.mjs` + `scripts/generate_screenshots.mjs` produce A (demo) + C (gallery) from the real app.
 3. ✅ Frame C, compress A & C, add type to B.
-4. ⏳ README + meta/SEO + topics on the working branch (`claude/tender-ritchie-gt4zpi`).
+4. ✅ README + meta/SEO on the working branch (`claude/tender-ritchie-gt4zpi`); repo topics still manual (§7).
 5. ⏳ Review → run `scrub-remote.sh` (history scrub) → flip repo public.
    _(README/meta done before the scrub = the first public commit is launch-ready.)_
 
