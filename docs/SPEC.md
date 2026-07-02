@@ -48,7 +48,6 @@ Items are not manually categorized; every garment uses the catch-all `ITM` type 
 
 Vite + React 18, plain CSS w/ custom properties (Fraunces + Hanken Grotesk fonts; palette updated in P2.9 per user-approved visual refresh), `idb` for IndexedDB, `vite-plugin-pwa` for offline/install, `navigator.storage.persist()`, JSON+photos export/import, `pdf-lib` for receipt PDF generation (added P4.6 with user approval; lazy-loaded so it stays out of the initial bundle). No backend, no analytics, no CSS framework, no state library. Primary target: iOS Safari PWA; Android Chrome second.
 
-
 ## Definition of done (v0.1.0)
 
 Full core loop incl. missing-item resolution works offline on an iPhone as installed PWA; data survives restart; export/import round-trips; docs published; public GitHub repo with CI green.
