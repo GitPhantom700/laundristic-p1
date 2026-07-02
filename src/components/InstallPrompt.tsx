@@ -1,68 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useInstallPrompt } from '../lib';
 
 export const InstallPrompt: React.FC = () => {
-  const [showPrompt, setShowPrompt] = useState(false);
+  const { isIos, isStandalone, installed, canInstall, promptInstall } =
+    useInstallPrompt();
+  const [dismissed, setDismissed] = useState(false);
 
-  useEffect(() => {
-    // Detect iOS
-    const isIos = () => {
-      const userAgent = window.navigator.userAgent.toLowerCase();
-      return /iphone|ipad|ipod/.test(userAgent);
-    };
+  // Already installed, dismissed, or nothing actionable to offer (e.g. a
+  // desktop browser with no native prompt and not iOS).
+  if (isStandalone || installed || dismissed) return null;
+  if (!canInstall && !isIos) return null;
 
-    // Detect standalone
-    const isInStandaloneMode = () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const nav = window.navigator as any;
-      return 'standalone' in nav && nav.standalone;
-    };
-
-    if (isIos() && !isInStandaloneMode()) {
-      setShowPrompt(true);
-    }
-  }, []);
-
-  if (!showPrompt) return null;
+  async function handleInstall() {
+    const outcome = await promptInstall();
+    if (outcome === 'accepted') setDismissed(true);
+  }
 
   return (
     <div
-      style={{
-        position: 'fixed',
-        bottom: '80px',
-        left: '16px',
-        right: '16px',
-        backgroundColor: 'var(--color-green)',
-        color: 'white',
-        padding: '16px',
-        borderRadius: '16px',
-        boxShadow: '0 8px 24px rgba(16, 185, 129, 0.4)',
-        zIndex: 1000,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '8px',
-      }}
+      className="install-prompt"
+      role="dialog"
+      aria-label="Install Laundristic"
     >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-        }}
-      >
-        <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: 600 }}>
-          Install Laundristic
-        </h4>
+      <div className="install-prompt-head">
+        <h4 className="install-prompt-title">Install Laundristic</h4>
         <button
-          onClick={() => setShowPrompt(false)}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: 'white',
-            padding: 0,
-            cursor: 'pointer',
-            minHeight: 'auto',
-            minWidth: 'auto',
-          }}
+          className="install-prompt-close"
+          onClick={() => setDismissed(true)}
           aria-label="Close"
         >
           <svg
@@ -80,10 +44,23 @@ export const InstallPrompt: React.FC = () => {
           </svg>
         </button>
       </div>
-      <p style={{ margin: 0, fontSize: '0.875rem', lineHeight: 1.4 }}>
-        Tap the <strong>Share</strong> button at the bottom of Safari, then tap{' '}
-        <strong>Add to Home Screen</strong> for offline access.
-      </p>
+
+      {canInstall ? (
+        <>
+          <p className="install-prompt-text">
+            Add Laundristic to your device for offline access and a full-screen
+            app.
+          </p>
+          <button className="install-prompt-cta" onClick={handleInstall}>
+            Install app
+          </button>
+        </>
+      ) : (
+        <p className="install-prompt-text">
+          Tap the <strong>Share</strong> button at the bottom of Safari, then
+          tap <strong>Add to Home Screen</strong> for offline access.
+        </p>
+      )}
     </div>
   );
 };

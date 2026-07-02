@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { setSetting, importBackup } from '../lib';
+import { setSetting, importBackup, useInstallPrompt } from '../lib';
 import { useToast } from './ToastProvider';
 
 interface WelcomeScreenProps {
@@ -18,6 +18,9 @@ export function WelcomeScreen({ onDone }: WelcomeScreenProps) {
   const { showToast } = useToast();
   const fileRef = useRef<HTMLInputElement>(null);
   const [importing, setImporting] = useState(false);
+  const { isIos, isStandalone, installed, canInstall, promptInstall } =
+    useInstallPrompt();
+  const showInstall = !isStandalone && !installed && (canInstall || isIos);
 
   async function handleStart() {
     await setSetting('onboarded', 1);
@@ -133,6 +136,22 @@ export function WelcomeScreen({ onDone }: WelcomeScreenProps) {
         <p className="welcome-foot">
           No account needed · Works offline · Private by design
         </p>
+
+        {showInstall &&
+          (canInstall ? (
+            <button
+              type="button"
+              className="welcome-install"
+              onClick={() => promptInstall()}
+            >
+              📲 Install app for offline access
+            </button>
+          ) : (
+            <p className="welcome-install-hint">
+              📲 Tip: tap <strong>Share</strong> then{' '}
+              <strong>Add to Home Screen</strong> to install the app.
+            </p>
+          ))}
 
         <input
           ref={fileRef}
