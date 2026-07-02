@@ -102,14 +102,26 @@ async function run() {
 
   // Load the app page first to initialize database schema
   console.log('Navigating to app to initialize DB...');
-  await page.goto('http://localhost:5173', { waitUntil: 'networkidle0' });
+  // The app is served under the GitHub Pages base path (vite.config.ts
+  // base: '/laundristic-p1/'), so navigate there — and fetch mock assets
+  // relative to it, or the photo blobs silently become 404 HTML pages.
+  await page.goto('http://localhost:5173/laundristic-p1/', {
+    waitUntil: 'networkidle0',
+  });
 
   // Seed data inside the browser using transactions instead of deleting the DB (which blocks)
   console.log('Seeding IndexedDB with populated mock data...');
   await page.evaluate(async () => {
     async function fetchAsStoredBlob(url) {
-      const res = await fetch(url);
+      const res = await fetch(url); // relative → resolves under the base path
       const blob = await res.blob();
+      if (!res.ok || !blob.type.startsWith('image/')) {
+        // Guard: a 404 here silently produces broken photo tiles in every
+        // screenshot (happened when the Pages base path was introduced).
+        throw new Error(
+          `mock asset failed: ${url} → ${res.status} ${blob.type}`,
+        );
+      }
       const buffer = await blob.arrayBuffer();
       return { buffer, type: blob.type };
     }
@@ -131,11 +143,11 @@ async function run() {
     tx.objectStore('settings').clear();
     await new Promise((resolve) => (tx.oncomplete = resolve));
 
-    // Fetch and prepare mock assets
-    const teeBlob = await fetchAsStoredBlob('/mock/tee.png');
-    const hoodieBlob = await fetchAsStoredBlob('/mock/hoodie.png');
-    const shoesBlob = await fetchAsStoredBlob('/mock/shoes.png');
-    const receiptBlob = await fetchAsStoredBlob('/mock/receipt.png');
+    // Fetch and prepare mock assets (relative paths — see fetchAsStoredBlob)
+    const teeBlob = await fetchAsStoredBlob('mock/tee.png');
+    const hoodieBlob = await fetchAsStoredBlob('mock/hoodie.png');
+    const shoesBlob = await fetchAsStoredBlob('mock/shoes.png');
+    const receiptBlob = await fetchAsStoredBlob('mock/receipt.png');
 
     const now = Date.now();
 

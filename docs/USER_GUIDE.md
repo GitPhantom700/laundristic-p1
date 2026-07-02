@@ -34,6 +34,8 @@ When you pick up your laundry, it's time to check it in.
    - The batch will now move to the **Awaiting items** section.
    - The un-ticked items are flagged as **missing**.
 
+<img src="../gallery/checkin.png" alt="Check-in sheet with items ticked for return" width="360" />
+
 ## 4. The Proof Screen & Resolving Missing Items
 
 If a batch is stuck in "Awaiting items", you need to deal with the shop.
@@ -44,6 +46,8 @@ If a batch is stuck in "Awaiting items", you need to deal with the shop.
    - If they find it: Tap the item and mark it as **Found**.
    - If they lost it: Tap the item and mark it as **Lost**. (This removes the item from your active Wardrobe).
 4. Once all missing items are resolved, the batch automatically closes!
+
+<img src="../gallery/proof.png" alt="Proof screen showing the missing garment's photo, receipt, shop name and date" width="360" />
 
 ## 5. Sharing a Receipt (PDF)
 
@@ -56,6 +60,8 @@ When a batch is closed, you can share its receipt as a PDF — useful for reimbu
 The PDF includes the shop name, date, total, the receipt photo at full resolution, and a list of every garment in the batch with its photo and ID.
 
 > ℹ️ Sharing files via the iOS share sheet requires HTTPS — it works in the installed PWA and on the live site, but not in a local desktop dev tab.
+
+<img src="../gallery/receipt.png" alt="Generated receipt PDF with shop, date, total, receipt photo and garment list" width="360" />
 
 ## 6. Stats
 
