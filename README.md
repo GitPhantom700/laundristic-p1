@@ -49,7 +49,7 @@ Laundristic is a local-first Progressive Web App (PWA) designed for people who h
 
 - [Solution Design](docs/SOLUTION_DESIGN.md) — what Laundristic is, who it's for, why each major decision was made.
 - [Technical Design](docs/TECHNICAL_DESIGN.md) — architecture, data model, state machines, and sequence diagrams of every critical flow.
-- [Deployment Guide](docs/DEPLOYMENT.md) — GitHub repository, GitHub Actions CI, AWS Amplify hosting.
+- [Deployment Guide](docs/DEPLOYMENT.md) — GitHub repository, GitHub Actions CI, GitHub Pages hosting.
 
 **Reference**
 

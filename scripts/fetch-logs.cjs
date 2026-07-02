@@ -1,7 +1,7 @@
 const https = require('https');
 
 https.get(
-  'https://api.github.com/repos/GitPhantom700/laundristic/actions/runs?per_page=1',
+  'https://api.github.com/repos/GitPhantom700/laundristic-p1/actions/runs?per_page=1',
   {
     headers: { 'User-Agent': 'NodeJS' },
   },

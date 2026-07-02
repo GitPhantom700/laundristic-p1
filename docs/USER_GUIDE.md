@@ -6,11 +6,11 @@ Welcome to Laundristic! This guide will walk you through the core flows of the a
 
 Before you can drop off items, you need to add them to your Wardrobe.
 
-1. Tap the **Camera Icon** at the top right of the Wardrobe screen.
+1. Tap **Catalog item** (or **Catalog more items**) on the Wardrobe screen.
 2. The live viewfinder will open. Point it at your garment and tap the shutter.
 3. A unique ID pill (like `ITM-01`) is generated and the item is saved! You can immediately snap the next item.
 
-![Wardrobe Screen](qa/01_wardrobe.png)
+<img src="../gallery/wardrobe.png" alt="Wardrobe screen with cataloged garments" width="360" />
 
 ## 2. Dropping Off Laundry
 
@@ -22,7 +22,7 @@ Once your items are in the Wardrobe, you can create a drop-off batch.
 4. Enter the shop name and the total amount. (The app remembers your last shop name for faster entry).
 5. Tap **Confirm**. The batch is now **Active**.
 
-![Drop-offs Screen](qa/02_dropoffs.png)
+<img src="../gallery/dropoff.png" alt="Drop-off sheet with garments selected" width="360" />
 
 ## 3. Checking In (Reconciliation)
 
@@ -53,7 +53,7 @@ When a batch is closed, you can share its receipt as a PDF — useful for reimbu
 2. Tap **Share PDF** in the header.
 3. The native iOS share sheet opens. Pick **Mail**, **WhatsApp**, **Save to Files**, or anywhere else.
 
-The PDF includes the shop name, date, total, the receipt photo at full resolution, and a list of every garment in the batch with its photo and category.
+The PDF includes the shop name, date, total, the receipt photo at full resolution, and a list of every garment in the batch with its photo and ID.
 
 > ℹ️ Sharing files via the iOS share sheet requires HTTPS — it works in the installed PWA and on the live site, but not in a local desktop dev tab.
 
@@ -64,7 +64,7 @@ Tap the **Stats** tab to see your laundry economics.
 - View your 30-day spend, all-time spend, and averages.
 - Check the 6-month bar chart to see spending trends over time.
 
-![Stats Screen](qa/03_stats.png)
+<img src="../gallery/stats.png" alt="Stats dashboard with spend charts" width="360" />
 
 ## 7. Settings (Backup & Restore)
 
@@ -73,4 +73,4 @@ Tap the **Settings** tab (the gear icon) to manage your data.
 - **Export Data:** Downloads a `.zip` file containing all your garments, receipts, and history.
 - **Import Data:** Restores a `.zip` file from a previous export. _Warning: Importing will replace your current data._
 
-![Settings Screen](qa/04_settings.png)
+<img src="../gallery/settings.png" alt="Settings screen with export and import backup" width="360" />

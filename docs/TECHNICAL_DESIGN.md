@@ -103,8 +103,8 @@ erDiagram
 
     GARMENT {
         string id "UUID"
-        string code "SHT-01"
-        enum type "SHT|TEE|TRO|HOO|KUR|BED|PIL|SHO|ITM"
+        string code "ITM-01"
+        enum type "ITM (catch-all; legacy category values retained)"
         Blob photoBlob "JPEG"
         enum status "active|returned|lost|removed"
         number createdAt
@@ -180,11 +180,12 @@ stateDiagram-v2
 
 ```mermaid
 stateDiagram-v2
+    direction LR
     [*] --> active : catalog
-    active --> returned : batch closes,<br/>item state ∈ {received, found}
-    active --> lost : item state = lost
-    active --> removed : user manually deletes
-    returned --> active : user re-uses garment in next drop-off
+    active --> returned : batch closes (received/found)
+    active --> lost : item lost
+    active --> removed : user deletes
+    returned --> active : re-used in a later drop-off
     note right of returned
         Soft-deleted: hidden
         from Wardrobe but still
@@ -319,7 +320,7 @@ sequenceDiagram
     autonumber
     actor U as User
     participant Pr as ProofScreen
-    participant Pdf as receipt-pdf.ts (lazy)
+    participant Pdf as receipt-pdf.ts
     participant Lib as pdf-lib
     participant Nav as navigator.share
 
@@ -436,7 +437,7 @@ The threat model is small because the attack surface is small. Anything we don't
 - **Vite 5** produces `dist/` with hashed asset filenames.
 - **`vite-plugin-pwa`** emits the manifest, icons, and service worker (`sw.js`, `workbox-*.js`).
 - **GitHub Actions** runs lint + format + tests on every push (`.github/workflows/ci.yml`).
-- **AWS Amplify** auto-builds on push to `main` and serves the PWA over HTTPS. See [Deployment](DEPLOYMENT.md).
+- **GitHub Pages** deploys on every push to `main` (`.github/workflows/deploy.yml`) and serves the PWA over HTTPS at [gitphantom700.github.io/laundristic-p1](https://gitphantom700.github.io/laundristic-p1/). See [Deployment](DEPLOYMENT.md).
 
 ---
 
@@ -445,5 +446,5 @@ The threat model is small because the attack surface is small. Anything we don't
 - [Solution Design](SOLUTION_DESIGN.md) — problem framing, users, success metrics
 - [Architecture](ARCHITECTURE.md) — narrative implementation notes
 - [Data Model](DATA_MODEL.md) — schema reference with TypeScript snippets
-- [Deployment](DEPLOYMENT.md) — Amplify pipeline, GitHub repo, CI/CD
+- [Deployment](DEPLOYMENT.md) — GitHub Pages pipeline, GitHub repo, CI/CD
 - [User Guide](USER_GUIDE.md) — end-user flow with screenshots
