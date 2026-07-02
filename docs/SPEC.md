@@ -48,9 +48,6 @@ Items are not manually categorized; every garment uses the catch-all `ITM` type 
 
 Vite + React 18, plain CSS w/ custom properties (Fraunces + Hanken Grotesk fonts; palette updated in P2.9 per user-approved visual refresh), `idb` for IndexedDB, `vite-plugin-pwa` for offline/install, `navigator.storage.persist()`, JSON+photos export/import, `pdf-lib` for receipt PDF generation (added P4.6 with user approval; lazy-loaded so it stays out of the initial bundle). No backend, no analytics, no CSS framework, no state library. Primary target: iOS Safari PWA; Android Chrome second.
 
-## Explicitly OUT of scope (v1 — do not build, do not discuss in sessions)
-
-Receipt OCR · auto-category CV · CV content gate · accounts/cloud sync · multi-user · shop-side anything · notifications (one opt-in weekly reminder may come in v1.1) · monetization.
 
 ## Definition of done (v0.1.0)
 
