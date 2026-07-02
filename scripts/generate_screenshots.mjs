@@ -19,8 +19,24 @@ const paths = [
   'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
   'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
   'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+  '/usr/bin/google-chrome',
+  '/usr/bin/chromium-browser',
+  '/usr/bin/chromium',
 ];
-const executablePath = paths.find((p) => fs.existsSync(p));
+// Glob any chromium-*/chrome-linux/chrome under the Playwright browser dir
+// (matches how scripts/record_demo.mjs locates a Linux Chromium build).
+const pwRoot = process.env.PLAYWRIGHT_BROWSERS_PATH || '/opt/pw-browsers';
+try {
+  for (const entry of fs.readdirSync(pwRoot)) {
+    if (entry.startsWith('chromium-')) {
+      paths.push(path.join(pwRoot, entry, 'chrome-linux', 'chrome'));
+    }
+  }
+} catch {
+  /* ignore */
+}
+const executablePath =
+  process.env.CHROME_PATH || paths.find((p) => fs.existsSync(p));
 
 if (!executablePath) {
   console.error('No browser found!');
@@ -73,6 +89,7 @@ async function run() {
     executablePath,
     headless: 'new',
     args: [
+      '--no-sandbox',
       '--use-fake-ui-for-media-stream',
       '--use-fake-device-for-media-stream',
     ],
@@ -122,52 +139,53 @@ async function run() {
 
     const now = Date.now();
 
-    // Prepare garments
+    // Prepare garments — every item uses the catch-all ITM type/code, matching
+    // the current no-category catalog flow (category selection was removed).
     const garments = [
       {
         id: 'g-1',
-        code: 'TEE-01',
-        type: 'TEE',
+        code: 'ITM-01',
+        type: 'ITM',
         photo: teeBlob,
         status: 'active',
         createdAt: now - 36000000,
       },
       {
         id: 'g-2',
-        code: 'HOO-01',
-        type: 'HOO',
+        code: 'ITM-02',
+        type: 'ITM',
         photo: hoodieBlob,
         status: 'active',
         createdAt: now - 30000000,
       },
       {
         id: 'g-3',
-        code: 'SHO-01',
-        type: 'SHO',
+        code: 'ITM-03',
+        type: 'ITM',
         photo: shoesBlob,
         status: 'active',
         createdAt: now - 24000000,
       },
       {
         id: 'g-4',
-        code: 'TEE-02',
-        type: 'TEE',
+        code: 'ITM-04',
+        type: 'ITM',
         photo: teeBlob,
         status: 'active',
         createdAt: now - 18000000,
       },
       {
         id: 'g-5',
-        code: 'HOO-02',
-        type: 'HOO',
+        code: 'ITM-05',
+        type: 'ITM',
         photo: hoodieBlob,
         status: 'active',
         createdAt: now - 12000000,
       },
       {
         id: 'g-6',
-        code: 'TRO-01',
-        type: 'TRO',
+        code: 'ITM-06',
+        type: 'ITM',
         photo: teeBlob,
         status: 'active',
         createdAt: now - 6000000,
@@ -228,6 +246,7 @@ async function run() {
     // Put settings
     const writeTx3 = db.transaction('settings', 'readwrite');
     writeTx3.objectStore('settings').put('Green Cleaners', 'lastShop');
+    writeTx3.objectStore('settings').put(1, 'onboarded'); // skip the welcome screen
     await new Promise((resolve) => (writeTx3.oncomplete = resolve));
 
     db.close();
@@ -443,15 +462,15 @@ async function run() {
             <div class="garment-row">
               <img class="garment-img" src="data:image/png;base64,${teeBase64}" />
               <div>
-                <div class="garment-code">TEE-02</div>
-                <div class="garment-type">T-Shirt</div>
+                <div class="garment-code">ITM-04</div>
+                <div class="garment-type">Item</div>
               </div>
             </div>
             <div class="garment-row">
               <img class="garment-img" src="data:image/png;base64,${hoodieBase64}" />
               <div>
-                <div class="garment-code">HOO-02</div>
-                <div class="garment-type">Hoodie</div>
+                <div class="garment-code">ITM-05</div>
+                <div class="garment-type">Item</div>
               </div>
             </div>
           </div>
