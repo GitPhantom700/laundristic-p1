@@ -5,6 +5,11 @@ export * from './domain';
 export * from './camera';
 export { useCamera } from './useCamera';
 export type { UseCameraReturn, CameraMode } from './useCamera';
+export { useInstallPrompt } from './useInstallPrompt';
+export type {
+  UseInstallPromptReturn,
+  InstallOutcome,
+} from './useInstallPrompt';
 export { getDb, clearDb } from './db';
 export { exportBackup, importBackup } from './backup';
 export type { ImportResult } from './backup';

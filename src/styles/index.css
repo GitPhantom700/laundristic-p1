@@ -1558,3 +1558,95 @@ textarea:focus {
   font-size: 0.84rem;
   margin: 10px 0 0;
 }
+
+.welcome-install {
+  -webkit-appearance: none;
+  width: 100%;
+  margin-top: 14px;
+  padding: 13px 16px;
+  border: 1px solid var(--color-green);
+  border-radius: 30px;
+  background: transparent;
+  color: var(--color-green);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.welcome-install:hover {
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.welcome-install-hint {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.84rem;
+  line-height: 1.45;
+  margin: 14px 0 0;
+}
+
+.welcome-install-hint strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* Install banner (shown after onboarding, on the main app). */
+.install-prompt {
+  position: fixed;
+  bottom: 80px;
+  left: 16px;
+  right: 16px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--color-green);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+}
+
+.install-prompt-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.install-prompt-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.install-prompt-close {
+  background: none;
+  border: none;
+  color: #fff;
+  padding: 0;
+  min-width: auto;
+  min-height: auto;
+  cursor: pointer;
+}
+
+.install-prompt-text {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.install-prompt-cta {
+  -webkit-appearance: none;
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 9px 18px;
+  border: none;
+  border-radius: 22px;
+  background: #fff;
+  color: var(--color-green);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
