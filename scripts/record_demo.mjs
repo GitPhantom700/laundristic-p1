@@ -132,6 +132,9 @@ const MIME = {
 function serveDist(dist, port) {
   const server = http.createServer((req, res) => {
     let rel = decodeURIComponent((req.url || '/').split('?')[0]);
+    // The build is emitted for the GitHub Pages base path; serve it at root
+    // too by stripping the prefix (vite.config.ts base: '/laundristic-p1/').
+    rel = rel.replace(/^\/laundristic-p1(\/|$)/, '/');
     if (rel === '/') rel = '/index.html';
     let fp = path.join(dist, rel);
     if (
