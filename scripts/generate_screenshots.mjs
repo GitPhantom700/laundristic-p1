@@ -551,6 +551,12 @@ async function run() {
   await new Promise((r) => setTimeout(r, 1000));
   rawScreenshots['stats'] = await page.screenshot({ encoding: 'base64' });
 
+  // 7. Settings screen (backup/restore — referenced by USER_GUIDE.md)
+  console.log('Capturing Screen 7: Settings...');
+  await page.click('[data-testid="tab-settings"]');
+  await new Promise((r) => setTimeout(r, 800));
+  rawScreenshots['settings'] = await page.screenshot({ encoding: 'base64' });
+
   // Framer page definition
   console.log('Framing all screenshots inside premium device mockup...');
   const framerPage = await browser.newPage();
@@ -567,6 +573,7 @@ async function run() {
     'dropoff',
     'checkin',
     'stats',
+    'settings',
   ]) {
     console.log(`Framing ${name}...`);
     const screenshotBase64 = rawScreenshots[name];

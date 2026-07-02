@@ -1,6 +1,6 @@
 # Deployment Guide
 
-> How the app gets from a commit on `main` to a live PWA on an iPhone. Covers the GitHub repository, the CI pipeline, the AWS Amplify hosting pipeline, and the release process.
+> How the app gets from a commit on `main` to a live PWA on an iPhone. Covers the GitHub repository, the CI pipeline, the GitHub Pages hosting pipeline, and the release process.
 
 ---
 
@@ -9,23 +9,23 @@
 ```mermaid
 flowchart LR
     Dev[Developer<br/>laptop] -->|git push origin main| GH[GitHub<br/>GitPhantom700/laundristic-p1]
-    GH -->|webhook| GA[GitHub Actions<br/>ci.yml]
-    GH -->|webhook| AMP[AWS Amplify<br/>app build]
+    GH -->|push event| GA[GitHub Actions<br/>ci.yml]
+    GH -->|push event| DEP[GitHub Actions<br/>deploy.yml]
     GA -->|lint + format + test| Verdict{pass?}
-    AMP -->|npm ci → npm run build| Dist[dist/ artifact]
-    Dist -->|CDN| Edge[Amplify CDN<br/>HTTPS edge]
-    Edge -->|HTTPS| iPhone[iPhone 15<br/>Safari PWA]
+    DEP -->|npm ci → npm run build| Dist[dist/ artifact]
+    Dist -->|deploy-pages| Pages[GitHub Pages<br/>HTTPS]
+    Pages -->|HTTPS| iPhone[iPhone<br/>Safari PWA]
 
     Verdict -- yes --> green[green check on commit]
     Verdict -- no  --> red[red ✖ — fix before next push]
 
     classDef ok fill:#eaf0ea,stroke:#4e6e52,color:#1f2937
     classDef bad fill:#fce8e6,stroke:#b91c1c,color:#1f2937
-    class green,Edge,iPhone ok
+    class green,Pages,iPhone ok
     class red bad
 ```
 
-There is **no manual deploy step** under normal operation. Push to `main` → Amplify rebuilds → CDN cache invalidates → user's PWA picks up the new build the next time the tab becomes visible (driven by `registration.update()` on `visibilitychange`).
+There is **no manual deploy step** under normal operation. Push to `main` → the deploy workflow builds and publishes to GitHub Pages → user's PWA picks up the new build the next time the tab becomes visible (driven by `registration.update()` on `visibilitychange`).
 
 ---
 
@@ -61,111 +61,79 @@ flowchart TD
     Setup --> Install["npm ci"]
     Install --> Lint["npm run lint<br/>(ESLint)"]
     Install --> Fmt["npm run format:check<br/>(Prettier)"]
-    Install --> Test["npm run test -- --run<br/>(Vitest, 135 tests)"]
+    Install --> Test["npm run test -- --run<br/>(Vitest, 138 tests)"]
     Lint --> AllPass{all pass?}
     Fmt --> AllPass
     Test --> AllPass
     AllPass -- yes --> Ok[✓ commit marked green]
-    AllPass -- no  --> Fail[✖ blocks merge / shames the bot]
+    AllPass -- no  --> Fail[✖ fix before merge]
 ```
 
 The three gates each fail the build independently — a single Prettier nit fails CI just like a broken test.
 
-> **AG note:** Prior runs (#33, #34, #35) failed on `format:check` because the AG lane skipped `npx prettier --write .` before committing. The fix is mechanical: run Prettier locally before every commit, or wire a pre-commit hook.
+> **Tip:** most historical CI failures were `format:check` drift. Run `npx prettier --write .` before every commit (or wire a pre-commit hook) and this never bites.
 
 ---
 
-## 4. AWS Amplify hosting
+## 4. GitHub Pages hosting
 
-### 4.1 Why Amplify
+**Live URL:** https://gitphantom700.github.io/laundristic-p1/
 
-- Free tier covers a single static PWA generously
-- Auto-builds on `git push` with zero pipeline plumbing
-- HTTPS + global CDN out of the box (required for service workers and `navigator.share` with files)
-- No EC2 / Lambda / database to manage
+### 4.1 Why GitHub Pages
 
-### 4.2 First-time setup (one-time, already done)
+- Free for public repositories — no separate cloud account or billing to manage
+- Build and hosting live in the same place as the code (GitHub Actions → Pages)
+- HTTPS out of the box (required for service workers and `navigator.share` with files)
+- No servers, no CDN configuration, nothing to patch
 
-The steps below are recorded so this deployment is reproducible from scratch — e.g. when forking a v-next environment.
+### 4.2 How it's wired
+
+A **project** Pages site serves from a subpath (`/laundristic-p1/`), not the domain root, so the build is configured for it:
+
+- `vite.config.ts` sets `base: '/laundristic-p1/'` — every emitted asset URL is prefixed with the subpath.
+- The PWA manifest's `start_url`, `scope`, and `id` are set to `/laundristic-p1/` so the installed app opens and stays inside the Pages site.
+- `index.html` links the favicon and apple-touch-icon via Vite's `%BASE_URL%` token so they resolve on the subpath.
+
+**Deploy workflow** (`.github/workflows/deploy.yml`) — runs on every push to `main` (and manually via _Run workflow_):
 
 ```mermaid
 flowchart LR
-    A[1. AWS Console<br/>Amplify Hosting] --> B[2. New app →<br/>Host web app]
-    B --> C[3. Connect repository<br/>GitHub OAuth]
-    C --> D[4. Pick branch: main]
-    D --> E[5. Detect Vite<br/>build settings]
-    E --> F[6. Confirm artifact<br/>directory: dist]
-    F --> G[7. Save &amp; deploy]
-    G --> H[First build runs]
-    H --> I[Amplify-provided URL<br/>https://main.&lt;app-id&gt;.amplifyapp.com]
+    A[push to main] --> B[checkout +<br/>Node 20]
+    B --> C["npm ci"]
+    C --> D["npm run build"]
+    D --> E[upload dist/<br/>as Pages artifact]
+    E --> F[deploy-pages]
+    F --> G[https://gitphantom700.github.io/laundristic-p1/]
 ```
 
-**Step-by-step:**
+**One-time setup (already done):** repo **Settings → Pages → Build and deployment → Source: GitHub Actions**. No branch/folder selection — the workflow owns the deploy.
 
-1. **Sign in to AWS** at https://console.aws.amazon.com and open **Amplify Hosting** (region: any; Amplify is global).
-2. Click **Create new app → Host web app**.
-3. Select **GitHub** as the source provider; authorise the Amplify GitHub App against the `GitPhantom700/laundristic-p1` repo. _Use the GitHub App, not classic OAuth — the App scope is per-repo._
-4. Pick branch **`main`** as the deploy branch.
-5. Amplify auto-detects Vite. Confirm:
-   - **Build command:** `npm run build`
-   - **Output (artifact) directory:** `dist`
-   - **Node version:** 20 (matches CI)
-6. _(Optional)_ configure a custom domain under **Domain management**. The free `*.amplifyapp.com` URL is sufficient for v0.1.x.
-7. Click **Save and deploy**. The first build runs immediately.
+### 4.3 Environment variables
 
-### 4.3 `amplify.yml` (build settings)
+The app has **no runtime environment variables** (no API keys, no backend URLs — local-first by design). Nothing needs to be configured beyond the workflow file.
 
-If you want to lock the build spec in-repo instead of relying on Amplify's auto-detect, drop the following at the repo root:
+### 4.4 Rollback procedure
 
-```yaml
-version: 1
-frontend:
-  phases:
-    preBuild:
-      commands:
-        - npm ci
-    build:
-      commands:
-        - npm run build
-  artifacts:
-    baseDirectory: dist
-    files:
-      - '**/*'
-  cache:
-    paths:
-      - node_modules/**/*
-```
+Two options, no console required:
 
-_v0.1.x ships without `amplify.yml` and uses Amplify's auto-detected defaults — both work._
+1. **Re-run an old deploy:** Actions → _Deploy to GitHub Pages_ → open the last good run → **Re-run all jobs**. It rebuilds that commit and republishes it.
+2. **Revert the bad commit:**
 
-### 4.4 Environment variables
+   ```bash
+   git revert <bad-commit-sha>
+   git push origin main
+   ```
 
-The app has **no runtime environment variables** (no API keys, no backend URLs — local-first by design). Nothing needs to be configured in Amplify beyond the build settings above.
+   The deploy workflow republishes automatically.
 
-### 4.5 Rollback procedure
+### 4.5 Common pitfalls
 
-Amplify keeps every successful build. To roll back:
-
-1. Open the Amplify console → app → **Deployments** tab.
-2. Find the last good build → **Redeploy this version**.
-
-For a deeper rollback (revert a commit on `main`):
-
-```bash
-git revert <bad-commit-sha>
-git push origin main
-```
-
-Amplify rebuilds automatically. **Do not force-push to `main`** — Amplify caches behave best with linear history.
-
-### 4.6 Common pitfalls
-
-| Symptom                                                    | Likely cause                                                  | Fix                                                                                        |
-| ---------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| User sees old build after deploy                           | PWA cache; `registration.update()` runs on `visibilitychange` | Close + reopen the PWA; we ship `autoUpdate` + `cleanupOutdatedCaches: true`               |
-| Camera close button looks broken on phone but works in dev | Service-worker cached old asset                               | Same as above; or bump app version to invalidate SW                                        |
-| Amplify build fails on `format:check`                      | Prettier drift; CI also fails                                 | Run `npx prettier --write .` locally, commit, re-push                                      |
-| `navigator.share` errors with `NotAllowedError`            | Triggered outside a user-gesture handler                      | The "Share PDF" button must be the direct event source — don't share inside a `setTimeout` |
+| Symptom                                         | Likely cause                                                  | Fix                                                                                        |
+| ----------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| User sees old build after deploy                | PWA cache; `registration.update()` runs on `visibilitychange` | Close + reopen the PWA; we ship `autoUpdate` + `cleanupOutdatedCaches: true`               |
+| Blank page / assets 404 after a config change   | `base` path drifted from the repo name                        | `base` in `vite.config.ts` must stay `'/laundristic-p1/'` (renaming the repo changes both) |
+| Deploy workflow red on `format:check`           | Prettier drift; CI fails the same way                         | Run `npx prettier --write .` locally, commit, re-push                                      |
+| `navigator.share` errors with `NotAllowedError` | Triggered outside a user-gesture handler                      | The "Share PDF" button must be the direct event source — don't share inside a `setTimeout` |
 
 ---
 
@@ -173,14 +141,14 @@ Amplify rebuilds automatically. **Do not force-push to `main`** — Amplify cach
 
 For each tagged release (e.g. `v0.1.4`):
 
-- [ ] All 135 tests passing locally and on CI
+- [ ] All 138 tests passing locally and on CI
 - [ ] `npm run lint` clean
 - [ ] `npm run format:check` clean
 - [ ] `npm run build` succeeds; main bundle ≤ ~210 KB gzip
 - [ ] App version bumped in `package.json` AND `src/screens/Settings.tsx` footer
 - [ ] `RELEASE_NOTES.md` entry written
-- [ ] Commit + push → Amplify auto-deploy
-- [ ] On-device smoke test on iPhone 15: catalog → drop-off → check-in → share PDF
+- [ ] Commit + push → the Pages deploy workflow publishes automatically
+- [ ] On-device smoke test on iPhone: catalog → drop-off → check-in → share PDF
 - [ ] `git tag -a v0.1.x -m "…" && git push origin v0.1.x`
 
 ---

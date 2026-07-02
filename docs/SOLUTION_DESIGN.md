@@ -7,7 +7,7 @@
 | **Status**     | v0.1.x — Shipping                                                                          |
 | **Owner**      | GitPhantom700                                                                              |
 | **Repository** | [github.com/GitPhantom700/laundristic-p1](https://github.com/GitPhantom700/laundristic-p1) |
-| **Live URL**   | AWS Amplify (see [Deployment](DEPLOYMENT.md))                                              |
+| **Live URL**   | [gitphantom700.github.io/laundristic-p1](https://gitphantom700.github.io/laundristic-p1/)  |
 | **License**    | MIT                                                                                        |
 
 ---
@@ -169,7 +169,7 @@ v0.1.x ships as a complete reference base — small on purpose. The frozen scope
 ## 9. Cross-references
 
 - [Technical Design](TECHNICAL_DESIGN.md) — diagrams, state machines, sequence flows
-- [Deployment](DEPLOYMENT.md) — AWS Amplify pipeline, GitHub repo, CI/CD
+- [Deployment](DEPLOYMENT.md) — GitHub Pages pipeline, GitHub repo, CI/CD
 - [Architecture](ARCHITECTURE.md) — implementation-level architecture notes
 - [Data Model](DATA_MODEL.md) — IndexedDB schema and state transitions
 - [User Guide](USER_GUIDE.md) — end-user walkthrough
