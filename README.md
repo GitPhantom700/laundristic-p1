@@ -88,14 +88,18 @@ npm run format:check
 
 ## Generating the QR code
 
-A QR code pointing at the live app (handy for slides, posters, or sharing in chat):
+<p align="center">
+  <a href="https://gitphantom700.github.io/laundristic-p1/"><img src="laundristic-qr.png" alt="QR code linking to the live Laundristic app" width="200" /></a>
+</p>
+
+Scan it to open the live app — handy for slides, posters, or sharing in chat. To regenerate `laundristic-qr.png` (for example if the URL changes):
 
 ```bash
 pip install "qrcode[pil]"
 python scripts/make-qr.py
 ```
 
-This writes `laundristic-qr.png` to the repo root. If the app URL ever changes, edit `URL` in `scripts/make-qr.py` and re-run.
+It writes to the repo root; edit `URL` in `scripts/make-qr.py` first if the app ever moves.
 
 ## License
 
