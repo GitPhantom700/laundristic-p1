@@ -5,15 +5,7 @@ export type ItemState = 'out' | 'received' | 'missing' | 'found' | 'lost';
 export type BatchStatus = 'active' | 'awaiting' | 'closed';
 
 export type GarmentCategory =
-  | 'SHT'
-  | 'TEE'
-  | 'TRO'
-  | 'HOO'
-  | 'KUR'
-  | 'BED'
-  | 'PIL'
-  | 'SHO'
-  | 'ITM';
+  'SHT' | 'TEE' | 'TRO' | 'HOO' | 'KUR' | 'BED' | 'PIL' | 'SHO' | 'ITM';
 
 export interface Garment {
   id: string;
