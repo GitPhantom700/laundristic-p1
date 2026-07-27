@@ -175,7 +175,9 @@ export async function importBackup(file: File): Promise<ImportResult> {
   try {
     files = readZip(new Uint8Array(buffer));
   } catch (err) {
-    throw new Error(`Invalid backup file: ${(err as Error).message}`);
+    throw new Error(`Invalid backup file: ${(err as Error).message}`, {
+      cause: err,
+    });
   }
 
   const manifestBytes = files.get(MANIFEST_FILE);
