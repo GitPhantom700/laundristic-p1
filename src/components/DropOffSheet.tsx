@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useObjectUrl } from '../lib/useObjectUrl';
 import { useCamera } from '../lib/useCamera';
 import {
   getGarmentsByStatus,
@@ -30,13 +31,7 @@ function SelectableGarment({
   isDisabled: boolean;
   onToggle: () => void;
 }) {
-  const [url, setUrl] = useState<string | null>(null);
-
-  useEffect(() => {
-    const objectUrl = URL.createObjectURL(garment.photoBlob);
-    setUrl(objectUrl);
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [garment.photoBlob]);
+  const url = useObjectUrl(garment.photoBlob);
 
   const handleClick = () => {
     if (!isDisabled) {
@@ -98,7 +93,6 @@ export function DropOffSheet({ onClose, onSuccess }: DropOffSheetProps) {
   );
 
   const [capturedBlob, setCapturedBlob] = useState<Blob | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {
     async function init() {
@@ -176,16 +170,7 @@ export function DropOffSheet({ onClose, onSuccess }: DropOffSheetProps) {
     }
   };
 
-  // Safe close explicitly stops camera
-  useEffect(() => {
-    if (capturedBlob) {
-      const url = URL.createObjectURL(capturedBlob);
-      setPreviewUrl(url);
-      return () => URL.revokeObjectURL(url);
-    } else {
-      setPreviewUrl(null);
-    }
-  }, [capturedBlob]);
+  const previewUrl = useObjectUrl(capturedBlob);
 
   const handleClose = () => {
     stop();

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useObjectUrl } from '../lib/useObjectUrl';
 import {
   getGarmentsByStatus,
   putBatch,
@@ -23,13 +24,7 @@ function CheckInItem({
   isReceived: boolean;
   onToggle: () => void;
 }) {
-  const [url, setUrl] = useState<string | null>(null);
-
-  useEffect(() => {
-    const objectUrl = URL.createObjectURL(garment.photoBlob);
-    setUrl(objectUrl);
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [garment.photoBlob]);
+  const url = useObjectUrl(garment.photoBlob);
 
   return (
     <div className="checkin-item" onClick={onToggle}>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useObjectUrl } from '../lib/useObjectUrl';
 import type { Garment } from '../lib/types';
 import { putGarment } from '../lib/storage';
 import { useCamera } from '../lib/useCamera';
@@ -16,7 +17,7 @@ export function EditGarmentSheet({
 }: EditGarmentSheetProps) {
   const [mode, setMode] = useState<'view' | 'camera'>('view');
   const [confirmRemove, setConfirmRemove] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const previewUrl = useObjectUrl(garment.photoBlob);
 
   const {
     videoRef,
@@ -28,15 +29,6 @@ export function EditGarmentSheet({
     capture,
     pickFile,
   } = useCamera();
-
-  // Manage ObjectURL for the existing photo
-  useEffect(() => {
-    const url = URL.createObjectURL(garment.photoBlob);
-    setPreviewUrl(url);
-    return () => {
-      URL.revokeObjectURL(url);
-    };
-  }, [garment.photoBlob]);
 
   // Start camera if we switch to camera mode
   useEffect(() => {

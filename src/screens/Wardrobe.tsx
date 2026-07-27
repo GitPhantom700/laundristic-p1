@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Catalog } from './Catalog';
 import { EditGarmentSheet } from '../components/EditGarmentSheet';
 import { getGarmentsByStatus, getBatchesByStatus } from '../lib/storage';
+import { useObjectUrl } from '../lib/useObjectUrl';
 import type { Garment } from '../lib/types';
 
 function GarmentCard({
@@ -13,15 +14,7 @@ function GarmentCard({
   isOut: boolean;
   onClick: () => void;
 }) {
-  const [url, setUrl] = useState<string | null>(null);
-
-  useEffect(() => {
-    const objectUrl = URL.createObjectURL(garment.photoBlob);
-    setUrl(objectUrl);
-    return () => {
-      URL.revokeObjectURL(objectUrl);
-    };
-  }, [garment.photoBlob]);
+  const url = useObjectUrl(garment.photoBlob);
 
   return (
     <div className="garment-card" onClick={onClick}>
@@ -76,6 +69,7 @@ export function Wardrobe() {
 
   useEffect(() => {
     if (!isCataloging && !editingGarment) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- loadData awaits IndexedDB before its first setState, so nothing is set synchronously in the effect body; the rule follows the call graph but cannot see the await boundary.
       loadData();
     }
   }, [isCataloging, editingGarment]);

@@ -27,11 +27,11 @@ export default tseslint.config(
       // catch bindings. Keeping the previous behaviour so this upgrade does not
       // also become a source-cleanup pass.
       '@typescript-eslint/no-unused-vars': ['error', { caughtErrors: 'none' }],
-      // New in eslint-plugin-react-hooks v7 and not part of the rule set this
-      // project was written against. It flags 11 existing, working call sites
-      // (setState inside useEffect); adopting it is a React refactor in its own
-      // right rather than part of a toolchain migration.
-      'react-hooks/set-state-in-effect': 'off',
+      // New in eslint-plugin-react-hooks v7. The nine object-URL call sites it
+      // flagged now derive their URL via useObjectUrl instead of assigning it
+      // from an effect. The two async data loaders that remain are annotated
+      // in place: they only setState after an await, which this rule cannot see.
+      'react-hooks/set-state-in-effect': 'error',
     },
   },
 

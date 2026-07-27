@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useObjectUrl } from '../lib/useObjectUrl';
 import { getGarment, deleteBatch } from '../lib/storage';
 import type { Batch, Garment } from '../lib/types';
 import { useToast } from './ToastProvider';
@@ -16,13 +17,7 @@ function ProofItemCard({
   garment: Garment;
   onExpand?: (url: string) => void;
 }) {
-  const [url, setUrl] = useState<string | null>(null);
-
-  useEffect(() => {
-    const objectUrl = URL.createObjectURL(garment.photoBlob);
-    setUrl(objectUrl);
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [garment.photoBlob]);
+  const url = useObjectUrl(garment.photoBlob);
 
   return (
     <div
@@ -49,7 +44,7 @@ function ProofItemCard({
 export function ProofScreen({ batch, onClose, onDelete }: ProofScreenProps) {
   const { showToast } = useToast();
   const [garments, setGarments] = useState<Garment[]>([]);
-  const [receiptUrl, setReceiptUrl] = useState<string | null>(null);
+  const receiptUrl = useObjectUrl(batch.receiptBlob);
   const [expandedPhoto, setExpandedPhoto] = useState<string | null>(null);
   const [sharing, setSharing] = useState(false);
 
@@ -114,13 +109,6 @@ export function ProofScreen({ batch, onClose, onDelete }: ProofScreenProps) {
     }
     load();
   }, [batch, isClosed]);
-
-  useEffect(() => {
-    if (!batch.receiptBlob) return;
-    const url = URL.createObjectURL(batch.receiptBlob);
-    setReceiptUrl(url);
-    return () => URL.revokeObjectURL(url);
-  }, [batch.receiptBlob]);
 
   const targetItems = batch.items.filter(
     (i) => isClosed || i.state === 'missing',

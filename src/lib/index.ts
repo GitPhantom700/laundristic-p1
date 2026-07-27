@@ -5,6 +5,7 @@ export * from './domain';
 export * from './camera';
 export { useCamera } from './useCamera';
 export type { UseCameraReturn, CameraMode } from './useCamera';
+export { useObjectUrl } from './useObjectUrl';
 export { useInstallPrompt } from './useInstallPrompt';
 export type {
   UseInstallPromptReturn,

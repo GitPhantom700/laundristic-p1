@@ -121,6 +121,7 @@ export function DropOffs() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- loadBatches awaits IndexedDB before its first setState, so nothing is set synchronously in the effect body; the rule follows the call graph but cannot see the await boundary.
     loadBatches();
   }, []);
 

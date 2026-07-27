@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useObjectUrl } from '../lib/useObjectUrl';
 import {
   getGarment,
   putGarment,
@@ -31,13 +32,7 @@ function MissingGarmentRow({
   onLost: () => void;
   disabled: boolean;
 }) {
-  const [url, setUrl] = useState<string | null>(null);
-
-  useEffect(() => {
-    const objectUrl = URL.createObjectURL(garment.photoBlob);
-    setUrl(objectUrl);
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [garment.photoBlob]);
+  const url = useObjectUrl(garment.photoBlob);
 
   return (
     <div className="missing-item-row">
